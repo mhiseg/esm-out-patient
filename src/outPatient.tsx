@@ -9,7 +9,7 @@
  */
 
 import React from "react";
-import styles from "./hello.css";
+import styles from "./outPatient.scss";
 import { PatientGetter } from "./patient-getter/patient-getter";
 
 

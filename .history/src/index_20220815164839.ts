@@ -57,7 +57,7 @@ function setupOpenMRS() {
     pages: [
       {
         load: getAsyncLifecycle(() => import("./outPatient"), options),
-        route: "outPatient",
+        route: "hello",
       },
     ],
     extensions: [

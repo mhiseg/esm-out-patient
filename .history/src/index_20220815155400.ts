@@ -44,7 +44,7 @@ const backendDependencies = {
  * `/openmrs/spa/hello`.
  */
 function setupOpenMRS() {
-  const moduleName = "@mhiseg/esm-out-patient-app";
+  const moduleName = "@openmrs/esm-template-app";
 
   const options = {
     featureName: "hello-world",
@@ -57,19 +57,11 @@ function setupOpenMRS() {
     pages: [
       {
         load: getAsyncLifecycle(() => import("./outPatient"), options),
-        route: "outPatient",
+        route: "hello",
       },
     ],
     extensions: [
-      {
-        id: "Out-patient-link",
-        slot: "app-menu-slot",
-        load: getAsyncLifecycle(
-          () => import("./refapp-links/refapp-links"),
-          options
-        ),
-       // privilege: "App: system.administration",
-      }
+     
     ],
   };
 }

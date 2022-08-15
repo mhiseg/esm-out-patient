@@ -57,7 +57,7 @@ function setupOpenMRS() {
     pages: [
       {
         load: getAsyncLifecycle(() => import("./outPatient"), options),
-        route: "outPatient",
+        route: "hello",
       },
     ],
     extensions: [
@@ -68,7 +68,7 @@ function setupOpenMRS() {
           () => import("./refapp-links/refapp-links"),
           options
         ),
-       // privilege: "App: system.administration",
+        privilege: "App: system.administration",
       }
     ],
   };

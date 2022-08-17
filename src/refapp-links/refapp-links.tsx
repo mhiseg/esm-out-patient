@@ -5,6 +5,6 @@ import { useTranslation } from "react-i18next";
 export default function SystemAdministration(){
   const {t} = useTranslation()
   return(
-    <ConfigurableLink to="${openmrsBase}/spa/outPatient">{t("Out-patient")}</ConfigurableLink>
+    <ConfigurableLink to="${openmrsBase}/spa/out-patient">{t("Out-patient")}</ConfigurableLink>
   );
 }

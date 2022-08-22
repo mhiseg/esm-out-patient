@@ -38,7 +38,7 @@ function setupOpenMRS() {
           () => import("./refapp-links/refapp-links"),
           options
         ),
-        privilege: "App: out-patient.clinics",
+        
       }
     ],
   };

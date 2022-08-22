@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "birthLabel": "Né(e) le ",
     "Search": "Rechercher un patient...",
     "searchPatient":"Rechercher un patient",
@@ -17,3 +18,11 @@
     "local": "fr-FR",
     "visitLabel":"Visite"
 }
+=======
+  "patientList": "Liste des patients",
+  "frequenceR":"Fréquence respiratoire",
+  "frequenceC":"Fréquence cardiaque",
+  "Select": "selectionne",
+  "TaSystole":"TA Systole"
+}
+>>>>>>> ccf4faf65c4d7ce00e7615f67c05143f8473e84b

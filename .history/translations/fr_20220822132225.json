@@ -4,8 +4,5 @@
   "frequenceC": "Fréquence cardiaque",
   "Select": "selectionne",
   "TaSystole": "TA Systole",
-  "TaDiastole": "TA Diastole",
-  "neuro":"Neuro",
-  "Temperature":"Temperature",
-  "Trauma":"Trauma"
+  "TaDiastole": "TA Diastole"
 }

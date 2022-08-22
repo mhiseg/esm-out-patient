@@ -4,7 +4,6 @@
   "Select": "Select",
   "TaSystole": "TA Systole",
   "TaDiastole": "TA Diastole",
-  "neuro": "Neuro",
-  "Temperature": "Temperature",
-  "Trauma": "Trauma"
+  "neuro":"Neuro",
+  "Temperature":"Temperature"
 }

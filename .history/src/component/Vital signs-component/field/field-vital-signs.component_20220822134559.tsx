@@ -24,8 +24,8 @@ const FieldVitalForm = (name: string, value?) => {
       return <NeuroFieldComponent id={'Temperature'} name={'neuroFieldComponent'} />
     case 'TemperatureComponent':
       return <TemperatureComponent id={'TemperatureComponent'} name={'TemperatureComponent'} />
-    case 'TraumaFieldComponent':
-      return <TraumaComponent id={'TraumaFieldComponent'} name={'TraumaFieldComponent'} />
+    case 'TraumaComponent':
+      return <TraumaComponent id={'TraumaComponent'} name={'TraumaComponent'} />
 
     default:
       return null

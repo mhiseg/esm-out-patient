@@ -16,7 +16,7 @@ interface InputProps {
     value?: string;
 }
 
-export const NeuroFieldComponent: React.FC<InputProps> = (props) => {
+export const neuro-field-component: React.FC<InputProps> = (props) => {
     const [field, meta, helpers] = useField(props.name);
     const { value } = meta;
     const { setValue } = helpers;
@@ -29,7 +29,7 @@ export const NeuroFieldComponent: React.FC<InputProps> = (props) => {
         <div>
             <TextInput
                 type="number"
-                labelText={t('neuro')}
+                labelText={t('TaSystole')}
                 {...props}
                 {...field}
                 invalid={!!(meta.touched && meta.error)}

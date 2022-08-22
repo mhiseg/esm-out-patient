@@ -303,10 +303,8 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                                 </Row>
                                 <Row>
                                     <Column className={styles.firstColSyle} lg={6}>
-                                        {FieldVitalForm("TemperatureComponent")}
                                         {FieldVitalForm("NeuroFieldComponent")}
-                                        {FieldVitalForm("TraumaFieldComponent")}
-
+                                        {FieldVitalForm("NeuroFieldComponent")}
                                     </Column>
                                     <Column className={styles.secondColStyle} lg={6}>
                                         <ChartVitalSigns data={state.data} options={state.options} title={'Temp'} />

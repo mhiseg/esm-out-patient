@@ -16,7 +16,7 @@ interface InputProps {
     value?: string;
 }
 
-export const NeuroFieldComponent: React.FC<InputProps> = (props) => {
+export const neuroFieldComponent: React.FC<InputProps> = (props) => {
     const [field, meta, helpers] = useField(props.name);
     const { value } = meta;
     const { setValue } = helpers;

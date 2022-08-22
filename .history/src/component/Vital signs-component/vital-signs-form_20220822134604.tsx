@@ -305,7 +305,7 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                                     <Column className={styles.firstColSyle} lg={6}>
                                         {FieldVitalForm("TemperatureComponent")}
                                         {FieldVitalForm("NeuroFieldComponent")}
-                                        {FieldVitalForm("TraumaFieldComponent")}
+                                        {FieldVitalForm("TraumaComponent")}
 
                                     </Column>
                                     <Column className={styles.secondColStyle} lg={6}>

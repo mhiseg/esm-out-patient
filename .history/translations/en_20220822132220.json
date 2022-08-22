@@ -3,8 +3,5 @@
   "frequenceR": "Heart rate",
   "Select": "Select",
   "TaSystole": "TA Systole",
-  "TaDiastole": "TA Diastole",
-  "neuro": "Neuro",
-  "Temperature": "Temperature",
-  "Trauma": "Trauma"
+  "TaDiastole": "TA Diastole"
 }

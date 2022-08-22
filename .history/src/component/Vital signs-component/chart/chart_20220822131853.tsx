@@ -18,7 +18,10 @@ export default function ChartVitalSigns({ title, data, options }) {
 					<div className={styles.margin_Column}>{title} </div>
 				</Column>
 				<Column lg={9} sm={9} md={9}>
-					<LineChart data={data} options={options}></LineChart>
+					<LineChart
+						data={data}
+						options={options}>
+					</LineChart>
 				</Column>
 				<Column >
 					<div className={`${styles.circleDiv}`}> <div>{title}</div></div>

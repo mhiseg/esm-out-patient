@@ -1,12 +1,5 @@
 {
-  "patientList": "Patient list",
-  "frequenceR": "Heart rate",
-  "Select": "Select",
-  "TaSystole": "TA Systole",
-  "TaDiastole": "TA Diastole",
-  "neuro": "Neuro",
-  "Temperature": "Temperature",
-  "Trauma": "Trauma",
+<<<<<<< HEAD
   "birthLabel": "Born the ",
   "Search": "Click here to search patient...",
   "searchPatient": "Find a patient",
@@ -25,4 +18,10 @@
   "editPatient": "Edit patient infos",
   "local": "en-EN",
   "visitLabel":"Visite"
+=======
+  "patientList": "Patient list",
+  "frequenceR":"Heart rate",
+  "Select": "Select",
+  "TaSystole":"TA Systole"
+>>>>>>> ccf4faf65c4d7ce00e7615f67c05143f8473e84b
 }

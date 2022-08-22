@@ -1,13 +1,5 @@
 {
-  "patientList": "Lis pasyan yo",
-  "frequenceR": "Frekans respiratwa",
-  "frequenceC": "Frekans kadiak",
-  "Select": "seleksyone",
-  "TaSystole": "TA Systole",
-  "TaDiastole": "TA Diastole",
-  "neuro":"Neuro",
-  "Temperature":"Tanperatur",
-  "Trauma":"Twoma",
+<<<<<<< HEAD
     "birthLabel": "Li Fet ",
     "Search": "Cheche on pasyan",
     "searchPatient":"Cheche on pasyan",
@@ -25,3 +17,11 @@
     "local": "kr-Kr",
     "visitLabel":"Vizit"
 }
+=======
+  "patientList": "Lis pasyan yo",
+  "frequenceR":"Frekans respiratwa",
+  "frequenceC":"Frekans kadiak",
+  "Select": "seleksyone",
+  "TaSystole":"TA Systole"
+}
+>>>>>>> ccf4faf65c4d7ce00e7615f67c05143f8473e84b

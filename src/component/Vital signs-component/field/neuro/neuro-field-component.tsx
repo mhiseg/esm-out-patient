@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styles from '../../../field/field.scss';
+import styles from '../field.scss';
 import { useTranslation } from 'react-i18next';
 import { TextInput } from 'carbon-components-react';
 import { useField } from 'formik';
+import { SelectInput } from '../../../registration-patient/patient-form/patient-registration/input/basic-input/select/select-input.component';
 
 
 interface InputProps {
@@ -17,30 +18,20 @@ interface InputProps {
 }
 
 export const NeuroFieldComponent: React.FC<InputProps> = (props) => {
-    const [field, meta, helpers] = useField(props.name);
-    const { value } = meta;
-    const { setValue } = helpers;
     const { t } = useTranslation();
-    const handleChange = (e, value) => {
-        setValue((e.target.value) === undefined ? '' : (e.target.value))
-    }
+  const [answers, setAnswers] = useState([])
+  const [question, setQuestion] = useState("Mobilite");
 
-    return (
-        <div>
-            <TextInput
-                type="number"
-                labelText={t('neuro')}
-                {...props}
-                {...field}
-                invalid={!!(meta.touched && meta.error)}
-                invalidText={meta.error}
-                onChange={(e) => {
-                    const { value } = e.target;
-                    handleChange(e, value)
-                }}
-                light={true}
-                value={props.prefix + " " + field.value || ''}
-            />
-        </div>
-    );
+
+  return (
+    <>
+      <SelectInput
+        className={styles.margin_field}
+        options={[...answers]}
+        label={t('Select') + ' ' + question}
+        name="Mobilite"
+      />
+    </>
+  );
+
 };

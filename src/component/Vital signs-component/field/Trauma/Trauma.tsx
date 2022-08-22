@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styles from '../../../field/field.scss';
+import styles from '../field.scss';
 import { useTranslation } from 'react-i18next';
 import { TextInput } from 'carbon-components-react';
 import { useField } from 'formik';
+import { SelectInput } from '../../../registration-patient/patient-form/patient-registration/input/basic-input/select/select-input.component';
 
 
 interface InputProps {
@@ -18,7 +19,8 @@ interface InputProps {
 
 export const TraumaComponent: React.FC<InputProps> = (props) => {
     const [field, meta, helpers] = useField(props.name);
-    const { value } = meta;
+    const [answers, setAnswers] = useState([])
+    const [question, setQuestion] = useState("Mobilite");
     const { setValue } = helpers;
     const { t } = useTranslation();
     const handleChange = (e, value) => {
@@ -26,21 +28,11 @@ export const TraumaComponent: React.FC<InputProps> = (props) => {
     }
 
     return (
-        <div>
-            <TextInput
-                type="number"
-                labelText={t('Trauma')}
-                {...props}
-                {...field}
-                invalid={!!(meta.touched && meta.error)}
-                invalidText={meta.error}
-                onChange={(e) => {
-                    const { value } = e.target;
-                    handleChange(e, value)
-                }}
-                light={true}
-                value={props.prefix + " " + field.value || ''}
-            />
-        </div>
+        <SelectInput
+            className={styles.margin_field}
+            options={[...answers]}
+            label={t('Select') + ' ' + question}
+            name="Mobilite"
+        />
     );
 };

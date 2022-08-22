@@ -1,4 +1,4 @@
-//@import "../../../../node_modules/carbon-components/scss/globals/scss/_spacing.scss";
+@import "../../../../node_modules/carbon-components/scss/globals/scss/_spacing.scss";
 
 .cardForm {
     background: #FFFFFF;
@@ -91,9 +91,9 @@
     padding: 0;
 }
 
-// .marginTop {
-//     // margin-top: $spacing-10;
-// }
+.marginTop {
+    // margin-top: $spacing-10;
+}
 
 .columnMaxSize{
     margin:0;

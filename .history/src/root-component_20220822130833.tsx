@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import PatientRegistration from './component/registration-patient/patient-registration-component';
-import SearchPatient from './component/search-patient-component/searchPatient/searchPatient';
 
 
 

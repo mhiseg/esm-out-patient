@@ -17,7 +17,7 @@ export default function ChartVitalSigns({ title, data, options }) {
 				<Column>
 					<div className={styles.margin_Column}>{title} </div>
 				</Column>
-				<Column lg={9} sm={9} md={9}>
+				<Column lg={10} sm={10} md={10}>
 					<LineChart data={data} options={options}></LineChart>
 				</Column>
 				<Column >

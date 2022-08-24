@@ -3,7 +3,11 @@ import { FrequenceRespiratoireComponent } from '../frequence-respiratoire/freque
 import styles from './field/field.scss';
 import { FrequenceCardiaqueComponent } from './frequence-cardiaque/frequence-cardiaque';
 import { MobiliteSelect } from './mobilite/mobilite-field-component';
+import { NeuroFieldComponent } from './neuro/neuro-field-component';
+import { TAdiastoleComponent } from './TA diastole/TA diastole';
 import { TaSystoleComponent } from './TA systole/TA-systole';
+import { TemperatureComponent } from './Temperature/Temperature';
+import { TraumaComponent } from './Trauma/Trauma';
 const FieldVitalForm = (name: string, value?) => {
   switch (name) {
     case 'MobiliteSelect':
@@ -11,9 +15,18 @@ const FieldVitalForm = (name: string, value?) => {
     case 'frequenceRespiratoireComponent':
       return <FrequenceRespiratoireComponent id={'frequenceRespiratoireComponent'} name={'frequenceRespiratoireComponent'} />
     case 'FrequenceCardiaqueComponent':
-      return <FrequenceCardiaqueComponent id={'frequenceRespiratoireComponent'} name={'frequenceRespiratoireComponent'} />
+      return <FrequenceCardiaqueComponent id={'frequenceCardiqueComponent'} name={'frequenceCardiqueComponent'} />
     case 'TaSystoleComponent':
-      return <TaSystoleComponent id={'frequenceRespiratoireComponent'} name={'frequenceRespiratoireComponent'} />
+      return <TaSystoleComponent id={'TaSystoleComponent'} name={'TaSystoleComponent'} />
+    case 'TaDiastoleComponent':
+      return <TAdiastoleComponent id={'TaDiastoleComponent'} name={'TaDiastoleComponent'} />
+    case 'NeuroFieldComponent':
+      return <NeuroFieldComponent id={'Temperature'} name={'neuroFieldComponent'} />
+    case 'TemperatureComponent':
+      return <TemperatureComponent id={'TemperatureComponent'} name={'TemperatureComponent'} />
+    case 'TraumaFieldComponent':
+      return <TraumaComponent id={'TraumaFieldComponent'} name={'TraumaFieldComponent'} />
+
     default:
       return null
   }

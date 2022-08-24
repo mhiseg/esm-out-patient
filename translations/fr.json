@@ -1,4 +1,13 @@
 {
+  "patientList": "Liste des patients",
+  "frequenceR": "Fréquence respiratoire",
+  "frequenceC": "Fréquence cardiaque",
+  "Select": "selectionne",
+  "TaSystole": "TA Systole",
+  "TaDiastole": "TA Diastole",
+  "neuro":"Neuro",
+  "Temperature":"Temperature",
+  "Trauma":"Trauma",
     "birthLabel": "Né(e) le ",
     "Search": "Rechercher un patient...",
     "searchPatient":"Rechercher un patient",

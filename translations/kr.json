@@ -1,4 +1,13 @@
 {
+  "patientList": "Lis pasyan yo",
+  "frequenceR": "Frekans respiratwa",
+  "frequenceC": "Frekans kadiak",
+  "Select": "seleksyone",
+  "TaSystole": "TA Systole",
+  "TaDiastole": "TA Diastole",
+  "neuro":"Neuro",
+  "Temperature":"Tanperatur",
+  "Trauma":"Twoma",
     "birthLabel": "Li Fet ",
     "Search": "Cheche on pasyan",
     "searchPatient":"Cheche on pasyan",

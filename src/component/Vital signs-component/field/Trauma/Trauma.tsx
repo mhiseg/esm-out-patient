@@ -17,21 +17,22 @@ interface InputProps {
     value?: string;
 }
 
-export const NeuroFieldComponent: React.FC<InputProps> = (props) => {
+export const TraumaComponent: React.FC<InputProps> = (props) => {
+    const [field, meta, helpers] = useField(props.name);
+    const [answers, setAnswers] = useState([])
+    const [question, setQuestion] = useState("Mobilite");
+    const { setValue } = helpers;
     const { t } = useTranslation();
-  const [answers, setAnswers] = useState([])
-  const [question, setQuestion] = useState("Mobilite");
+    const handleChange = (e, value) => {
+        setValue((e.target.value) === undefined ? '' : (e.target.value))
+    }
 
-
-  return (
-    <>
-      <SelectInput
-        className={styles.margin_field}
-        options={[...answers]}
-        label={t('Select') + ' ' + question}
-        name="Mobilite"
-      />
-    </>
-  );
-
+    return (
+        <SelectInput
+            className={styles.margin_field}
+            options={[...answers]}
+            label={t('Select') + ' ' + question}
+            name="Mobilite"
+        />
+    );
 };

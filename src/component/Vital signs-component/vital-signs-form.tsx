@@ -283,28 +283,32 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                         <Grid fullWidth={true} className={styles.p0}>
                             <PatientRegistrationContext.Provider value={{ setFieldValue: setFieldValue, identifierType: values.identifierType, patient: null }}>
                                 <Row>
-                                    <Column className={styles.firstColSyle} lg={6}>
+                                    <Column className={styles.firstColSyle} lg={4}>
                                         {FieldVitalForm("MobiliteSelect")}
                                         {FieldVitalForm("frequenceRespiratoireComponent")}
                                     </Column>
-                                    <Column className={styles.secondColStyle} lg={6}>
+                                    <Column className={styles.secondColStyle}>
                                         <ChartVitalSigns data={state.data} options={state.options} title={'FR/FC'} />
                                     </Column>
                                 </Row>
                                 <Row>
-                                    <Column className={styles.firstColSyle} lg={6}>
+                                    <Column className={styles.firstColSyle} lg={4}>
                                         {FieldVitalForm("FrequenceCardiaqueComponent")}
                                         {FieldVitalForm("TaSystoleComponent")}
+                                        {FieldVitalForm("TaDiastoleComponent")}
                                     </Column>
-                                    <Column className={styles.secondColStyle} lg={6}>
+                                    <Column className={styles.secondColStyle}>
                                         <ChartVitalSigns data={state.data} options={state.options} title={'TA'} />
                                     </Column>
                                 </Row>
                                 <Row>
-                                    <Column className={styles.firstColSyle} lg={6}>
-                                        {FieldVitalForm("MobiliteSelect")}
+                                    <Column className={styles.firstColSyle} lg={4}>
+                                        {FieldVitalForm("TemperatureComponent")}
+                                        {FieldVitalForm("NeuroFieldComponent")}
+                                        {FieldVitalForm("TraumaFieldComponent")}
+
                                     </Column>
-                                    <Column className={styles.secondColStyle} lg={6}>
+                                    <Column className={styles.secondColStyle}>
                                         <ChartVitalSigns data={state.data} options={state.options} title={'Temp'} />
                                     </Column>
                                 </Row>

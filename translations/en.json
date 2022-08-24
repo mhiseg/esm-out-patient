@@ -1,4 +1,12 @@
 {
+  "patientList": "Patient list",
+  "frequenceR": "Heart rate",
+  "Select": "Select",
+  "TaSystole": "TA Systole",
+  "TaDiastole": "TA Diastole",
+  "neuro": "Neuro",
+  "Temperature": "Temperature",
+  "Trauma": "Trauma",
   "birthLabel": "Born the ",
   "Search": "Click here to search patient...",
   "searchPatient": "Find a patient",

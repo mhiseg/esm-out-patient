@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Column,
@@ -15,10 +15,11 @@ import RelationShipCard from "../relationShipCard/relationShiphCard";
 import { navigate, NavigateOptions, showToast } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
 import { facilityVisit } from "../constant";
-import { startVisit } from "../patient-getter.resource";
+import { getVisits, startVisit } from "../patient-getter.resource";
 
 const PatientCard = ({ patient, userRole }) => {
   console.log("*************", patient);
+  const [activeVisit,setActiveVisit] = useState(false);
   const { t } = useTranslation();
   const toEditPatient: NavigateOptions = {
     to: window.spaBase + "/outpatient/patient/" + patient.id,
@@ -38,14 +39,28 @@ const PatientCard = ({ patient, userRole }) => {
         kind: 'success',
         description: 'Dossier declassé avec success',
       });
+      setActiveVisit(true);
     })
       .catch(error => {
         showToast({ description: error.message })
       });
   }
 
+  const containerClass = (activeVisit) => {
+    switch (activeVisit) {
+        case false:
+            return `${styles.cardBox}`
+        case true:
+            return `${styles.cardBoxActiveVisit}`
+        default:
+            return '';
+    }
+}
+
+  //getVisits();
+
   return (
-    <Tile className={styles.cardBox} light={true}>
+    <Tile className={containerClass(activeVisit)} light={true}>
       <Grid className={styles.pm0} fullWidth={true}>
         <Row className={styles.pm0}>
           <Column className={styles.pm0}>
@@ -91,7 +106,8 @@ const PatientCard = ({ patient, userRole }) => {
                           {userRole !== "nurse" && (
                             <OverflowMenuItem
                               itemText={t("visitLabel", "Declasser dossier")}
-                              onClick={() => { NewVisit(); }}
+                              onClick={() => { NewVisit();
+                               }}
                             />
                           )}
                         </OverflowMenu>

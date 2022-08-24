@@ -12,33 +12,36 @@ import { Icon } from "@iconify/react";
 import styles from "./patient-card.scss";
 import FormatCardCell from "./patient-cardCell";
 import RelationShipCard from "../relationShipCard/relationShiphCard";
-import { navigate, NavigateOptions } from "@openmrs/esm-framework";
+import { navigate, NavigateOptions, showToast } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
+import { facilityVisit } from "../constant";
+import { startVisit } from "../patient-getter.resource";
 
 const PatientCard = ({ patient, userRole }) => {
+  console.log("*************", patient);
   const { t } = useTranslation();
   const toEditPatient: NavigateOptions = {
     to: window.spaBase + "/outpatient/patient/" + patient.id,
   };
-  const toTakeVisit: NavigateOptions = {
-    to: window.spaBase + "/outpatient/visite/" + patient.id,
-  };
   const editPatient = (e) => {
     navigate(toEditPatient);
   };
-  const takeVisite = (e) => {
-    navigate(toTakeVisit);
-  };
 
   function formatPhoneNumber(phoneNumberString) {
-    return (
-      "(+509) " +
-        phoneNumberString
-          .replace(/\D/g, "")
-          .match(/.{1,4}/g)
-          ?.join("-")
-          .substr(0, 9) || ""
-    );
+    return ("(+509) " + phoneNumberString?.replace(/\D/g, "").match(/.{1,4}/g)?.join("-").substr(0, 9) || "");
+  }
+
+  const NewVisit = () => {
+    startVisit(facilityVisit, patient.id, AbortController).then(async (res) => {
+      showToast({
+        title: t('successfullyAdded', 'Dossier declasseé avec succes'),
+        kind: 'success',
+        description: 'Dossier declassé avec success',
+      });
+    })
+      .catch(error => {
+        showToast({ description: error.message })
+      });
   }
 
   return (
@@ -88,7 +91,7 @@ const PatientCard = ({ patient, userRole }) => {
                           {userRole !== "nurse" && (
                             <OverflowMenuItem
                               itemText={t("visitLabel", "Declasser dossier")}
-                              onClick={takeVisite}
+                              onClick={() => { NewVisit(); }}
                             />
                           )}
                         </OverflowMenu>
@@ -101,12 +104,7 @@ const PatientCard = ({ patient, userRole }) => {
                 <Column lg={4}>
                   <FormatCardCell
                     icon="cil:calendar"
-                    label={
-                      t("birthLabel", "Né(e) le ") +
-                      new Intl.DateTimeFormat(t("local", "fr-FR"), {
-                        dateStyle: "full",
-                      }).format(new Date(patient.birth))
-                    }
+                    label={patient.birth}
                   />
 
                   <FormatCardCell
@@ -149,13 +147,11 @@ const PatientCard = ({ patient, userRole }) => {
                     icon="akar-icons:link-chain"
                     label={
                       patient.relationship[0] != "" &&
-                      patient.relationship[0] != null ? (
+                        patient.relationship[0] != null ? (
                         <RelationShipCard
                           relationshipName={patient.relationship[0]}
                           relationshipType={patient.relationship[1]}
-                          relationshipPhone={formatPhoneNumber(
-                            patient.relationship[2].toString()
-                          )}
+                          relationshipPhone={formatPhoneNumber(patient.relationship[2].toString())}
                         />
                       ) : null
                     }

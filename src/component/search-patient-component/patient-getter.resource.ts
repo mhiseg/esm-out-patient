@@ -5,24 +5,35 @@ import {
   maritalStatusConcept,
   occupationConcept,
 } from "./constant";
-/**
- * This is a somewhat silly resource function. It searches for a patient
- * using the REST API, and then immediately gets the data using the FHIR
- * API for the first patient found. OpenMRS API endpoints are generally
- * hit using `openmrsFetch`. For FHIR endpoints we use the FHIR API
- * object.
- *
- * See the `fhir` object API docs: https://github.com/openmrs/openmrs-esm-core/blob/master/packages/framework/esm-api/docs/API.md#fhir
- * See the docs for the underlying fhir.js Client object: https://github.com/FHIR/fhir.js#api
- * See the OpenMRS FHIR Module docs: https://wiki.openmrs.org/display/projects/OpenMRS+FHIR+Module
- * See the OpenMRS REST API docs: https://rest.openmrs.org/#openmrs-rest-api
- *
- * @param query A patient name or ID
- * @returns The first matching patient
- */
+
+
+
+
 
 const BASE_WS_API_URL = "/ws/rest/v1/";
 export const deathValidatedValue = "a7257403780e198072fd77a4536fe8fd";
+
+export async function getVisits() {
+  let visits;
+  await openmrsFetch(`${BASE_WS_API_URL}visit?v=full`).then((data) => {
+    visits = data.data.visits;
+    console.log("**************", data.data.results);
+  });
+  return visits;
+}
+
+export async function startVisit(visitType, patientUuid, abortController) {
+  return openmrsFetch(`${BASE_WS_API_URL}visit`,
+    {
+      method: 'POST',
+      body: {
+        "patient": patientUuid,
+        "visitType": visitType
+      },
+      headers: { 'Content-Type': 'application/json' },
+      signal: abortController.signal
+    });
+}
 
 export async function getCurrentUserRoleSession() {
   let CurrentSession;
@@ -62,8 +73,7 @@ async function fetchObsByPatientAndEncounterType(
 
 function getObs(path: string) {
   return openmrsFetch(
-    `${BASE_WS_API_URL + path.split(BASE_WS_API_URL)[1]}?lang=${
-      localStorage.i18nextLng
+    `${BASE_WS_API_URL + path.split(BASE_WS_API_URL)[1]}?lang=${localStorage.i18nextLng
     }`,
     { method: "GET" }
   );
@@ -109,6 +119,8 @@ export async function getPatient(query) {
     return residenceAddress + residenceVillage + residenceCountry;
   };
 
+
+
   if (searchResult) {
     patients = Promise.all(
       searchResult?.data.results?.map(async function (item) {
@@ -126,11 +138,11 @@ export async function getPatient(query) {
           relationships?.data?.results?.[0]?.personA?.attributes
         );
         const personAttributes = formatAttribute(item?.person?.attributes);
-        const identities = formatAttribute(item.identifiers);
+        const identities = formatAttribute(item?.identifiers);
         return {
           id: item?.uuid,
 
-          identify: identities.find(
+          identify: identities?.find(
             (identifier) => identifier.type == "CIN" || identifier.type == "NIF"
           )?.value,
 
@@ -150,13 +162,13 @@ export async function getPatient(query) {
 
           habitat: formatConcept(Allconcept, habitatConcept),
 
-          phoneNumber: personAttributes.find(
+          phoneNumber: personAttributes?.find(
             (attribute) => attribute.type == "Telephone Number"
           )?.value,
 
           gender: item?.person?.gender,
 
-          birthplace: personAttributes.find(
+          birthplace: personAttributes?.find(
             (attribute) => attribute.type == "Birthplace"
           )?.value,
 
@@ -169,7 +181,7 @@ export async function getPatient(query) {
           deathDate: item?.person?.deathDate,
 
           valided: formatValided(
-            identities.find(
+            identities?.find(
               (identifier) => identifier.type == "Death Validated"
             )?.value
           ),

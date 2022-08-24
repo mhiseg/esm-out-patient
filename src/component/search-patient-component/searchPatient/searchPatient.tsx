@@ -21,7 +21,6 @@ const SearchPatient: React.FC = () => {
     if (e.currentTarget.value.trim().length >= 3) {
       getPatient(e.currentTarget.value).then((patients) => {
         setPatient(patients);
-
         setPatientNotFound(patients.length === 0);
       });
     } else {

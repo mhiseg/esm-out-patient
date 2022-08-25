@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Column,
@@ -15,11 +15,10 @@ import RelationShipCard from "../relationShipCard/relationShiphCard";
 import { navigate, NavigateOptions, showToast } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
 import { facilityVisit } from "../constant";
-import { getVisits, startVisit } from "../patient-getter.resource";
+import { startVisit } from "../patient-getter.resource";
 
-const PatientCard = ({ patient, userRole }) => {
-  console.log("*************", patient);
-  const [activeVisit,setActiveVisit] = useState(false);
+const PatientCard = ({ patient, userRole}) => {
+  const [activeVisit,setActiveVisit] = useState(patient?.currentVisit);
   const { t } = useTranslation();
   const toEditPatient: NavigateOptions = {
     to: window.spaBase + "/outpatient/patient/" + patient.id,
@@ -32,8 +31,8 @@ const PatientCard = ({ patient, userRole }) => {
     return ("(+509) " + phoneNumberString?.replace(/\D/g, "").match(/.{1,4}/g)?.join("-").substr(0, 9) || "");
   }
 
-  const NewVisit = () => {
-    startVisit(facilityVisit, patient.id, AbortController).then(async (res) => {
+  const newVisit = () => {
+    startVisit(facilityVisit, patient.id, AbortController).then(async () => {
       showToast({
         title: t('successfullyAdded', 'Dossier declasseé avec succes'),
         kind: 'success',
@@ -46,7 +45,10 @@ const PatientCard = ({ patient, userRole }) => {
       });
   }
 
-  const containerClass = (activeVisit) => {
+
+
+
+  const containerClass = () => {
     switch (activeVisit) {
         case false:
             return `${styles.cardBox}`
@@ -57,10 +59,10 @@ const PatientCard = ({ patient, userRole }) => {
     }
 }
 
-  //getVisits();
+  
 
   return (
-    <Tile className={containerClass(activeVisit)} light={true}>
+    <Tile className={containerClass()} light={true}>
       <Grid className={styles.pm0} fullWidth={true}>
         <Row className={styles.pm0}>
           <Column className={styles.pm0}>
@@ -94,6 +96,7 @@ const PatientCard = ({ patient, userRole }) => {
                     </h3>
                     {patient.valided === false && (
                       <>
+                      
                         <OverflowMenu
                           flipped
                           className={styles.overFlowMenuStyle}
@@ -106,7 +109,7 @@ const PatientCard = ({ patient, userRole }) => {
                           {userRole !== "nurse" && (
                             <OverflowMenuItem
                               itemText={t("visitLabel", "Declasser dossier")}
-                              onClick={() => { NewVisit();
+                              onClick={() => { newVisit();
                                }}
                             />
                           )}

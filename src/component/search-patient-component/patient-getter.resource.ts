@@ -12,14 +12,14 @@ import {
 
 const BASE_WS_API_URL = "/ws/rest/v1/";
 export const deathValidatedValue = "a7257403780e198072fd77a4536fe8fd";
+export const today = new Date().toISOString().split('T')[0];
 
-export async function getVisits() {
-  let visits;
-  await openmrsFetch(`${BASE_WS_API_URL}visit?v=full`).then((data) => {
-    visits = data.data.visits;
-    console.log("**************", data.data.results);
-  });
-  return visits;
+export function getVisits(patientUuid, visitDate) {
+  return openmrsFetch(`${BASE_WS_API_URL}visit?patient=${patientUuid}&fromStartDate=${visitDate}&v=full&limit=1`)
+}
+
+const isCurrentVisit = (visit, today): boolean => {
+  return (visit?.startDatetime.split('T')[0] === today) && (visit?.stopDatime === undefined);
 }
 
 export async function startVisit(visitType, patientUuid, abortController) {
@@ -138,11 +138,14 @@ export async function getPatient(query) {
           relationships?.data?.results?.[0]?.personA?.attributes
         );
         const personAttributes = formatAttribute(item?.person?.attributes);
-        const identities = formatAttribute(item?.identifiers);
+        const identifiers = formatAttribute(item?.identifiers);
+        const visit = await getVisits(item?.uuid, today)
+
+
         return {
           id: item?.uuid,
 
-          identify: identities?.find(
+          identify: identifiers?.find(
             (identifier) => identifier.type == "CIN" || identifier.type == "NIF"
           )?.value,
 
@@ -180,8 +183,10 @@ export async function getPatient(query) {
 
           deathDate: item?.person?.deathDate,
 
+          currentVisit: isCurrentVisit(visit?.data?.results[0],today),
+
           valided: formatValided(
-            identities?.find(
+            identifiers?.find(
               (identifier) => identifier.type == "Death Validated"
             )?.value
           ),

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styles from '../../../field/field.scss';
+import styles from '../../field/field.scss';
 import { useTranslation } from 'react-i18next';
 import { TextInput } from 'carbon-components-react';
 import { useField } from 'formik';
@@ -26,10 +26,13 @@ export const FrequenceCardiaqueComponent: React.FC<InputProps> = (props) => {
     }
 
     return (
-        <div>
+        <div
+        className={styles.margin_field}>
             <TextInput
                 type="number"
-                labelText={t('frequenceC')}
+                size={'sm'}
+                labelText=""
+                placeholder={t('frequenceC')}
                 {...props}
                 {...field}
                 invalid={!!(meta.touched && meta.error)}

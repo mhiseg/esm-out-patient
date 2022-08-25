@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styles from '../../../field/field.scss';
+import styles from './../field.scss';
 import { useTranslation } from 'react-i18next';
 import { TextInput } from 'carbon-components-react';
 import { useField } from 'formik';
@@ -10,7 +10,7 @@ interface InputProps {
     name: string;
     disabled?: boolean;
     placeholder?: string;
-    required?: boolean;
+    required?: boolean; 
     prefix?: string;
     className?: string;
     value?: string;
@@ -26,10 +26,12 @@ export const FrequenceRespiratoireComponent: React.FC<InputProps> = (props) => {
     }
 
     return (
-        <div>
+        <div 
+        className={styles.margin_field}>
             <TextInput
                 type="number"
-                labelText={t('frequenceR')}
+                labelText=""
+                placeholder={t('frequenceR')}
                 {...props}
                 {...field}
                 invalid={!!(meta.touched && meta.error)}

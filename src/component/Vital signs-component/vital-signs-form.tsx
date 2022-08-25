@@ -88,7 +88,7 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
             }
         ],
         options: {
-            "color": {
+            "color": {  
                 "scale": {
                     "Dataset 1": "#925699",
                     "Dataset 2": "#525669",

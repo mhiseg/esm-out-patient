@@ -88,10 +88,8 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
             }
         ],
         options: {
+            "light": true,
             "color": {
-                "pairing": {
-                  "option": 3
-                }, 
                 "scale": {
                     "Dataset 1": "#925699",
                     "Dataset 2": "#525669",
@@ -109,8 +107,8 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                     "scaleType": "linear"
                 }
             },
-            "style":{
-              "background":"none"  
+            "style": {
+                "background": "none"
             },
             "curve": "curveMonotoneX",
             "height": "200px"

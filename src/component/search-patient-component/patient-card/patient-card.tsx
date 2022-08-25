@@ -21,7 +21,7 @@ const PatientCard = ({ patient, userRole}) => {
   const [activeVisit,setActiveVisit] = useState(patient?.currentVisit);
   const { t } = useTranslation();
   const toEditPatient: NavigateOptions = {
-    to: window.spaBase + "/outpatient/patient/" + patient.id,
+    to: window.spaBase + "/out-patient/patient/" + patient.id,
   };
   const editPatient = (e) => {
     navigate(toEditPatient);

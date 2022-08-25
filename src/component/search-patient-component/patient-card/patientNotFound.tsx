@@ -8,7 +8,7 @@ import styles from "../toobar_search_container/toolbar_search_container.scss";
 export const PatientCardNotFound = function () {
   const { t } = useTranslation();
   const toNewPatient: NavigateOptions = {
-    to: window.spaBase + "/outpatient/patient",
+    to: window.spaBase + "/out-patient/patient",
   };
   return (
     <>

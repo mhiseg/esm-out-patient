@@ -22,7 +22,7 @@ export interface PatientProps {
 
 export const PatientFormRegistry: React.FC<PatientProps> = ({ patient, relationships, obs }) => {
     const abortController = new AbortController();
-    const toSearch: NavigateOptions = { to: window.spaBase + "/death/search" };
+    const toSearch: NavigateOptions = { to: window.spaBase + "/out-patient/search" };
     const { t } = useTranslation();
 
     const format = (identifierType, value) => {

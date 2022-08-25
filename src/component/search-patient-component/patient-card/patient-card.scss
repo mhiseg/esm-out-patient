@@ -2,8 +2,12 @@
 //     font-family: "Bitstream Vera Serif Bold";
 //     src: url("fdf491ce5ff5.woff");
 // }
+$bgInactive: #faf9ff;
+$bgHovered: #f0eff5;
+$bgVisit: #cbf9e7;
+$bgVisitHovered: #a9bba9;
 
-.cardBox {
+@mixin cardProps ($bg1, $bg2) {
     width: 100%;
     box-sizing: border-box;
     border-radius: 5px;
@@ -13,10 +17,10 @@
     padding: 0;
     padding-top: .5rem;
     padding-bottom: .5rem;
-    background-color: #faf9ff;
+    background-color: $bg1;
 
     &:hover {
-        background-color: #f0eff5;
+        background-color: $bg2;
     }
 
     .name {
@@ -27,6 +31,14 @@
         color: rgb(87, 86, 86);
     }
 
+}
+
+.cardBox {
+    @include cardProps($bgInactive,$bgHovered);
+}
+
+.cardBoxActiveVisit{
+    @include cardProps ($bgVisit, $bgVisitHovered);
 }
 
 .iconLabel {

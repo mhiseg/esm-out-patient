@@ -7,30 +7,31 @@ import { SelectInput } from '../../../registration-patient/patient-form/patient-
 
 
 interface InputProps {
-    id: string;
-    name: string;
-    disabled?: boolean;
-    placeholder?: string;
-    required?: boolean;
-    prefix?: string;
-    className?: string;
-    value?: string;
+  id: string;
+  name: string;
+  disabled?: boolean;
+  placeholder?: string;
+  required?: boolean;
+  prefix?: string;
+  className?: string;
+  value?: string;
 }
 
 export const NeuroFieldComponent: React.FC<InputProps> = (props) => {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
   const [answers, setAnswers] = useState([])
   const [question, setQuestion] = useState("Mobilite");
 
 
   return (
     <>
-      <SelectInput
-        className={styles.margin_field}
-        options={[...answers]}
-        label={t('Select') + ' ' + question}
-        name="Mobilite"
-      />
+      <div className={styles.margin_field}>
+        <SelectInput
+          options={[...answers]}
+          label={t('Select') + ' ' + question}
+          name="Mobilite"
+        />
+      </div>
     </>
   );
 

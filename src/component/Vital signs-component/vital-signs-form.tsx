@@ -88,7 +88,10 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
             }
         ],
         options: {
-            "color": {  
+            "color": {
+                "pairing": {
+                  "option": 3
+                }, 
                 "scale": {
                     "Dataset 1": "#925699",
                     "Dataset 2": "#525669",
@@ -105,6 +108,9 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                     "mapsTo": "value",
                     "scaleType": "linear"
                 }
+            },
+            "style":{
+              "background":"none"  
             },
             "curve": "curveMonotoneX",
             "height": "200px"
@@ -317,7 +323,6 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                                                     </Button>
                                                     <Button
                                                         className={styles.buttonStyle2}
-                                                        kind="danger--tertiary"
                                                         type="reset"
                                                         size="sm"
                                                         isSelected={true}
@@ -326,7 +331,7 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                                                         {t("resetButton", "réinitialiser")}
                                                     </Button>
                                                     <Button
-                                                        className={styles.buttonStyle}
+                                                        className={styles.buttonStyle3}
                                                         kind="tertiary"
                                                         type="submit"
                                                         size="sm"

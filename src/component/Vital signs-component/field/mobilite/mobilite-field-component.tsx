@@ -12,12 +12,13 @@ export const MobiliteSelect: React.FC = () => {
 
   return (
     <>
-      <SelectInput
-        className={styles.margin_field}
-        options={[...answers]}
-        label={t('Select') + ' ' + question}
-        name="Mobilite"
-      />
+      <div className={styles.margin_field}>
+        <SelectInput
+          options={[...answers]}
+          label={t('Select') + ' ' + question}
+          name="Mobilite"
+        />
+      </div>
     </>
   );
 

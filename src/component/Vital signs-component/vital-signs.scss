@@ -7,11 +7,12 @@
 
 .secondColStyle {
     padding-left: 2.5%;
+    background-color: rgba(217, 217, 217, 0.12);
+    border-radius: 1%;
 }
 
 .firstColSyle {
     padding-right: 2.5%;
-    margin-bottom: 1.9%;
 }
 
 .radioStyle {
@@ -29,11 +30,17 @@
     min-width: 108px;
     height: 34.79px;
     border-radius: 5px;
-    background: rgba(247, 105, 114, 0.18);
-    border: 1px solid #FB000F;
+    color: #FFFFFF;
+    border: 1px solid rgba(247, 105, 114, 0.18);
+    background:  #FB000F;
     padding: 20px;
-
 }
+.buttonStyle:hover{
+    color: #000000;
+    background: rgba(247, 105, 114, 0.18);
+    border:  1px solid #FB000F;   
+}
+
 
 .buttonStyle1 {
     margin-left: 10px;
@@ -56,6 +63,23 @@
 }
 
 .buttonStyle2:hover {
+    background: #FFFFFF;
+    color: #313232;
+    border: 1px solid #313232;
+}
+
+.buttonStyle3 {
+    margin-left: 10px;
+    margin-right: 15px;
+    width: 108px;
+    height: 34.79px;
+    color: #FFFFFF;
+    background:rgba(3, 128, 60, 1);
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.buttonStyle3:hover {
     background: #FFFFFF;
     color: #313232;
     border: 1px solid #313232;
@@ -103,9 +127,6 @@
     padding: 0;
 }
 
-.marginTop {
-    // margin-top: $spacing-10;
-}
 
 .columnMaxSize {
     margin: 0;

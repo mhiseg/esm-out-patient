@@ -22,7 +22,7 @@ export interface PatientProps {
     obs?: Obs[];
 }
 
-export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships, obs }) => {
+export const VitalSignsForm2: React.FC<PatientProps> = ({ patient, relationships, obs }) => {
     let state = {
         data: [
 
@@ -88,7 +88,6 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
             }
         ],
         options: {
-            "light": true,
             "color": {
                 "scale": {
                     "Dataset 1": "#925699",
@@ -106,9 +105,6 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                     "mapsTo": "value",
                     "scaleType": "linear"
                 }
-            },
-            "style": {
-                "background": "none"
             },
             "curve": "curveMonotoneX",
             "height": "200px"
@@ -287,19 +283,32 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                         <Grid fullWidth={true} className={styles.p0}>
                             <PatientRegistrationContext.Provider value={{ setFieldValue: setFieldValue, identifierType: values.identifierType, patient: null }}>
                                 <Row>
-                                    <Column className={styles.firstColSyle} lg={3}>
+                                    <Column className={styles.firstColSyle} lg={4}>
                                         {FieldVitalForm("MobiliteSelect")}
                                         {FieldVitalForm("frequenceRespiratoireComponent")}
-                                        {FieldVitalForm("FrequenceCardiaqueComponent")}
-                                        {FieldVitalForm("TaSystoleComponent")}
-                                        {FieldVitalForm("TaDiastoleComponent")}
-                                        {FieldVitalForm("TemperatureComponent")}
-                                        {FieldVitalForm("NeuroFieldComponent")}
-                                        {FieldVitalForm("TraumaFieldComponent")}
                                     </Column>
                                     <Column className={styles.secondColStyle}>
                                         <ChartVitalSigns data={state.data} options={state.options} title={'FR/FC'} />
+                                    </Column>
+                                </Row>
+                                <Row>
+                                    <Column className={styles.firstColSyle} lg={4}>
+                                        {FieldVitalForm("FrequenceCardiaqueComponent")}
+                                        {FieldVitalForm("TaSystoleComponent")}
+                                        {FieldVitalForm("TaDiastoleComponent")}
+                                    </Column>
+                                    <Column className={styles.secondColStyle}>
                                         <ChartVitalSigns data={state.data} options={state.options} title={'TA'} />
+                                    </Column>
+                                </Row>
+                                <Row>
+                                    <Column className={styles.firstColSyle} lg={4}>
+                                        {FieldVitalForm("TemperatureComponent")}
+                                        {FieldVitalForm("NeuroFieldComponent")}
+                                        {FieldVitalForm("TraumaFieldComponent")}
+
+                                    </Column>
+                                    <Column className={styles.secondColStyle}>
                                         <ChartVitalSigns data={state.data} options={state.options} title={'Temp'} />
                                     </Column>
                                 </Row>
@@ -321,6 +330,7 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                                                     </Button>
                                                     <Button
                                                         className={styles.buttonStyle2}
+                                                        kind="danger--tertiary"
                                                         type="reset"
                                                         size="sm"
                                                         isSelected={true}
@@ -329,7 +339,7 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                                                         {t("resetButton", "réinitialiser")}
                                                     </Button>
                                                     <Button
-                                                        className={styles.buttonStyle3}
+                                                        className={styles.buttonStyle}
                                                         kind="tertiary"
                                                         type="submit"
                                                         size="sm"

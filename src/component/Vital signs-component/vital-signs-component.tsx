@@ -19,7 +19,7 @@ import { VitalSignsForm } from "./vital-signs-form";
    
    return (
      <>
-       <h4 className={'title-page'}>{t("patientList")}</h4>
+       <h4 className={'title-page'}>{t("Vitalsigns")}</h4>
        <div className={'mhiseg-main-content'}>
        <VitalSignsForm />
        </div>

@@ -27,7 +27,7 @@ export const TemperatureComponent: React.FC<InputProps> = (props) => {
 
     return (
         <div
-        className={styles.margin_field}>
+            className={styles.margin_field}>
             <TextInput
                 type="number"
                 labelText=""
@@ -41,7 +41,7 @@ export const TemperatureComponent: React.FC<InputProps> = (props) => {
                     handleChange(e, value)
                 }}
                 light={true}
-                value={props.prefix + " " + field.value || ''}
+                value={field.value}
             />
         </div>
     );

@@ -40,7 +40,7 @@ export const TAdiastoleComponent: React.FC<InputProps> = (props) => {
                     handleChange(e, value)
                 }}
                 light={true}
-                value={props.prefix + " " + field.value || ''}
+                value={field.value}
             />
         </div>
     );

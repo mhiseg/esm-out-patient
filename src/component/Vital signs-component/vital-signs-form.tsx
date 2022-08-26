@@ -131,20 +131,15 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
         return {
             uuid: patient?.uuid,
             encounterUuid: obs ? obs[0]?.encounter : undefined,
-            relationships: relationships?.length > 0 ? relationships : [{ givenName: undefined, familyName: undefined, contactPhone: undefined, type: undefined, personUuid: undefined, relationUuid: undefined }],
-            identifierType: patient?.identifiers[1]?.identifierType?.uuid || null,
-            identifierUuid: patient?.identifiers[1]?.uuid || "",
-            givenName: patient?.person?.names[0]?.givenName,
             dob: { birthdate: patient?.person?.birthdate, age: patient?.person?.age },
-            status: getAnswerObs(maritalStatusConcept, obs),
-            gender: patient?.person?.gender,
-            birthPlace: formAddres(patient?.person?.attributes.find((attribute) => attribute?.attributeType?.uuid == uuidBirthPlace)?.value) || "",
-            identifier: format(patient?.identifiers[1]?.identifierType?.uuid, patient?.identifiers[1]?.identifier),
-            familyName: patient?.person?.names[0]?.familyName,
-            occupation: getAnswerObs(occupationConcept, obs),
-            residence: formAddres(patient?.person?.addresses[0]) || "",
-            phone: patient?.person?.attributes.find((attribute) => attribute.attributeType.uuid == uuidPhoneNumber)?.value || "",
-            habitat: getAnswerObs(habitatConcept, obs),
+            MobiliteSelect: null,
+            frequenceRespiratoireComponent: null,
+            FrequenceCardiaqueComponent: null,
+            TaSystoleComponent: null,
+            TaDiastoleComponent: null,
+            TemperatureComponent: null,
+            NeuroFieldComponent: '',
+            TraumaFieldComponent: '',
             patient: patient,
         }
     }
@@ -155,9 +150,6 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
     const [initialV, setInitialV] = useState(formatInialValue(patient, obs, getAnswerObs));
     const patientSchema = Yup.object().shape({
         uuid: Yup.string(),
-        openmrsId: Yup.string(),
-        identifierType: Yup.string().nullable(),
-        givenName: Yup.string().required("messageErrorGivenName"),
         dob: Yup.object({
             birthdate: Yup.date(),
             age: Yup.number(),
@@ -166,28 +158,14 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
         }).test("validate date ", ("messageErrorDob"), (value, { createError }) => {
             return dob(value, createError);
         }),
-        status: Yup.object(),
-        gender: Yup.string().required("messageErrorGender"),
-        birthPlace: Yup.object(),
-        identifier: Yup.string(),
-        familyName: Yup.string().required("messageErrorFamilyName"),
-        occupation: Yup.object(),
-        residence: Yup.object().nullable(),
-        address: Yup.string(),
-        phone: Yup.string().min(9, ("messageErrorPhoneNumber")),
-        habitat: Yup.object(),
-        relationships: Yup.array(
-            Yup.object({
-                givenName: Yup.string(),
-                familyName: Yup.string(),
-                contactPhone: Yup.string().min(9, ("messageErrorPhoneNumber")),
-                type: Yup.string(),
-                personUuid: Yup.string(),
-                relationUuid: Yup.string(),
-            }).test("valide relationships ", (value, { createError }) => {
-                return validateRelationShips(value, createError);
-            }),
-        )
+        MobiliteSelect: Yup.string().required("messageErrorMobilite"),
+        frequenceRespiratoireComponent: Yup.number().required("messageErrorFrequenceRespiratoire"),
+        FrequenceCardiaqueComponent: Yup.number().required("messageErrorFrequenceCardiaque"),
+        TaSystoleComponent: Yup.number().required("messageErrorTaSystole"),
+        TaDiastoleComponent: Yup.number().required("messageErrorTaDiastole"),
+        TemperatureComponent: Yup.number().required("messageErrorTemperature"),
+        NeuroFieldComponent: Yup.string().required("messageErrorNeuro"),
+        TraumaFieldComponent: Yup.string().required("messageErrorTrauma"),
     }).test("valide relationships ", (value, { createError }) => {
         if (value.address && !value.residence) {
             return createError({
@@ -285,7 +263,7 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                 return (
                     <Form name="form" className={styles.cardForm} onSubmit={handleSubmit}>
                         <Grid fullWidth={true} className={styles.p0}>
-                            <PatientRegistrationContext.Provider value={{ setFieldValue: setFieldValue, identifierType: values.identifierType, patient: null }}>
+                            <PatientRegistrationContext.Provider value={{ setFieldValue: setFieldValue, identifierType: undefined, patient: null }}>
                                 <Row>
                                     <Column className={styles.firstColSyle} lg={3}>
                                         {FieldVitalForm("MobiliteSelect")}

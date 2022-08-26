@@ -13,19 +13,19 @@ const FieldVitalForm = (name: string, value?) => {
     case 'MobiliteSelect':
       return <MobiliteSelect />;
     case 'frequenceRespiratoireComponent':
-      return <FrequenceRespiratoireComponent id={'frequenceRespiratoireComponent'} name={'frequenceRespiratoireComponent'} />
+      return <FrequenceRespiratoireComponent id={'frequenceRespiratoireComponent'} name={name} />
     case 'FrequenceCardiaqueComponent':
-      return <FrequenceCardiaqueComponent id={'frequenceCardiqueComponent'} name={'frequenceCardiqueComponent'} />
+      return <FrequenceCardiaqueComponent id={'frequenceCardiqueComponent'} name={name} />
     case 'TaSystoleComponent':
-      return <TaSystoleComponent id={'TaSystoleComponent'} name={'TaSystoleComponent'} />
+      return <TaSystoleComponent id={'TaSystoleComponent'} name={name} />
     case 'TaDiastoleComponent':
-      return <TAdiastoleComponent id={'TaDiastoleComponent'} name={'TaDiastoleComponent'} />
+      return <TAdiastoleComponent id={'TaDiastoleComponent'} name={name} />
     case 'NeuroFieldComponent':
-      return <NeuroFieldComponent id={'Temperature'} name={'neuroFieldComponent'} />
+      return <NeuroFieldComponent id={'neuroFieldComponent'} name={name}  />
     case 'TemperatureComponent':
-      return <TemperatureComponent id={'TemperatureComponent'} name={'TemperatureComponent'} />
+      return <TemperatureComponent id={'TemperatureComponent'} name={name}  />
     case 'TraumaFieldComponent':
-      return <TraumaComponent id={'TraumaFieldComponent'} name={'TraumaFieldComponent'} />
+      return <TraumaComponent id={'TraumaFieldComponent'} name={name}  />
 
     default:
       return null

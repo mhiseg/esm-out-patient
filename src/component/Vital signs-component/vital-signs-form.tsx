@@ -4,25 +4,20 @@ import * as Yup from 'yup';
 import { Formik } from "formik";
 import { Grid, Row, Column, Button, Form } from "carbon-components-react";
 import { useTranslation } from "react-i18next";
-import { navigate, NavigateOptions, showToast } from "@openmrs/esm-framework";
-import { Obs, Patient, relationshipType } from "../registration-patient/patient-form/patient-registration/patient-registration-types";
-import FieldForm from "../registration-patient/patient-form/patient-registration/field.component";
-import { RelationShips } from "../registration-patient/patient-form/patient-registration/field/relationship/relationship-field-component";
+import { navigate, NavigateOptions } from "@openmrs/esm-framework";
+import { Obs, Patient } from "../registration-patient/patient-form/patient-registration/patient-registration-types";
 import { PatientRegistrationContext } from "../registration-patient/patient-form/patient-registration/patient-registration-context";
-import { savePatient, generateIdentifier, saveAllConcepts, saveAllRelationships, formAddres, formatRelationship } from "../registration-patient/patient-form/patient-registration/patient-registration.ressources";
-import { cinUuid, countryName, habitatConcept, maritalStatusConcept, occupationConcept, sourceUuid, uuidBirthPlace, uuidIdentifier, uuidIdentifierLocation, uuidPhoneNumber } from "../registration-patient/constants";
-import { dob, validateRelationShips, validateId } from "../registration-patient/patient-form/patient-registration/validation/validation-utils";
-import { formatCin, formatNif } from "../registration-patient/patient-form/patient-registration/input/custom-input/idenfiersInput/id-utils";
+import { generateIdentifier } from "../registration-patient/patient-form/patient-registration/patient-registration.ressources";
+import { sourceUuid } from "../registration-patient/constants";
 import ChartVitalSigns from "./chart/chart";
 import FieldVitalForm from "./field/field-vital-signs.component";
 
-export interface PatientProps {
-    patient?: Patient;
-    relationships?: relationshipType[];
+export interface VitalSignProps {
+    vitalsData?: Patient;
     obs?: Obs[];
 }
 
-export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships, obs }) => {
+export const VitalSignsForm: React.FC<VitalSignProps> = ({ vitalsData,obs }) => {
     let state = {
         data: [
 
@@ -118,145 +113,35 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
     const toSearch: NavigateOptions = { to: window.spaBase + "/death/search" };
     const { t } = useTranslation();
 
-    const format = (identifierType, value) => {
-        if (identifierType == cinUuid)
-            return formatCin(value);
-        else
-            return formatNif(value);
-    }
-
-    const formatInialValue = (patient, obs, getAnswerObs) => {
-
-        console.log({ birthdate: patient?.person?.birthdate, age: patient?.person?.age }, '----------------------')
+    const formatInialValue = (vitalsData, obs,getAnswerObs) => {
         return {
-            uuid: patient?.uuid,
-            encounterUuid: obs ? obs[0]?.encounter : undefined,
-            relationships: relationships?.length > 0 ? relationships : [{ givenName: undefined, familyName: undefined, contactPhone: undefined, type: undefined, personUuid: undefined, relationUuid: undefined }],
-            identifierType: patient?.identifiers[1]?.identifierType?.uuid || null,
-            identifierUuid: patient?.identifiers[1]?.uuid || "",
-            givenName: patient?.person?.names[0]?.givenName,
-            dob: { birthdate: patient?.person?.birthdate, age: patient?.person?.age },
-            status: getAnswerObs(maritalStatusConcept, obs),
-            gender: patient?.person?.gender,
-            birthPlace: formAddres(patient?.person?.attributes.find((attribute) => attribute?.attributeType?.uuid == uuidBirthPlace)?.value) || "",
-            identifier: format(patient?.identifiers[1]?.identifierType?.uuid, patient?.identifiers[1]?.identifier),
-            familyName: patient?.person?.names[0]?.familyName,
-            occupation: getAnswerObs(occupationConcept, obs),
-            residence: formAddres(patient?.person?.addresses[0]) || "",
-            phone: patient?.person?.attributes.find((attribute) => attribute.attributeType.uuid == uuidPhoneNumber)?.value || "",
-            habitat: getAnswerObs(habitatConcept, obs),
-            patient: patient,
+            mobilite: "",
+            frequenceR: "",
+            frequenceC: "",
+            taSystole: "",
+            taDiastole: "",
+            temp: "",
+            neuro: "",
+            trauma: "",
         }
     }
     const getAnswerObs = (question: string, obs: Obs[]) => {
         return obs?.find((o) => o?.concept === question) || { concept: question };
     }
 
-    const [initialV, setInitialV] = useState(formatInialValue(patient, obs, getAnswerObs));
+    const [initialV, setInitialV] = useState(formatInialValue(vitalsData, obs, getAnswerObs));
     const patientSchema = Yup.object().shape({
-        uuid: Yup.string(),
-        openmrsId: Yup.string(),
-        identifierType: Yup.string().nullable(),
-        givenName: Yup.string().required("messageErrorGivenName"),
-        dob: Yup.object({
-            birthdate: Yup.date(),
-            age: Yup.number(),
-            months: Yup.number(),
-            birthdateEstimated: Yup.boolean()
-        }).test("validate date ", ("messageErrorDob"), (value, { createError }) => {
-            return dob(value, createError);
-        }),
-        status: Yup.object(),
-        gender: Yup.string().required("messageErrorGender"),
-        birthPlace: Yup.object(),
-        identifier: Yup.string(),
-        familyName: Yup.string().required("messageErrorFamilyName"),
-        occupation: Yup.object(),
-        residence: Yup.object().nullable(),
-        address: Yup.string(),
-        phone: Yup.string().min(9, ("messageErrorPhoneNumber")),
-        habitat: Yup.object(),
-        relationships: Yup.array(
-            Yup.object({
-                givenName: Yup.string(),
-                familyName: Yup.string(),
-                contactPhone: Yup.string().min(9, ("messageErrorPhoneNumber")),
-                type: Yup.string(),
-                personUuid: Yup.string(),
-                relationUuid: Yup.string(),
-            }).test("valide relationships ", (value, { createError }) => {
-                return validateRelationShips(value, createError);
-            }),
-        )
-    }).test("valide relationships ", (value, { createError }) => {
-        if (value.address && !value.residence) {
-            return createError({
-                path: 'residence',
-                message: ("messageErrorResidence"),
-            });
-        }
-        return validateId(value, createError);
+        mobilite: Yup.object().required("Ce champ ne peu pas etre vide"),
+        frequenceR: Yup.number().required("Ce champ ne peu pas etre vide"),
+        frequenceC: Yup.number().required("Ce champ ne peu pas etre vide"),
+        taSystole: Yup.number().required("Ce champ ne peu pas etre vide"),
+        taDiastole: Yup.number().required("Ce champ ne peu pas etre vide"),
+        temp: Yup.number().required("Ce champ ne peu pas etre vide"),
+        neuro: Yup.object().required("Ce champ ne peu pas etre vide"),
+        trauma: Yup.object().required("Ce champ ne peu pas etre vide"),
     });
 
-    const save = async (id, values, resetForm) => {
-        let patient: Patient;
-        let concepts: Obs[] = [];
-        patient = {
-            identifiers: [{ identifier: id, identifierType: uuidIdentifier, location: uuidIdentifierLocation, preferred: true }],
-            person: {
-                names: [{ givenName: values.givenName, familyName: values.familyName, }],
-                gender: values.gender,
-                attributes: [],
-            }
-        }
-        if (values.identifierType && values.identifier) {
-            patient.identifiers.push({ identifier: values.identifier.replace(/\D/g, ""), identifierType: values.identifierType, uuid: values.identifierUuid == "" ? null : values.identifierUuid })
-        }
-        if (values.dob.birthdateEstimated) {
-            patient.person.birthdateEstimated = true;
-            patient.person.age = values.dob.age;
-        } else {
-            patient.person.birthdate = new Date(values.dob.birthdate).toISOString();
-        }
-        if (values.birthPlace)
-            patient.person.attributes = [{ attributeType: uuidBirthPlace, value: values.birthPlace.display, }]
-        if (values.phone) {
-            patient.person.attributes.push({ attributeType: uuidPhoneNumber, value: values.phone, })
-        }
-        if (values.residence) {
-            patient.person.addresses = [];
-            patient.person.addresses.push({
-                ...values.residence,
-                country: countryName,
-            })
-        }
-        if (values.status) {
-            concepts.push({ ...values.status });
-        }
-        if (values.occupation) {
-            concepts.push({ ...values.occupation });
-        }
-        if (values.habitat) {
-            concepts.push({ ...values.habitat });
-        }
-        savePatient(abortController, patient, values.uuid)
-            .then(async (res) => {
-                const person = res.data.uuid;
-                const relationships: relationshipType[] = values.relationships.filter(relationship => (relationship.givenName || relationship.relationUuid));
-                if (relationships.length > 0)
-                    await saveAllRelationships(relationships, person, abortController)
-                await saveAllConcepts(concepts, person, abortController, values.encounterUuid)
-                showToast({
-                    title: t('successfullyAdded', 'Successfully added'),
-                    kind: 'success',
-                    description: 'Patient save succesfully',
-                })
-                navigate(toSearch);
-            })
-            .catch(error => {
-                showToast({ description: error.message })
-            })
-    }
+
 
     return (
         <Formik
@@ -267,7 +152,7 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                 async (values, { setSubmitting, resetForm }) => {
                     setSubmitting(false)
                     const id = await generateIdentifier(sourceUuid, abortController);
-                    save(id.data.identifier, values, resetForm);
+                    //save(id.data.identifier, values, resetForm);
                 }
             }
 
@@ -285,17 +170,16 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                 return (
                     <Form name="form" className={styles.cardForm} onSubmit={handleSubmit}>
                         <Grid fullWidth={true} className={styles.p0}>
-                            <PatientRegistrationContext.Provider value={{ setFieldValue: setFieldValue, identifierType: values.identifierType, patient: null }}>
                                 <Row>
                                     <Column className={styles.firstColSyle} lg={3}>
-                                        {FieldVitalForm("MobiliteSelect")}
-                                        {FieldVitalForm("frequenceRespiratoireComponent")}
-                                        {FieldVitalForm("FrequenceCardiaqueComponent")}
-                                        {FieldVitalForm("TaSystoleComponent")}
-                                        {FieldVitalForm("TaDiastoleComponent")}
-                                        {FieldVitalForm("TemperatureComponent")}
-                                        {FieldVitalForm("NeuroFieldComponent")}
-                                        {FieldVitalForm("TraumaFieldComponent")}
+                                        {FieldVitalForm("mobilite")}
+                                        {FieldVitalForm("frequenceR")}
+                                        {FieldVitalForm("frequenceC")}
+                                        {FieldVitalForm("taSystole")}
+                                        {FieldVitalForm("taDiastole")}
+                                        {FieldVitalForm("temp")}
+                                        {FieldVitalForm("neuro")}
+                                        {FieldVitalForm("trauma")}
                                     </Column>
                                     <Column className={styles.secondColStyle}>
                                         <ChartVitalSigns data={state.data} options={state.options} title={'FR/FC'} />
@@ -343,7 +227,6 @@ export const VitalSignsForm: React.FC<PatientProps> = ({ patient, relationships,
                                         </Row>
                                     </Column>
                                 </Row>
-                            </PatientRegistrationContext.Provider>
                         </Grid>
                     </Form>
                 );

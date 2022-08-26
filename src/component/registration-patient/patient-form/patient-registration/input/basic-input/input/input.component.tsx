@@ -13,8 +13,9 @@ interface InputProps {
   placeholder?: string;
   hideLabel?: boolean;
   className?: string;
-  value?:string;
+  value?: string;
   hidden?: boolean;
+  type?: string;
 }
 
 export const Input: React.FC<InputProps> = props => {
@@ -23,6 +24,7 @@ export const Input: React.FC<InputProps> = props => {
   return (
     <div>
       <TextInput
+        type={props.type}
         {...props}
         {...field}
         invalid={!!(meta.error)}

@@ -1,8 +1,6 @@
-import { createErrorHandler } from '@openmrs/esm-framework';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { occupationConcept } from '../../../../constants';
-import { SelectCustom } from '../../input/custom-input/custom-select/custom-selected-component';
 import { SelectCustomObs } from '../../input/custom-input/custom-select/custom-selected-component-obs';
 import { fetchConceptByUuid, getConceptAnswer, getSynchronizedCurrentUser } from '../../patient-registration.ressources';
 import styles from '../field.scss';

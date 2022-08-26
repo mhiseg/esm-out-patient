@@ -12,6 +12,7 @@ export const TemperatureComponent: React.FC<TemperatureComponentProps> = ({ name
     const { t } = useTranslation();
     let star = "";
     required == true ? star = " *" : star = "";
+
     return (
         <>
             <Input

@@ -22,7 +22,6 @@ export const TaDiastoleComponent: React.FC<TaDiastoleComponentProps> = ({ name,r
                 labelText={""}
                 light={true}
                 placeholder={t('TaDiastole')+ star}
-                hideLabel={true}
             />
         </>
     );

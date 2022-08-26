@@ -148,14 +148,7 @@ export const VitalSignsForm: React.FC<VitalSignProps> = ({ vitalsData,obs }) => 
             enableReinitialize
             initialValues={initialV}
             validationSchema={patientSchema}
-            onSubmit={
-                async (values, { setSubmitting, resetForm }) => {
-                    setSubmitting(false)
-                    const id = await generateIdentifier(sourceUuid, abortController);
-                    //save(id.data.identifier, values, resetForm);
-                }
-            }
-
+            onSubmit={(values)=>{console.log(values);}}
         >
             {(formik) => {
                 const {

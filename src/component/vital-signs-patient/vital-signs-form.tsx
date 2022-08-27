@@ -98,6 +98,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                 }
             },
             //"curve": "curveMonotoneX",
+            "width": "100%",
             "height": "200px",
             "toolbar": {
                 "enabled": false

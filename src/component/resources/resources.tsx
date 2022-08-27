@@ -4,6 +4,7 @@ import { uuidPhoneNumber, encounterTypeCheckIn, unknowLocation, countryName, dea
 import { Address, Concept, Encounter, Obs, Person } from './types';
 export const BASE_WS_API_URL = '/ws/rest/v1/';
 export const today = new Date().toISOString().split('T')[0];
+export const toDay = () => new Date().toISOString();
 
 export const getConceptAnswer = (concept, setQuestion): Concept[] => {
   setQuestion(concept.display)
@@ -12,13 +13,22 @@ export const getConceptAnswer = (concept, setQuestion): Concept[] => {
   })
 }
 
-export async function saveAllConcepts(obs: Obs[], person: string, abortController: AbortController, encounterUuid?: string) {
+export async function saveAllObs(obs: Obs[], person: string, abortController: AbortController, encounterUuid?: string, format?) {
   const toDay = new Date().toISOString();
-  const concepts = obs.filter(o => o.value !== undefined);
+  if (format) {
+    const concepts: Obs[] = obs.map(o => {
+      if (typeof o.answers === 'string') {
+        return { question: o.question, answers: o.answers, uuid: o.uuid }
+      } else if (typeof o.answers === 'object') {
+        return { question: o.question, answers: o.answers['uuid'], uuid: o.uuid }
+      }
+    });
+    obs = concepts;
+  }
   const encounter = encounterUuid ? encounterUuid : await (await saveEncounter(encounterUuid ? { encounterDatetime: toDay } : { patient: person, encounterDatetime: toDay, encounterType: encounterTypeCheckIn, location: unknowLocation }, abortController, encounterUuid)).data.uuid;
-  if (concepts.length > 0) {
-    await Promise.all(concepts.map(async concept => {
-      const obs = await saveObs(person, toDay, encounter, concept.concept, concept.value, abortController, concept.uuid)
+  if (obs.length > 0) {
+    await Promise.all(obs.map(async concept => {
+      const obs = await saveObs(person, toDay, encounter, concept.question, concept.answers, abortController, concept?.uuid)
     }))
   }
 }
@@ -50,12 +60,15 @@ export async function saveEncounter(encounter: Encounter | any, abortController:
   });
 }
 
-export async function getEncounterByPatientAndEncounterType(patient: string, encounterType: string){
-  return openmrsFetch(`${BASE_WS_API_URL}encounter?patient=${patient}&encounterType=${encounterType}&v=default&limit=1`, { method: 'GET' });
+export async function getEncounterByPatientAndEncounterType(patient: string, encounterType: string) {
+  return openmrsFetch(`${BASE_WS_API_URL}encounter?patient=${patient}&encounterType=${encounterType}&v=default`, { method: 'GET' });
 }
 
+export async function getEncounterByPatientAndEncounterTypeAndStartDate(patient: string, encounterType: string, date: Date) {
+  return openmrsFetch(`${BASE_WS_API_URL}encounter?patient=${patient}&encounterType=${encounterType}&fromdate=${date.toISOString()}&v=default`, { method: 'GET' });
+}
 
-export async function saveObs(person: string, obsDatetime: string, encounter: string, concept: string, value: string, abortController: AbortController, uuid?: string) {
+export async function saveObs(person: string, obsDatetime: string, encounter: string, concept: string, value: string | any, abortController: AbortController, uuid?: string) {
   if (uuid)
     return editObs(uuid, value, abortController);
   return openmrsFetch(`${BASE_WS_API_URL}obs`, {

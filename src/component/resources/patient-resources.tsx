@@ -1,10 +1,9 @@
 import { getCurrentUser, openmrsFetch } from "@openmrs/esm-framework";
 import { mergeMap } from "rxjs/operators";
 import { uuidPhoneNumber, encounterTypeCheckIn, unknowLocation, countryName, deathValidatedValue, occupationConcept, maritalStatusConcept, habitatConcept } from "./constants";
-import { BASE_WS_API_URL, getEncounterByPatientAndEncounterType, getObs } from "./resources";
+import { BASE_WS_API_URL, getEncounterByPatientAndEncounterType, getObs, toDay } from "./resources";
 import { getVisitsByPatientBetweenVisiDate, isCurrentVisit, today } from "./form-resource";
 import { Address, Encounter, Obs, Patient, PatientIdentifier, Relationships, relationshipType, Person } from "./types";
-
 
 export async function fetchRelationships(patientUuid: string) {
   const relationships = await openmrsFetch(`${BASE_WS_API_URL}relationship?person=${patientUuid}&v=full`, { method: 'GET' });
@@ -39,8 +38,8 @@ export async function fetchObsByPatientAndEncounterType(patientUuid: string, enc
         observations.push({
           uuid: obs.uuid,
           encounter: obs.encounter.uuid,
-          concept: obs.concept.uuid,
-          value: obs.value
+          question: obs.concept.uuid,
+          answers: obs.value
         })
       }))
     } else {
@@ -128,16 +127,6 @@ export function formatRelationship(values): relationshipType[] {
   return [{ relationUuid: '', personUuid: '', givenName: '', familyName: '', contactPhone: '', type: '' }];
 }
 
-export async function saveAllConcepts(obs: Obs[], person: string, abortController: AbortController, encounterUuid?: string) {
-  const toDay = new Date().toISOString();
-  const concepts = obs.filter(o => o.value !== undefined);
-  const encounter = encounterUuid ? encounterUuid : await (await saveEncounter(encounterUuid ? { encounterDatetime: toDay } : { patient: person, encounterDatetime: toDay, encounterType: encounterTypeCheckIn, location: unknowLocation }, abortController, encounterUuid)).data.uuid;
-  if (concepts.length > 0) {
-    await Promise.all(concepts.map(async concept => {
-      const obs = await saveObs(person, toDay, encounter, concept.concept, concept.value?.uuid || concept.value, abortController, concept.uuid)
-    }))
-  }
-}
 
 export function getPatient(query) {
   return openmrsFetch(
@@ -163,16 +152,6 @@ export function generateIdentifier(source: string, abortController: AbortControl
   });
 }
 
-export async function saveEncounter(encounter: Encounter | any, abortController: AbortController, uuid?: string) {
-  return openmrsFetch(`${BASE_WS_API_URL}encounter/${uuid ? uuid : ""}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: encounter,
-    signal: abortController.signal,
-  });
-}
 
 export async function saveObs(person: string, obsDatetime: string, encounter: string, concept: string, value: string, abortController: AbortController, uuid?: string) {
   if (uuid)
@@ -397,7 +376,7 @@ export function deletePerson(abortController: AbortController, uuid: string) {
 }
 
 export function formatConcept(concepts, uuid) {
-  return concepts?.find(c => c?.concept == uuid);
+  return concepts?.find(c => c?.question == uuid);
 };
 
 
@@ -432,16 +411,16 @@ export async function getPatientByQuery(query) {
     let residenceCountry = checkUndefined(country) !== "" ? country : "";
     return residenceAddress + residenceVillage + residenceCountry;
   };
-  if (searchResult) {
+  if (searchResult &&  searchResult?.data.results) {
     patients = Promise.all(
-      searchResult?.data.results?.map(async function (item) {
+      searchResult?.data.results.filter(r=> r?.uuid !== undefined).map(async function (item) {
         const relationships = await openmrsFetch(
           `${BASE_WS_API_URL}relationship?v=full&person=${item?.uuid}`,
           {
             method: "GET",
           }
         );
-        const Allconcept = await fetchObsByPatientAndEncounterType(
+        const allConcept = await fetchObsByPatientAndEncounterType(
           item?.uuid,
           encounterTypeCheckIn
         );
@@ -450,7 +429,7 @@ export async function getPatientByQuery(query) {
         );
         const personAttributes = formatAttribute(item?.person?.attributes);
         const identifiers = formatAttribute(item?.identifiers);
-        const visit = await getVisitsByPatientBetweenVisiDate(item?.uuid, today)
+        const visit = item?.uuid ? await getVisitsByPatientBetweenVisiDate(item?.uuid, today) : undefined;
         return {
           id: item?.uuid,
 
@@ -472,11 +451,11 @@ export async function getPatientByQuery(query) {
             checkUndefined(item?.person?.addresses?.[0]?.country)
           ),
 
-          habitat: formatConcept(Allconcept, habitatConcept)?.value?.display,
+          habitat: formatConcept(allConcept, habitatConcept)?.answers?.display,
 
           phoneNumber: personAttributes?.find(
             (attribute) => attribute.type == "Telephone Number"
-          )?.value ,
+          )?.value,
 
           gender: item?.person?.gender,
 
@@ -486,9 +465,9 @@ export async function getPatientByQuery(query) {
 
           dead: item?.person?.dead,
 
-          occupation: formatConcept(Allconcept, occupationConcept)?.value?.display,
+          occupation: formatConcept(allConcept, occupationConcept)?.answers?.display,
 
-          matrimonial: formatConcept(Allconcept, maritalStatusConcept)?.value?.display,
+          matrimonial: formatConcept(allConcept, maritalStatusConcept)?.answers?.display,
 
           deathDate: item?.person?.deathDate,
 

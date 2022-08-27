@@ -32,9 +32,9 @@ export const SelectCustomObs: React.FC<InputSelectProps> = ({ name, options, lab
         hideLabel={true}
         invalid={!!(meta.error && meta.touched)}
         invalidText={meta.error}
-        value={field?.value?.value?.uuid || field?.value?.value}
+        value={field?.value?.answers?.uuid || field?.value?.answers}
         onChange={(e) =>
-          setValue({ ...field.value, value: e.target.value })
+          setValue({ ...field.value, answers: e.target.value })
         }
       >
         {selectOptions}

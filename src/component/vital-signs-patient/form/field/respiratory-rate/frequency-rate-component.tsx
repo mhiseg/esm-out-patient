@@ -1,7 +1,7 @@
 import React, {  } from 'react';
 import styles from './../field.scss';
 import { useTranslation } from 'react-i18next';
-import { Input } from '../../../../registration-patient/patient-form/input/basic-input/input/input.component';
+import { InputObs } from '../../../../registration-patient/patient-form/input/custom-input/custom-input/input.component-obs';
 
 
 interface InputProps {
@@ -16,7 +16,7 @@ export const FrequencyRateField: React.FC<InputProps> = ({ required }) => {
     required == true ? star = " *" : star = "";
     return (
         <>
-            <Input
+            <InputObs
                 type="number"
                 className={styles.margin_field}
                 id="frequenceR"

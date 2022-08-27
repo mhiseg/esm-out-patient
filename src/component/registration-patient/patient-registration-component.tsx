@@ -2,8 +2,8 @@ import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { PatientFormRegistry } from "./patient-form/patient-registration/patient-form-registry";
-import { usePatient } from "./patient-form/patient-registration/usePatient";
+import { usePatient } from "../resources/usePatient";
+import { PatientFormRegistry } from "./patient-form/patient-form-registry";
 
 const PatientRegistration = () => {
     const param: {

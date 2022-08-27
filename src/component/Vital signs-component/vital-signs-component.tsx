@@ -8,23 +8,24 @@
  *   https://openmrs.github.io/openmrs-esm-core/#/main/config
  */
 
- import React from "react";
- import { useTranslation } from "react-i18next";
+import React from "react";
+import { useTranslation } from "react-i18next";
 import { VitalSignsForm } from "./vital-signs-form";
- 
- 
- const VitalSignsComponent: React.FC = () => {
-   const { t } = useTranslation();
- 
-   
-   return (
-     <>
-       <h4 className={'title-page'}>{t("Vitalsigns")}</h4>
-       <div className={'mhiseg-main-content'}>
-       <VitalSignsForm />
-       </div>
-     </>
-   );
- };
- 
- export default VitalSignsComponent;
+import styles from "./vital-signs.scss";
+
+
+const VitalSignsComponent: React.FC = () => {
+  const { t } = useTranslation();
+
+
+  return (
+    <>
+      <h4 className={'title-page'}>{t("Vitalsigns")}</h4>
+      <div className={styles.main}>
+        <VitalSignsForm />
+      </div>
+    </>
+  );
+};
+
+export default VitalSignsComponent;

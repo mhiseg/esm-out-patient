@@ -1,74 +1,55 @@
+@import "../../../node_modules/carbon-components/scss/globals/scss/_spacing.scss";
+
+
+.main {
+    max-height: calc(84.5vh - 1.5rem);
+    overflow: auto;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    padding: 1rem;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  }
+
 .cardForm {
     background: #FFFFFF;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    padding: 1.5rem;
 }
 
 .secondColStyle {
-    padding-left: 2.5%;
-    background-color: rgba(217, 217, 217, 0);
+    padding: 1rem;
+    border: 1px solid #5050504d;
     border-radius: 1%;
-}
-
-.firstColSyle {
-    padding-right: 2.5%;
-}
- .marginTop{
-//     margin-top: 0.001%;
-}
-
-.radioStyle {
-    padding-left: 0;
-    margin-bottom: 20px;
-    margin-top: 20px;
-}
-
-.numberInputStyle {
-    min-width: 15px !important;
 }
 
 .buttonStyle {
     margin-right: 10px;
-    min-width: 108px;
-    height: 34.79px;
+    min-width: 100px;
+    height: 25px;
     border-radius: 5px;
-    color: #FFFFFF;
-    border: 1px solid rgba(247, 105, 114, 0.18);
-    background:  #FB000F;
+    color: red;
+    border: 1px solid rgb(247, 105, 114);
     padding: 20px;
-}
-.buttonStyle:hover{
-    color: #000000;
-    background: rgba(247, 105, 114, 0.18);
-    border:  1px solid #FB000F;   
+    justify-content: center;
 }
 
-
-.buttonStyle1 {
-    margin-left: 10px;
-    width: 108px;
-    height: 34.79px;
-    background: rgba(78, 203, 113, 0.1);
-    border-radius: 5px;
-    padding: 20px;
-}
 
 .buttonStyle2 {
     margin-left: 10px;
     margin-right: 15px;
     width: 108px;
     height: 34.79px;
-    color: #FFFFFF;
-    background: #313232;
     border-radius: 5px;
     padding: 20px;
+    background: #FFFFFF;
+    color: #313232;
+    border: 1px solid #000000;
 }
 
 .buttonStyle2:hover {
-    background: #FFFFFF;
-    color: #313232;
-    border: 1px solid #313232;
+    color: #FFFFFF;
+    background: #313232;
 }
 
 .buttonStyle3 {
@@ -77,15 +58,13 @@
     width: 108px;
     height: 34.79px;
     color: #FFFFFF;
-    background:rgba(3, 128, 60, 1);
+    background:rgb(3, 128, 60);
     border-radius: 5px;
     padding: 20px;
 }
 
 .buttonStyle3:hover {
-    background: #FFFFFF;
-    color: #313232;
-    border: 1px solid #313232;
+    background:#049646;
 }
 
 .flexEnd {
@@ -113,12 +92,11 @@
 
 .pl0 {
     padding-left: 0;
-    // margin-top: 10px;
 }
 
 .fieldStyle {
     padding-left: 0;
-    // margin-top: $spacing-05;
+    margin-top: $spacing-05;
 }
 
 .pm0 {
@@ -145,3 +123,10 @@
     width: 70%;
     height: 30vh;
 }
+
+.pr{
+   padding-right:  1rem;
+   padding-bottom: 1rem;
+}
+
+

@@ -2,7 +2,10 @@
     margin-bottom: 5px;
 }
 
-.margin_Column {
+.shartTitle {
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 30px;
     margin-top: 80px;
 }
 
@@ -11,10 +14,22 @@
     border-radius: 50%;
     height: 4rem;
     width: 4rem;
-    margin-top: 50px;
     text-align: center;
+    margin: auto;
+    margin-top: 2.5rem;
 }
 
 .circleDiv div {
     margin-top: 1.5rem;
+}
+
+
+
+.pm0{
+    margin: 0;
+    padding: 0;
+}
+
+.p0{
+    padding: 0;
 }

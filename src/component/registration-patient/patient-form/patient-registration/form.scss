@@ -1,4 +1,4 @@
-//@import "../../../../node_modules/carbon-components/scss/globals/scss/_spacing.scss";
+@import "../../../../../node_modules/carbon-components/scss/globals/scss/_spacing.scss";
 
 .cardForm {
     background: #FFFFFF;
@@ -43,10 +43,6 @@
     background: rgba(78, 203, 113, 0.1);
     border-radius: 5px;
     padding: 20px;
-
-    // &:hover{
-        
-    // }
 }
 
 .flexEnd {
@@ -79,7 +75,7 @@
 
 .fieldStyle{
     padding-left: 0;
-    // margin-top: $spacing-05;
+    //margin-top: $spacing-05;
 }
 
 .pm0 {

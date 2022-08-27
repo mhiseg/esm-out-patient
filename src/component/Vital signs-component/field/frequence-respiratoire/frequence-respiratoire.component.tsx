@@ -16,7 +16,7 @@ export const FrequenceRespiratoireComponent: React.FC<FrequenceRespiratoireProps
         <>
             <Input
                 type="number"
-                className={styles.margin_field}
+                className={styles.frequenceR}
                 id="frequenceR"
                 name={name}
                 labelText={""}

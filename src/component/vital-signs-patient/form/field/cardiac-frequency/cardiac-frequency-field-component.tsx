@@ -1,4 +1,4 @@
-import React, {  } from 'react';
+import React, { } from 'react';
 import styles from '../../field/field.scss';
 import { useTranslation } from 'react-i18next';
 import { Input } from '../../../../registration-patient/patient-form/input/basic-input/input/input.component';
@@ -16,16 +16,18 @@ export const CardiacFrequencyField: React.FC<InputProps> = ({ required }) => {
     required == true ? star = " *" : star = "";
     return (
         <>
-            <Input
-                type="number"
-                className={styles.margin_field}
-                id="cardiacFrequency"
-                name="cardiacFrequency"
-                labelText={""}
-                light={true}
-                placeholder={t('frequenceC') + star}
-                hideLabel={true}
-            />
+            <div className={styles.margin_field} >
+                <Input
+                    type="number"
+                    className={styles.font}
+                    id="cardiacFrequency"
+                    name="cardiacFrequency"
+                    labelText={""}
+                    light={true}
+                    placeholder={t('frequenceC') + star}
+                    hideLabel={true}
+                />
+            </div>
         </>
     );
 };

@@ -13,18 +13,18 @@ export const SystoleField: React.FC<InputProps> = ({ required }) => {
     let star = "";
     required == true ? star = " *" : star = "";
     return (
-        <>
+        <div className={styles.margin_field}        >
             <Input
                 type="number"
-                className={styles.margin_field}
+                className={styles.font}
                 id="taSystole"
                 name="taSystole"
                 labelText={""}
                 light={true}
-                placeholder={t('TaSystole')+ star}
+                placeholder={t('TaSystole') + star}
                 hideLabel={true}
             />
-        </>
+        </div>
     );
 };
 

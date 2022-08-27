@@ -7,7 +7,6 @@ import { Input } from '../../../../registration-patient/patient-form/input/basic
 
 
 interface InputProps {
-    className?: string
     required?: boolean
 }
 export const DiastoleField: React.FC<InputProps> = ({ required }) => {
@@ -15,17 +14,17 @@ export const DiastoleField: React.FC<InputProps> = ({ required }) => {
     let star = "";
     required == true ? star = " *" : star = "";
     return (
-        <>
+        <div className={styles.margin_field}>
             <Input
+                className={styles.font}
                 type="number"
-                className={styles.margin_field}
                 id="TaDiastole"
                 name="taDiastole"
                 labelText={""}
                 light={true}
-                placeholder={t('TaDiastole')+ star}
+                placeholder={t('TaDiastole') + star}
             />
-        </>
+        </div>
     );
 };
 

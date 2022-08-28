@@ -7,108 +7,33 @@ import { useTranslation } from "react-i18next";
 import { navigate, NavigateOptions, showToast, Visit } from "@openmrs/esm-framework";
 import ChartVitalSigns from "./form/chart/chart-field-component";
 import FieldVitalForm from "./form/field/vital-signs-field-component";
-import { getSynchronizedCurrentUser } from "../resources/patient-resources";
+import { formatPatientForCard, getSynchronizedCurrentUser } from "../resources/patient-resources";
 export interface VisitProps {
     visit?: Visit;
 }
 
 import form from "../resources/vital-sign.json";
-import { fetchConceptByUuid, getConceptAnswer, saveAllObs, saveEncounter, toDay } from "../resources/resources";
+import { fetchConceptByUuid, getConceptAnswer, getObsInEncounters, saveAllObs, saveEncounter, toDay } from "../resources/resources";
 import { encounterVitalSign, unknowLocation } from "../resources/constants";
 import { saveVisit } from "../resources/form-resource";
+import PatientCard from "../search-patient/patient-card/patient-card";
 
 export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
-    let state = {
-        data: [
+    const [dataFC, setDataFC] = useState([]);
+    const [dataTemp, setDataTemp] = useState([]);
+    const [dataTA, setDataTA] = useState([]);
+    const [patient, setPatient] = useState(null);
+    const options = {
+        "light": false,
+        "color": { "scale": { "F-respiratoire": "#FB000F", "F-cardiaque": "#07066F", "Temp": "#FB000F", "TA Systole": "#FB000F", "TA Diastole": "#07066F" } },
+        "axes": {
+            "bottom": { "mapsTo": "date", "scaleType": "time" },
+            "left": { "mapsTo": "value", "scaleType": "linear" }
+        },
+        "height": "200px",
+        "toolbar": { "enabled": false }
+    }
 
-            {
-                "group": "F-respiratoire",
-                "date": "2019-01-02T05:00:00.000Z",
-                "value": 0,
-                "surplus": 16190.372031971767
-            },
-            {
-                "group": "F-respiratoire",
-                "date": "2019-01-06T05:00:00.000Z",
-                "value": 57312,
-                "surplus": 785490321.4260587
-            },
-            {
-                "group": "F-respiratoire",
-                "date": "2019-01-08T05:00:00.000Z",
-                "value": 27432,
-                "surplus": 487195957.0095622
-            },
-            {
-                "group": "F-respiratoire",
-                "date": "2019-01-15T05:00:00.000Z",
-                "value": 70323,
-                "surplus": 750147611.159392
-            },
-            {
-                "group": "F-respiratoire",
-                "date": "2019-01-19T05:00:00.000Z",
-                "value": 21300,
-                "surplus": 366680575.34008896
-            },
-            {
-                "group": "F-cardiaque",
-                "date": "2019-01-02T05:00:00.000Z",
-                "value": 20000,
-                "surplus": 449083596.2270672
-            },
-            {
-                "group": "F-cardiaque",
-                "date": "2019-01-06T05:00:00.000Z",
-                "value": 37312,
-                "surplus": 385442604.63402385
-            },
-            {
-                "group": "F-cardiaque",
-                "date": "2019-01-08T05:00:00.000Z",
-                "value": 51432,
-                "surplus": 648998378.2324682
-            },
-            {
-                "group": "F-cardiaque",
-                "date": "2019-01-15T05:00:00.000Z",
-                "value": 25332,
-                "surplus": 601955968.6356899
-            },
-            {
-                "group": "F-cardiaque",
-                "date": "2019-01-19T05:00:00.000Z",
-                "value": null,
-                "surplus": 1889.9243467256133
-            }
-        ],
-        options: {
-            "light": false,
-            "color": {
-                "scale": {
-                    "F-respiratoire": "#FB000F",
-                    "F-cardiaque": "#07066F",
-                    "Dataset 3": "#FEA903",
-                    "Dataset 4": "#FEA903"
-                }
-            },
-            "axes": {
-                "bottom": {
-                    "mapsTo": "date",
-                    "scaleType": "time"
-                },
-                "left": {
-                    "mapsTo": "value",
-                    "scaleType": "linear"
-                }
-            },
-            //"curve": "curveMonotoneX",
-            "height": "200px",
-            "toolbar": {
-                "enabled": false
-            }
-        }
-    };
     const toSearch: NavigateOptions = { to: window.spaBase + "/out-patient/search" };
     const { t } = useTranslation();
     const [mobilities, setMobilities] = useState({ question: "", answers: [] });
@@ -131,6 +56,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
 
     useEffect(() => {
         const initialValue = () => {
+
             getSynchronizedCurrentUser({ includeAuthStatus: true }).subscribe(async user => {
                 await fetchConceptByUuid(getConceptById("mobility", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
                     setMobilities({ question: res.data.display, answers: res.data.answers });
@@ -141,6 +67,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                 await fetchConceptByUuid(getConceptById("trauma", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
                     setTraumas({ question: res.data.display, answers: res.data.answers });
                 })
+
 
             })
         }
@@ -159,6 +86,59 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
         trauma: Yup.object().required("Ce champ ne peu pas etre vide"),
     });
 
+    useEffect(() => {
+        formatPatientForCard(visit.patient).then((p) => {
+            console.log("visit patient", p);
+            setPatient(p);
+        });
+
+        getObsInEncounters(visit.encounters).then(
+            res => {
+                let valFC = [];
+                let valTemp = [];
+                let valTA = [];
+                res.map(val => {
+                    if (val.question == getConceptById("cardiacFrequency", form).question) {
+                        valFC.push({
+                            "group": "F-cardiaque",
+                            "date": val.date,
+                            "value": val.answers,
+                        })
+                    } else if (val.question == getConceptById("respiratoryRate", form).question) {
+                        valFC.push({
+                            "group": "F-respiratoire",
+                            "date": val.date,
+                            "value": val.answers,
+                        })
+                    } else if (val.question == getConceptById("temp", form).question) {
+                        valTemp.push({
+                            "group": "Temp",
+                            "date": val.date,
+                            "value": val.answers,
+                        })
+                    }
+                    else if (val.question == getConceptById("taSystole", form).question) {
+                        valTA.push({
+                            "group": "TA Systole",
+                            "date": val.date,
+                            "value": val.answers,
+                        })
+                    }
+                    else if (val.question == getConceptById("taDiastole", form).question) {
+                        valTA.push({
+                            "group": "TA Diastole",
+                            "date": val.date,
+                            "value": val.answers,
+                        })
+                    }
+                })
+                setDataFC([...dataFC, ...valFC])
+                setDataTemp([...dataTemp, ...valTemp]);
+                setDataTA([...dataTA, ...valTA]);
+
+            }
+        )
+    }, [])
     const getField = (id, form, values) => {
         switch (id) {
             case "mobility":
@@ -220,6 +200,9 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                 return (
                     <Form name="form" className={styles.cardForm} onSubmit={handleSubmit}>
                         <Grid fullWidth={true} className={styles.p0}>
+                            <Row className={styles.card}>
+                                { patient !== null &&<PatientCard patient={patient} userRole={undefined} />}
+                            </Row>
                             <Row className={styles.pr}>
                                 <Column sm={12} md={12} lg={3}>
                                     {FieldVitalForm("mobility", mobilities)}
@@ -232,9 +215,9 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                     {FieldVitalForm("trauma", traumas)}
                                 </Column>
                                 <Column className={styles.secondColStyle} sm={12} md={12} lg={9}>
-                                    <ChartVitalSigns data={state.data} options={state.options} title={'FR/FC'} />
-                                    <ChartVitalSigns data={state.data} options={state.options} title={'TA'} />
-                                    <ChartVitalSigns data={state.data} options={state.options} title={'Temp'} />
+                                    <ChartVitalSigns data={dataFC} options={options} title={'FR/FC'} />
+                                    <ChartVitalSigns data={dataTA} options={options} title={'TA'} />
+                                    <ChartVitalSigns data={dataTemp} options={options} title={'Temp'} />
                                 </Column>
                             </Row>
 

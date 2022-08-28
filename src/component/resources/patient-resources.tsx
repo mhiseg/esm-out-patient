@@ -388,6 +388,27 @@ export async function getPatientByQuery(query) {
       method: "GET",
     }
   );
+  if (searchResult && searchResult?.data.results) {
+    patients = Promise.all(
+      searchResult?.data.results.filter(r => r?.uuid !== undefined).map(async function (item) {
+        return formatPatientForCard(item)
+      })
+    );
+  }
+  return patients;
+}
+
+export async function getPatientByUuid(uuid: string) {
+  return openmrsFetch(
+    `${BASE_WS_API_URL}patient/${uuid}?v=full&includeDead=true`,
+    {
+      method: "GET",
+    }
+  );
+}
+
+export async function formatPatientForCard(patient) {
+  console.log(patient,'===============');
 
   function checkUndefined(value) {
     return value !== null && value !== undefined ? value : "";
@@ -411,86 +432,80 @@ export async function getPatientByQuery(query) {
     let residenceCountry = checkUndefined(country) !== "" ? country : "";
     return residenceAddress + residenceVillage + residenceCountry;
   };
-  if (searchResult &&  searchResult?.data.results) {
-    patients = Promise.all(
-      searchResult?.data.results.filter(r=> r?.uuid !== undefined).map(async function (item) {
-        const relationships = await openmrsFetch(
-          `${BASE_WS_API_URL}relationship?v=full&person=${item?.uuid}`,
-          {
-            method: "GET",
-          }
-        );
-        const allConcept = await fetchObsByPatientAndEncounterType(
-          item?.uuid,
-          encounterTypeCheckIn
-        );
-        const attributs = formatAttribute(
-          relationships?.data?.results?.[0]?.personB?.attributes
-        );
-        const personAttributes = formatAttribute(item?.person?.attributes);
-        const identifiers = formatAttribute(item?.identifiers);
-        const visit = item?.uuid ? await getVisitsByPatientBetweenVisiDate(item?.uuid, today) : undefined;
-        return {
-          id: item?.uuid,
 
-          identify: identifiers?.find(
-            (identifier) => identifier.type == "CIN" || identifier.type == "NIF"
-          )?.value,
+  const relationships = await openmrsFetch(
+    `${BASE_WS_API_URL}relationship?v=full&person=${patient?.uuid}`,
+    {
+      method: "GET",
+    }
+  );
+  const allConcept = await fetchObsByPatientAndEncounterType(
+    patient?.uuid,
+    encounterTypeCheckIn
+  );
+  const attributs = formatAttribute(
+    relationships?.data?.results?.[0]?.personB?.attributes
+  );
+  const personAttributes = formatAttribute(patient?.person?.attributes);
+  const identifiers = formatAttribute(patient?.identifiers);
+  const visit = patient?.uuid ? await getVisitsByPatientBetweenVisiDate(patient?.uuid, today) : undefined;
+  return {
+    id: patient?.uuid,
 
-          No_dossier: item?.identifiers?.[0]?.identifier,
+    identify: identifiers?.find(
+      (identifier) => identifier.type == "CIN" || identifier.type == "NIF"
+    )?.value,
 
-          firstName: item?.person?.names?.[0]?.familyName,
+    No_dossier: patient?.identifiers?.[0]?.identifier,
 
-          lastName: item?.person?.names?.[0]?.givenName,
+    firstName: patient?.person?.names?.[0]?.familyName,
 
-          birth: item?.person?.birthdate?.split("T")?.[0],
+    lastName: patient?.person?.names?.[0]?.givenName,
 
-          residence: formatResidence(
-            checkUndefined(item?.person?.addresses?.[0]?.display),
-            checkUndefined(item?.person?.addresses?.[0]?.cityVillage),
-            checkUndefined(item?.person?.addresses?.[0]?.country)
-          ),
+    birth: patient?.person?.birthdate?.split("T")?.[0],
 
-          habitat: formatConcept(allConcept, habitatConcept)?.answers?.display,
+    residence: formatResidence(
+      checkUndefined(patient?.person?.addresses?.[0]?.display),
+      checkUndefined(patient?.person?.addresses?.[0]?.cityVillage),
+      checkUndefined(patient?.person?.addresses?.[0]?.country)
+    ),
 
-          phoneNumber: personAttributes?.find(
-            (attribute) => attribute.type == "Telephone Number"
-          )?.value,
+    habitat: formatConcept(allConcept, habitatConcept)?.answers?.display,
 
-          gender: item?.person?.gender,
+    phoneNumber: personAttributes?.find(
+      (attribute) => attribute.type == "Telephone Number"
+    )?.value,
 
-          birthplace: personAttributes?.find(
-            (attribute) => attribute.type == "Birthplace"
-          )?.value,
+    gender: patient?.person?.gender,
 
-          dead: item?.person?.dead,
+    birthplace: personAttributes?.find(
+      (attribute) => attribute.type == "Birthplace"
+    )?.value,
 
-          occupation: formatConcept(allConcept, occupationConcept)?.answers?.display,
+    dead: patient?.person?.dead,
 
-          matrimonial: formatConcept(allConcept, maritalStatusConcept)?.answers?.display,
+    occupation: formatConcept(allConcept, occupationConcept)?.answers?.display,
 
-          deathDate: item?.person?.deathDate,
+    matrimonial: formatConcept(allConcept, maritalStatusConcept)?.answers?.display,
 
-          currentVisit: isCurrentVisit(visit?.data?.results[0], today),
+    deathDate: patient?.person?.deathDate,
 
-          valided: formatValided(
-            identifiers?.find(
-              (identifier) => identifier.type == "Death Validated"
-            )?.value
-          ),
+    currentVisit: isCurrentVisit(visit?.data?.results[0], today),
 
-          relationship: [
-            relationships?.data?.results?.[0]?.personB?.display,
-            relationships?.data?.results?.[0]?.relationshipType?.aIsToB,
-            attributs?.map((attribut) =>
-              attribut.type == "Telephone Number" ? attribut.value : ""
-            ),
-          ],
-        };
-      })
-    );
-  }
-  return patients;
+    valided: formatValided(
+      identifiers?.find(
+        (identifier) => identifier.type == "Death Validated"
+      )?.value
+    ),
+
+    relationship: [
+      relationships?.data?.results?.[0]?.personB?.display,
+      relationships?.data?.results?.[0]?.relationshipType?.aIsToB,
+      attributs?.map((attribut) =>
+        attribut.type == "Telephone Number" ? attribut.value : ""
+      ),
+    ],
+  };
 }
 
 

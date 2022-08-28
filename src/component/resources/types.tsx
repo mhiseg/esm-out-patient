@@ -107,6 +107,7 @@ export type Encounter = {
   location?: string;
   uuid?: string;
   displays?: string;
+  obs?: Concept[];
 }
 
 export interface ConceptResponse {

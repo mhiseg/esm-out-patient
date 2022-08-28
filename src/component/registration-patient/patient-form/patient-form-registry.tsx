@@ -11,8 +11,8 @@ import { PatientRegistrationContext } from "./patient-registration-context";
 import { dob, validateRelationShips, validateId } from "./validation/validation-utils";
 import { formatCin, formatNif } from "./input/custom-input/idenfiersInput/id-utils";
 import { cinUuid, maritalStatusConcept, uuidBirthPlace, occupationConcept, uuidPhoneNumber, habitatConcept, uuidIdentifier, uuidIdentifierLocation, countryName, sourceUuid } from "../../resources/constants";
-import { formatAddress, savePatient, saveAllRelationships, saveAllConcepts, generateIdentifier, fetchAllLocation, formatConcept } from "../../resources/patient-resources";
-import { formAddres } from "../../resources/resources";
+import { formatAddress, savePatient, saveAllRelationships, generateIdentifier, fetchAllLocation, formatConcept } from "../../resources/patient-resources";
+import { formAddres, saveAllObs } from "../../resources/resources";
 import { Patient, relationshipType, Obs, Address } from "../../resources/types";
 
 export interface PatientProps {
@@ -41,15 +41,15 @@ export const PatientFormRegistry: React.FC<PatientProps> = ({ patient, relations
             identifierUuid: patient?.identifiers[1]?.uuid || "",
             givenName: patient?.person?.names[0]?.givenName,
             dob: { birthdate: patient?.person?.birthdate, age: patient?.person?.age },
-            status: formatConcept(obs, maritalStatusConcept) ||  { concept: maritalStatusConcept },
+            status: formatConcept(obs, maritalStatusConcept) || { question: maritalStatusConcept, answers: undefined },
             gender: patient?.person?.gender,
             birthPlace: formAddres(patient?.person?.attributes.find((attribute) => attribute?.attributeType?.uuid == uuidBirthPlace)?.value) || "",
             identifier: format(patient?.identifiers[1]?.identifierType?.uuid, patient?.identifiers[1]?.identifier),
             familyName: patient?.person?.names[0]?.familyName,
-            occupation: formatConcept(obs,occupationConcept) || { concept: occupationConcept },
+            occupation: formatConcept(obs, occupationConcept) || { question: occupationConcept, answers: undefined },
             residence: patient?.person?.addresses[0] || "",
             phone: patient?.person?.attributes.find((attribute) => attribute.attributeType.uuid == uuidPhoneNumber)?.value || "",
-            habitat: formatConcept(obs, habitatConcept)  || { concept: habitatConcept },
+            habitat: formatConcept(obs, habitatConcept) || { question: habitatConcept, answers: undefined },
             patient: patient,
         }
     }
@@ -57,7 +57,7 @@ export const PatientFormRegistry: React.FC<PatientProps> = ({ patient, relations
     const [initialV, setInitialV] = useState(formatInialValue(patient, obs));
 
     useEffect(() => {
-        const unsubscribe =  fetchAllLocation().then(res => setPlaces(res))        
+        const unsubscribe = fetchAllLocation().then(res => setPlaces(res))
         return () => { unsubscribe }
     }, [])
 
@@ -154,7 +154,7 @@ export const PatientFormRegistry: React.FC<PatientProps> = ({ patient, relations
                 const relationships: relationshipType[] = values.relationships.filter(relationship => (relationship.givenName || relationship.relationUuid));
                 if (relationships.length > 0)
                     await saveAllRelationships(relationships, person, abortController)
-                await saveAllConcepts(concepts, person, abortController, values.encounterUuid)
+                await saveAllObs(concepts, person, abortController, values.encounterUuid, true)
                 showToast({
                     title: t('successfullyAdded', 'Successfully added'),
                     kind: 'success',

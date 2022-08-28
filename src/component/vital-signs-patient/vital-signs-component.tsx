@@ -20,15 +20,15 @@ const VitalSignsComponent: React.FC = () => {
       navigate(to);
   }
 
-  const getFormVisit = () => {
+  const getFormVisit = (vist) => {
     toSearchPatient(visitData)
     return <>
       <h4 className={'title-page'}>{t("Vitalsigns")}</h4>
       <div className={styles.main}>
-        <VitalSignsForm />
+        <VitalSignsForm visit={vist} />
       </div>
     </>
   }
-  return <> {isLoadingVisit === false && getFormVisit()} </>
+  return <> {isLoadingVisit === false && getFormVisit(visitData)} </>
 }
 export default VitalSignsComponent;

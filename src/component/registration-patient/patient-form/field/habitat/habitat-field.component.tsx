@@ -35,8 +35,8 @@ export const HabitatField: React.FC<HabitatProps> = ({className}) => {
         labelPosition="right"
         legendText={question}
         name="habitat"
-        valueSelected={field?.value?.value?.uuid || field?.value?.value}
-        onChange={ (e) => setValue({...field.value, value: e})} 
+        valueSelected={field?.value?.answers?.uuid || field?.value?.answers}
+        onChange={ (e) => setValue({...field.value, answers: e})} 
       >
         {answers.map((answer)=>{
           return <RadioButton labelText={answer.display} value={answer.uuid} id={answer.display} />

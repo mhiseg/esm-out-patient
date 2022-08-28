@@ -1,17 +1,17 @@
 import React from 'react';
 import { CardiacFrequencyField } from './cardiac-frequency/cardiac-frequency-field-component';
 import { DiastoleField } from './diastole/diastole-field-component';
-import { FrequencyRateField } from './frespiratory-rate/frequency-rate-component';
+import { FrequencyRateField } from './respiratory-rate/frequency-rate-component';
 import { MobilityField } from './mobility/mobility-field-component';
 import { NeuroField } from './neuro/neuro-field-component';
 import { SystoleField } from './systole/systole-field-component';
 import { TemperatureField } from './temperature/temperature-field-component';
 import { TraumaField } from './trauma/trauma-field-component';
 
-const VitalForm = (name: string) => {
+const VitalForm = (name: string, value?) => {
   switch (name) {
     case 'mobility':
-      return <MobilityField/>;
+      return <MobilityField value={value}/>;
     case 'respiratoryRate':
       return <FrequencyRateField required={true}/>
     case 'cardiacFrequency':
@@ -21,11 +21,11 @@ const VitalForm = (name: string) => {
     case 'diastole':
       return <DiastoleField required={true}/>
     case 'neuro':
-      return <NeuroField />
+      return <NeuroField value={value} />
     case 'temperature':
       return <TemperatureField required={true}/>
     case 'trauma':
-      return <TraumaField />
+      return <TraumaField  value={value}/>
     default:
       return null
   }

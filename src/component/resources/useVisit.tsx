@@ -1,6 +1,9 @@
 import { Visit, getStartedVisit, getVisitsForPatient, VisitMode, VisitStatus } from "@openmrs/esm-framework";
 import { useState, useEffect, useReducer } from "react";
-import { getVisitByUuid } from "./form-resource";
+import { dispatch } from "rxjs/internal/observable/pairs";
+import { encounterVitalSign } from "./constants";
+import { getDateWithMonthOlder, getVisitByUuid } from "./form-resource";
+import { getEncounterByPatientAndEncounterType, getEncounterByPatientAndEncounterTypeAndStartDate, toDay, today } from "./resources";
 export type NullableVisit = Visit | null;
 // export type NullablePatient =  | null;
 
@@ -108,10 +111,11 @@ export function useVisit(visitUuid: string) {
     let active = true;
     if (state.isLoadingVisit && state.visitUuid) {
       getVisitByUuid(visitUuid).subscribe(
-        ({ data }) => {
+        async ({ data }) => {
+          const encounters = await getEncounterByPatientAndEncounterTypeAndStartDate(data.patient.uuid, encounterVitalSign,  getDateWithMonthOlder(new Date(),6) );
           active &&
             dispatch({
-              visit: data,
+              visit: {...data, encounters: encounters.data.results},
               type: ActionTypes.newVisit,
             })
         },

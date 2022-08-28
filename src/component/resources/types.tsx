@@ -96,8 +96,8 @@ export type Obs = {
   obsDatetime?: string;
   encounter?: Encounter | string;
   location?: string;
-  concept?: string ;
-  value?: string | any;
+  question?: string ;
+  answers?: string | Object | any[];
 }
 
 export type Encounter = {

@@ -1,0 +1,56 @@
+{
+    "title": "vital signs",
+    "fields": [
+        {
+            "id": "mobility",
+            "uuid": "",
+            "question": "efafb3bf-b4a5-4ebd-8e8d-2a5004455d0e",
+            "answers": ""
+        },
+        {
+            "id": "respiratoryRate",
+            "uuid": "",
+            "question": "5242AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "answers": ""
+        },
+        {
+            "id": "cardiacFrequency",
+            "uuid": "",
+            "question": "71919059-ee9c-4683-92f4-d8da61769a48",
+            "answers": ""
+        },
+        {
+            "id": "taSystole",
+            "uuid": "",
+            "question": "5085AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "answers": ""
+        },
+        {
+            "id": "taDiastole",
+            "uuid": "",
+            "question": "5086AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "answers": ""
+        },
+        {
+            "id": "temp",
+            "uuid": "",
+            "question": "2dff9d44-daac-4e89-9a50-f6eaac58029b",
+            "answers": ""
+        },
+        {
+            "id": "neuro",
+            "uuid": "",
+            "question": "ef238621-5a5b-4d9b-951c-1acf79e28738",
+            "answers": ""
+        },
+        {
+            "id": "trauma",
+            "uuid": "",
+            "question": "a024ac12-a5cd-4958-b198-f65f88de4a14",
+            "answers": ""
+        }
+        
+    ],
+    "version": "0.0.1",
+    "author": "mhiseg"
+}

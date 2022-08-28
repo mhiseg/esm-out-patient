@@ -14,9 +14,9 @@ import FormatCardCell from "./patient-cardCell";
 import RelationShipCard from "../relationShipCard/relationShiphCard";
 import { navigate, NavigateOptions, showToast } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
-import { facilityVisit } from "../constant";
-import { startVisit } from "../../resources/form-resource";
 import { Profiles } from "../../resources/types";
+import { saveVisit } from "../../resources/form-resource";
+import { facilityVisitType } from "../../resources/constants";
 
 const PatientCard = ({ patient, userRole }) => {
   const [activeVisit, setActiveVisit] = useState(patient?.currentVisit);
@@ -27,7 +27,7 @@ const PatientCard = ({ patient, userRole }) => {
   const formatPhoneNumber = (phoneNumberString) => (phoneNumberString?.replace(/\D/g, "").match(/.{1,4}/g)?.join("-").substr(0, 9) || "");
 
   const newVisit = () => {
-    startVisit(facilityVisit, patient.id, AbortController).then(async (v) => {
+    saveVisit({visitType:facilityVisitType, patient: patient.id}, new AbortController()).then(async (v) => {
       showToast({
         title: t('successfullyAdded', 'Dossier declasseé avec succes'),
         kind: 'success',
@@ -37,6 +37,7 @@ const PatientCard = ({ patient, userRole }) => {
     })
       .catch(error => {
         showToast({ description: error.message })
+        console.error(error);
       });
   }
 

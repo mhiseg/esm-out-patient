@@ -11,32 +11,19 @@ interface InputProps {
   placeholder?: string;
   required?: boolean;
   className?: string;
-  value?: string;
+  value: any;
 }
 
-export const MobilityField: React.FC<InputProps> = (props) => {
+export const MobilityField: React.FC<InputProps> = ({value}) => {
   const { t } = useTranslation();
-  const [answers, setAnswers] = useState([])
-  const [question, setQuestion] = useState("");
 
-  useEffect(() => {
-    const currentUserSub = getSynchronizedCurrentUser({ includeAuthStatus: true }).subscribe(async user => {
-      await fetchConceptByUuid(mobilityConcept, localStorage.getItem("i18nextLng")).then(res => {
-        setAnswers(getConceptAnswer(res.data,setQuestion))
-      })
-    });
-
-    return () => {
-      currentUserSub;
-    };
-  }, []);
 
   return (
     <>
       <div className={styles.mobility}>
         <SelectCustomObs
-          options={[...answers]}
-          label={t('Select') + ' ' + question}
+          options={[...value.answers]}
+          label={t('Select') + ' ' + value.question}
           name="mobility"
         />
       </div>

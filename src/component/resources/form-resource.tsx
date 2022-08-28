@@ -12,39 +12,42 @@ export function getVisitsByPatientBetweenVisiDate(patientUuid, visitDate) {
   return openmrsFetch(`${BASE_WS_API_URL}visit?patient=${patientUuid}&fromStartDate=${visitDate}&v=full&limit=1`)
 }
 
-export async function startVisit(visitType, patientUuid, abortController) {
-  return openmrsFetch(`${BASE_WS_API_URL}visit`,
+export async function saveVisit(visit, abortController: AbortController, uuid?: string) {
+  return openmrsFetch(`${BASE_WS_API_URL}visit/${uuid ? uuid : ""}`,
     {
       method: 'POST',
-      body: {
-        "patient": patientUuid,
-        "visitType": visitType
-      },
+      body: visit,
       headers: { 'Content-Type': 'application/json' },
       signal: abortController.signal
     });
 }
 
+
 export function getVisitByUuid(
   visitUuid: string,
 ): Observable<FetchResponse<Visit>> {
-  
+
 
   return openmrsObservableFetch(
-      `${BASE_WS_API_URL}visit/${visitUuid}?v=full`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-        },
-      }
-    )
+    `${BASE_WS_API_URL}visit/${visitUuid}?v=full`,
+    {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+      },
+    }
+  )
     .pipe(take(1))
     .pipe(
       map((response: FetchResponse<Visit>) => {
         return response;
       })
     );
+}
+
+export const getDateWithMonthOlder = (date: Date, months: number): Date =>{
+  date.setMonth(date.getMonth() - months)
+  return date;
 }
 
 export async function getCurrentUserRoleSession() {

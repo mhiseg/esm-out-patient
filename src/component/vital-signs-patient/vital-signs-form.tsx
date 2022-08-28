@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./vital-signs.scss"
 import * as Yup from 'yup';
-import { Formik } from "formik";
+import { Field, Formik } from "formik";
 import { Grid, Row, Column, Button, Form } from "carbon-components-react";
 import { useTranslation } from "react-i18next";
-import { navigate, NavigateOptions, Visit } from "@openmrs/esm-framework";
+import { navigate, NavigateOptions, showToast, Visit } from "@openmrs/esm-framework";
 import ChartVitalSigns from "./form/chart/chart-field-component";
 import FieldVitalForm from "./form/field/vital-signs-field-component";
-
+import { getSynchronizedCurrentUser } from "../resources/patient-resources";
 export interface VisitProps {
     visit?: Visit;
 }
+
+import form from "../resources/vital-sign.json";
+import { fetchConceptByUuid, getConceptAnswer, saveAllObs, saveEncounter, toDay } from "../resources/resources";
+import { encounterVitalSign, unknowLocation } from "../resources/constants";
+import { saveVisit } from "../resources/form-resource";
 
 export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     let state = {
@@ -107,7 +112,10 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     };
     const toSearch: NavigateOptions = { to: window.spaBase + "/out-patient/search" };
     const { t } = useTranslation();
-
+    const [mobilities, setMobilities] = useState({ question: "", answers: [] });
+    const [neuros, setNeuros] = useState({ question: "", answers: [] });
+    const [traumas, setTraumas] = useState({ question: "", answers: [] });
+    const abortController = new AbortController();
     const formatInialValue = (visit) => {
         return {
             mobility: "",
@@ -120,6 +128,25 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
             trauma: "",
         }
     }
+    const getConceptById = (id: string, f) => f.fields.find(field => field.id === id)
+
+    useEffect(() => {
+        const initialValue = () => {
+            getSynchronizedCurrentUser({ includeAuthStatus: true }).subscribe(async user => {
+                await fetchConceptByUuid(getConceptById("mobility", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
+                    setMobilities({ question: res.data.display, answers: res.data.answers });
+                })
+                await fetchConceptByUuid(getConceptById("neuro", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
+                    setNeuros({ question: res.data.display, answers: res.data.answers });
+                })
+                await fetchConceptByUuid(getConceptById("trauma", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
+                    setTraumas({ question: res.data.display, answers: res.data.answers });
+                })
+
+            })
+        }
+        return initialValue();
+    }, [])
 
     const [initialV, setInitialV] = useState(formatInialValue(visit));
     const vitalSchema = Yup.object().shape({
@@ -133,6 +160,45 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
         trauma: Yup.object().required("Ce champ ne peu pas etre vide"),
     });
 
+    const getField = (id, form, values) => {
+        switch (id) {
+            case "mobility":
+                return { question: form.fields.find(field => field.id == id).question, answers: values.mobility.answers };
+            case "respiratoryRate":
+                return { question: form.fields.find(field => field.id == id).question, answers: values.respiratoryRate };
+            case "cardiacFrequency":
+                return { question: form.fields.find(field => field.id == id).question, answers: values.cardiacFrequency };
+            case "taSystole":
+                return { question: form.fields.find(field => field.id == id).question, answers: values.taSystole };
+            case "taDiastole":
+                return { question: form.fields.find(field => field.id == id).question, answers: values.taDiastole };
+            case "temp":
+                return { question: form.fields.find(field => field.id == id).question, answers: values.temp };
+            case "neuro":
+                return { question: form.fields.find(field => field.id == id).question, answers: values.neuro.answers };
+            case "trauma":
+                return { question: form.fields.find(field => field.id == id).question, answers: values.trauma.answers };
+        }
+    }
+
+    const save = async (values) => {
+        const obs = Object.keys(values).map(value => getField(value, form, values))
+        try {
+            saveEncounter({ patient: visit.patient.uuid, encounterDatetime: toDay(), encounterType: encounterVitalSign, location: unknowLocation }, abortController).then(async (encounter) => {
+                await saveAllObs(obs, visit.patient.uuid, abortController, encounter.data.uuid);
+                await saveVisit({ encounters: [...visit.encounters, encounter.data.uuid] }, abortController, visit.uuid);
+                showToast({
+                    title: t('successfullyAdded', 'Successfully added'),
+                    kind: 'success',
+                    description: 'Patient save succesfully',
+                })
+            })
+
+        } catch (err) {
+            showToast({ description: err.message })
+        }
+    }
+
     return (
         <Formik
             enableReinitialize
@@ -140,8 +206,8 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
             validationSchema={vitalSchema}
             onSubmit={
                 (values, { setSubmitting }) => {
-                    console.log(values);
-                    // setSubmitting(false)
+                    setSubmitting(true)
+                    save(values)
                 }
             }
         >
@@ -157,14 +223,14 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                         <Grid fullWidth={true} className={styles.p0}>
                             <Row className={styles.pr}>
                                 <Column sm={12} md={12} lg={3}>
-                                    {FieldVitalForm("mobility")}
+                                    {FieldVitalForm("mobility", mobilities)}
                                     {FieldVitalForm("respiratoryRate")}
                                     {FieldVitalForm("cardiacFrequency")}
                                     {FieldVitalForm("systole")}
                                     {FieldVitalForm("diastole")}
                                     {FieldVitalForm("temperature")}
-                                    {FieldVitalForm("neuro")}
-                                    {FieldVitalForm("trauma")}
+                                    {FieldVitalForm("neuro", neuros)}
+                                    {FieldVitalForm("trauma", traumas)}
                                 </Column>
                                 <Column className={styles.secondColStyle} sm={12} md={12} lg={9}>
                                     <ChartVitalSigns data={state.data} options={state.options} title={'FR/FC'} />

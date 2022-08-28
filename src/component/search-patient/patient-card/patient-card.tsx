@@ -47,8 +47,7 @@ const PatientCard = ({ patient, userRole }) => {
     else
       return `${styles.cardBox}`
   }
-
-  return (
+  return ( userRole !== undefined?
     <Tile className={containerClass()} light={true} onClick={(e) => { userRole !== Profiles.ARCHIVIST && activeVisit ?navigate(toAddSignVital) : "" }} >
       <Grid className={styles.pm0} fullWidth={true}>
         <Row className={styles.pm0}>
@@ -177,7 +176,105 @@ const PatientCard = ({ patient, userRole }) => {
           </Column>
         </Row>
       </Grid>
-    </Tile>
+    </Tile>:
+    <Tile className={styles.cardBox} light={true}  >
+    <Grid className={styles.pm0} fullWidth={true}>
+      <Row className={styles.pm0}>
+        <Column className={styles.pm0}>
+          <Grid className={styles.pm0} fullWidth={true}>
+            <Column className={styles.paddingH} lg={12}>
+              <Row className={styles.borderBottom}>
+                <Column className={styles.pm0} lg={6}>
+                  <h1 className={styles.name}>
+                    {patient.gender == "F" ? (
+                      <Icon
+                        icon="emojione-monotone:woman"
+                        className={styles.iconHead}
+                      />
+                    ) : null}
+                    {patient.gender == "M" ? (
+                      <Icon
+                        icon="emojione-monotone:man"
+                        className={styles.iconHead}
+                      />
+                    ) : null}
+                    {patient.firstName + ","} {patient.lastName}
+                  </h1>
+                </Column>
+                <Column className={styles.pm0} lg={6}>
+                  <h3 className={`${styles.noDossierStyle} ${styles.name}`}>
+                    <Icon
+                      icon="fluent:folder-open-20-regular"
+                      className={styles.iconFolder}
+                    />
+                    {patient.No_dossier}
+                  </h3>                  
+                </Column>
+              </Row>
+            </Column>
+            <Row>
+              <Column lg={4}>
+                <FormatCardCell
+                  icon="cil:calendar"
+                  label={patient.birth}
+                />
+
+                <FormatCardCell
+                  icon="ion:home-outline"
+                  label={patient.residence}
+                />
+                <FormatCardCell
+                  icon="healthicons:city-outline"
+                  label={patient.habitat}
+                />
+              </Column>
+
+              <Column lg={3}>
+                <FormatCardCell
+                  icon="teenyicons:id-outline"
+                  label={patient.identify}
+                />
+
+                <FormatCardCell
+                  icon="carbon:user-multiple"
+                  label={patient.matrimonial}
+                />
+
+                <FormatCardCell
+                  icon="ic:baseline-work-outline"
+                  label={patient.occupation}
+                />
+              </Column>
+
+              <Column lg={5}>
+                <FormatCardCell
+                  icon="carbon:phone"
+                  label={"(+509) "+ formatPhoneNumber(patient.phoneNumber) || ""}
+                />
+                <FormatCardCell
+                  icon="bytesize:location"
+                  label={patient.birthplace}
+                />
+                <FormatCardCell
+                  icon="akar-icons:link-chain"
+                  label={
+                    patient.relationship[0] != "" &&
+                      patient.relationship[0] != null ? (
+                      <RelationShipCard
+                        relationshipName={patient.relationship[0]}
+                        relationshipType={patient.relationship[1]}
+                        relationshipPhone={"(+509) "+ formatPhoneNumber(patient.relationship[2].toString()) || ""}
+                      />
+                    ) : null
+                  }
+                />
+              </Column>
+            </Row>
+          </Grid>
+        </Column>
+      </Row>
+    </Grid>
+  </Tile>
   );
 };
 export default PatientCard;

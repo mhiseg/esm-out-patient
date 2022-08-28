@@ -16,11 +16,15 @@
     background: #FFFFFF;
     border-radius: 10px;
 }
-
+.card{
+    width: auto;
+    margin: auto;
+}
 .secondColStyle {
     padding: 1rem;
     border: 1px solid #5050504d;
     border-radius: 1%;
+    max-height: 41.2em;
 }
 
 .buttonStyle {
@@ -104,4 +108,8 @@
    padding-bottom: 1rem;
 }
 
+.chart{
+    //width: 200px;
+    max-height: 150px;
+}
 

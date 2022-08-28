@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { LineChart } from "@carbon/charts-react";
-// import "@carbon/charts/styles.css";
+import "@carbon/charts/styles.css";
 import styles from './chart.scss';
 import { Button, Column, Row } from "carbon-components-react";
 

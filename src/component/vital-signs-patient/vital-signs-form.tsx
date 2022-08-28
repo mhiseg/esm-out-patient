@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./vital-signs.scss"
 import * as Yup from 'yup';
-import { Field, Formik } from "formik";
+import { Formik } from "formik";
 import { Grid, Row, Column, Button, Form } from "carbon-components-react";
 import { useTranslation } from "react-i18next";
 import { navigate, NavigateOptions, showToast, Visit } from "@openmrs/esm-framework";
@@ -13,7 +13,7 @@ export interface VisitProps {
 }
 
 import form from "../resources/vital-sign.json";
-import { fetchConceptByUuid, getConceptAnswer, getObsInEncounters, saveAllObs, saveEncounter, toDay } from "../resources/resources";
+import { fetchConceptByUuid, getLastEncountersByPatientAndEncounterType, getObsInEncounters, saveAllObs, saveEncounter, toDay } from "../resources/resources";
 import { encounterVitalSign, unknowLocation } from "../resources/constants";
 import { saveVisit } from "../resources/form-resource";
 import PatientCard from "../search-patient/patient-card/patient-card";
@@ -23,6 +23,9 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     const [dataTemp, setDataTemp] = useState([]);
     const [dataTA, setDataTA] = useState([]);
     const [patient, setPatient] = useState(null);
+    const [refresh, setRefresh] = useState(false);
+    const [lastEncounter, setLastEncounter] = useState();
+
     const options = {
         "light": false,
         "color": { "scale": { "F-respiratoire": "#FB000F", "F-cardiaque": "#07066F", "Temp": "#FB000F", "TA Systole": "#FB000F", "TA Diastole": "#07066F" } },
@@ -33,7 +36,6 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
         "height": "200px",
         "toolbar": { "enabled": false }
     }
-
     const toSearch: NavigateOptions = { to: window.spaBase + "/out-patient/search" };
     const { t } = useTranslation();
     const [mobilities, setMobilities] = useState({ question: "", answers: [] });
@@ -56,7 +58,6 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
 
     useEffect(() => {
         const initialValue = () => {
-
             getSynchronizedCurrentUser({ includeAuthStatus: true }).subscribe(async user => {
                 await fetchConceptByUuid(getConceptById("mobility", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
                     setMobilities({ question: res.data.display, answers: res.data.answers });
@@ -88,7 +89,9 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
 
     useEffect(() => {
         formatPatientForCard(visit.patient).then((p) => setPatient(p));
-
+        getLastEncountersByPatientAndEncounterType(visit.patient.uuid, encounterVitalSign).then((value) => {
+            setLastEncounter(value)
+        });
         getObsInEncounters(visit.encounters).then(
             res => {
                 let valFC = [];
@@ -132,10 +135,9 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                 setDataFC([...dataFC, ...valFC])
                 setDataTemp([...dataTemp, ...valTemp]);
                 setDataTA([...dataTA, ...valTA]);
-
             }
         )
-    }, [])
+    }, [refresh])
     const getField = (id, form, values) => {
         switch (id) {
             case "mobility":
@@ -162,14 +164,13 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
         try {
             saveEncounter({ patient: visit.patient.uuid, encounterDatetime: toDay(), encounterType: encounterVitalSign, location: unknowLocation }, abortController).then(async (encounter) => {
                 await saveAllObs(obs, visit.patient.uuid, abortController, encounter.data.uuid);
-                await saveVisit({ encounters: [...visit.encounters, encounter.data.uuid] }, abortController, visit.uuid);
                 showToast({
                     title: t('successfullyAdded', 'Successfully added'),
                     kind: 'success',
-                    description: 'Patient save succesfully',
+                    description: 'vital signs save succesfully',
                 })
+             setRefresh(true);
             })
-
         } catch (err) {
             showToast({ description: err.message })
         }
@@ -190,7 +191,6 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
             {(formik) => {
                 const {
                     handleSubmit,
-                    resetForm,
                     isValid,
                     dirty
                 } = formik;

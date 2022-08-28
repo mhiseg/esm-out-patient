@@ -68,6 +68,16 @@ export async function getEncounterByPatientAndEncounterTypeAndStartDate(patient:
   return openmrsFetch(`${BASE_WS_API_URL}encounter?patient=${patient}&encounterType=${encounterType}&fromdate=${date.toISOString()}&v=full`, { method: 'GET' });
 }
 
+export async function getEncountersByPatientAndEncounterTypeAndLimit(patient: string, encounterType: string, limit: number) {
+  return openmrsFetch(`${BASE_WS_API_URL}encounter?patient=${patient}&encounterType=${encounterType}&limit=${limit}&v=full`, { method: 'GET' });
+}
+
+export async function getLastEncountersByPatientAndEncounterType(patient: string, encounterType: string) {
+  const encounter = await openmrsFetch(`${BASE_WS_API_URL}encounter?patient=${patient}&encounterType=${encounterType}&v=full`, { method: 'GET' });
+  return encounter.data.results[encounter.data.results.length -1];
+}
+
+
 export async function saveObs(person: string, obsDatetime: string, encounter: string, concept: string, value: string | any, abortController: AbortController, uuid?: string) {
   if (uuid)
     return editObs(uuid, value, abortController);
@@ -204,7 +214,7 @@ export function getObs(path: string) {
   );
 }
 
-export async function getObsInEncounters(encounters) {
+export async function getObsInEncounters(encounters: any[]) {
   let values = [];
   await encounters.filter(encounter => encounter.uuid).map(async encounter => {
     encounter.obs.map(obs => {

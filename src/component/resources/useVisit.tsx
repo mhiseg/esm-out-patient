@@ -4,7 +4,7 @@ import { dispatch } from "rxjs/internal/observable/pairs";
 import { encounterVitalSign } from "./constants";
 import { getDateWithMonthOlder, getVisitByUuid } from "./form-resource";
 import { getPatientByUuid } from "./patient-resources";
-import { getEncounterByPatientAndEncounterType, getEncounterByPatientAndEncounterTypeAndStartDate, toDay, today } from "./resources";
+import { getEncounterByPatientAndEncounterType, getEncounterByPatientAndEncounterTypeAndStartDate, getEncountersByPatientAndEncounterTypeAndLimit, toDay, today } from "./resources";
 export type NullableVisit = Visit | null;
 // export type NullablePatient =  | null;
 
@@ -113,7 +113,8 @@ export function useVisit(visitUuid: string) {
     if (state.isLoadingVisit && state.visitUuid) {
       getVisitByUuid(visitUuid).subscribe(
         async ({ data }) => {
-          const encounters = await getEncounterByPatientAndEncounterTypeAndStartDate(data.patient.uuid, encounterVitalSign,  getDateWithMonthOlder(new Date(),6) );
+          // const encounters = await getEncounterByPatientAndEncounterTypeAndStartDate(data.patient.uuid, encounterVitalSign,  getDateWithMonthOlder(new Date(),6) );
+          const encounters = await getEncountersByPatientAndEncounterTypeAndLimit(data.patient.uuid, encounterVitalSign, 10 );
           const patient = await getPatientByUuid(data.patient.uuid);
           active &&
             dispatch({

@@ -87,10 +87,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     });
 
     useEffect(() => {
-        formatPatientForCard(visit.patient).then((p) => {
-            console.log("visit patient", p);
-            setPatient(p);
-        });
+        formatPatientForCard(visit.patient).then((p) => setPatient(p));
 
         getObsInEncounters(visit.encounters).then(
             res => {
@@ -201,7 +198,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                     <Form name="form" className={styles.cardForm} onSubmit={handleSubmit}>
                         <Grid fullWidth={true} className={styles.p0}>
                             <Row className={styles.card}>
-                                { patient !== null &&<PatientCard patient={patient} userRole={undefined} />}
+                                {patient !== null && <PatientCard patient={patient} userRole={undefined} />}
                             </Row>
                             <Row className={styles.pr}>
                                 <Column sm={12} md={12} lg={3}>

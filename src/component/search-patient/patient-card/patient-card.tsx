@@ -47,9 +47,6 @@ const PatientCard = ({ patient, userRole }) => {
     else
       return `${styles.cardBox}`
   }
-  
-  console.log(userRole,'=========',patient);
-
   return ( userRole !== undefined?
     <Tile className={containerClass()} light={true} onClick={(e) => { userRole !== Profiles.ARCHIVIST && activeVisit ?navigate(toAddSignVital) : "" }} >
       <Grid className={styles.pm0} fullWidth={true}>

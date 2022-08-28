@@ -408,8 +408,6 @@ export async function getPatientByUuid(uuid: string) {
 }
 
 export async function formatPatientForCard(patient) {
-  console.log(patient,'===============');
-
   function checkUndefined(value) {
     return value !== null && value !== undefined ? value : "";
   }

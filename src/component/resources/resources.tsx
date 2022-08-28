@@ -208,7 +208,6 @@ export async function getObsInEncounters(encounters) {
   let values = [];
   await encounters.filter(encounter => encounter.uuid).map(async encounter => {
     encounter.obs.map(obs => {
-      // console.log(obs);
       values.push({ uuid: obs.uuid, question: obs.concept.uuid, answers: obs.value, date: encounter.encounterDatetime, name: obs.concept.display });
     })
   })

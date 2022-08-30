@@ -14,11 +14,13 @@ export const FrequencyRateField: React.FC<InputProps> = ({ required }) => {
     const { t } = useTranslation();
     let star = "";
     required == true ? star = " *" : star = "";
+    
     return (
-        <>
+        <div className={styles.margin_field} >
+
             <InputObs
                 type="number"
-                className={styles.margin_field}
+                className={styles.font}
                 id="frequenceR"
                 name="respiratoryRate"
                 labelText={""}
@@ -26,7 +28,7 @@ export const FrequencyRateField: React.FC<InputProps> = ({ required }) => {
                 placeholder={t('frequenceR')+ star}
                 hideLabel={true}
             />
-        </>
+        </div>
     );
 };
 

@@ -32,15 +32,15 @@ function setupOpenMRS() {
     ],
     extensions: [
       {
-        id: "Out-patient-link",
-        slot: "app-menu-slot",
-        load: getAsyncLifecycle(
-          () => import("./refapp-links/refapp-links"),
-          options
-        ),
-        
-      }
-    ],
+         id: "out-patient-link",
+         slot: "app-menu-slot",
+         load: getAsyncLifecycle(
+           () => import("./refapp-links/refapp-links"),
+           options
+         ),
+         privilege: "App: out-patient.clinics",
+        }
+     ],
   };
 }
 

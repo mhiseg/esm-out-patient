@@ -18,11 +18,11 @@ export const TemperatureCelcField: React.FC<InputProps> = ({ required }) => {
     const { setValue } = helpers;
 
     return (
-        <>
+        <div className={styles.margin_field}>
             <TextInput
                 {...field}
+                className={styles.font}
                 type="number"
-                className={styles.margin_field}
                 id="temp"
                 name="temp"
                 labelText={""}
@@ -30,9 +30,10 @@ export const TemperatureCelcField: React.FC<InputProps> = ({ required }) => {
                 invalidText={t(meta.error)}
                 placeholder={t('temperature') + ' °C' + star}
                 size="lg"
+                light={true}
             />
            
-        </>
+        </div>
     );
 };
 

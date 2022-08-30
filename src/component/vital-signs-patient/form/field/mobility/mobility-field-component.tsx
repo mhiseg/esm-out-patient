@@ -20,7 +20,7 @@ export const MobilityField: React.FC<InputProps> = ({value}) => {
 
   return (
     <>
-      <div className={styles.margin_field}>
+      <div className={styles.mobility}>
         <SelectCustomObs
           options={[...value.answers]}
           label={t('Select') + ' ' + value.question}

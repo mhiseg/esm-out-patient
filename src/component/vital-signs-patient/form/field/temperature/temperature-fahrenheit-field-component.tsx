@@ -21,7 +21,6 @@ export const TemperatureFahField: React.FC<InputProps> = ({ required, value }) =
 
     useEffect(() => {
         setValue(metaTemp.value);
-        // setFieldValue(fieldTemp.value);
     }, [metaTemp.value]);
 
     return (
@@ -37,7 +36,7 @@ export const TemperatureFahField: React.FC<InputProps> = ({ required, value }) =
                 invalidText={t(meta.error)}
                 size="lg"
                 placeholder={t('temperature') + ' °F' + star}
-
+                light={true}
             />
 
         </>

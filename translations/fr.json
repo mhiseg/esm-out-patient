@@ -3,11 +3,11 @@
   "Vitalsigns":"Signes vitaux",
   "frequenceR": "Fréquence respiratoire",
   "frequenceC": "Fréquence cardiaque",
-  "Select": "selectionne",
+  "Select": "Sélectionne",
   "TaSystole": "TA Systole",
   "TaDiastole": "TA Diastole",
   "neuro":"Neuro",
-  "Temperature":"Temperature",
+  "temperature":"Température",
   "Trauma":"Trauma",
     "birthLabel": "Né(e) le ",
     "Search": "Rechercher un patient...",
@@ -25,5 +25,6 @@
     "trySearchWithPatientUniqueID": "Essayez de rechercher avec le numéro d'identification unique du patient",
     "editPatient":"Editer les informations du patient",
     "local": "fr-FR",
-    "visitLabel":"Visite"
+    "visitLabel":"Visite",
+    "outPatient":"Patient Ambulatoire"
 }

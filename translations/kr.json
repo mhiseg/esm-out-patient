@@ -3,11 +3,11 @@
   "Vitalsigns":"Sin vital yo",
   "frequenceR": "Frekans respiratwa",
   "frequenceC": "Frekans kadiak",
-  "Select": "seleksyone",
+  "Select": "Seleksyone",
   "TaSystole": "TA Systole",
   "TaDiastole": "TA Diastole",
   "neuro":"Neuro",
-  "Temperature":"Tanperatur",
+  "temperature":"Tanperati",
   "Trauma":"Twoma",
     "birthLabel": "Li Fet ",
     "Search": "Cheche on pasyan",
@@ -24,5 +24,7 @@
     "trySearchWithPatientUniqueID": "Eseye cheche ak nimewo pasyan",
     "editPatient":"Modifye enfomasyon sou pasyan",
     "local": "kr-Kr",
-    "visitLabel":"Vizit"
+    "visitLabel":"Vizit",
+    "outPatient":"Pasyan Anbilatwa"
+
 }

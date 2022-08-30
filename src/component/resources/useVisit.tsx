@@ -113,8 +113,8 @@ export function useVisit(visitUuid: string) {
     if (state.isLoadingVisit && state.visitUuid) {
       getVisitByUuid(visitUuid).subscribe(
         async ({ data }) => {
-          // const encounters = await getEncounterByPatientAndEncounterTypeAndStartDate(data.patient.uuid, encounterVitalSign,  getDateWithMonthOlder(new Date(),6) );
-          const encounters = await getEncountersByPatientAndEncounterTypeAndLimit(data.patient.uuid, encounterVitalSign, 10 );
+          const encounters = await getEncounterByPatientAndEncounterTypeAndStartDate(data.patient.uuid, encounterVitalSign,  getDateWithMonthOlder(new Date(),6) );
+          // const encounters = await getEncountersByPatientAndEncounterTypeAndLimit(data.patient.uuid, encounterVitalSign, 10 );
           const patient = await getPatientByUuid(data.patient.uuid);
           active &&
             dispatch({

@@ -6,7 +6,7 @@
   "TaSystole": "TA Systole",
   "TaDiastole": "TA Diastole",
   "neuro": "Neuro",
-  "Temperature": "Temperature",
+  "temperature": "Temperature",
   "Trauma": "Trauma",
   "birthLabel": "Born the ",
   "Search": "Click here to search patient...",
@@ -25,5 +25,7 @@
   "New patient": "New patient",
   "editPatient": "Edit patient infos",
   "local": "en-EN",
-  "visitLabel":"Visite"
+  "visitLabel":"Visite",
+  "outPatient":"Out Patient"
+
 }

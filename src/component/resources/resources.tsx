@@ -17,10 +17,10 @@ export async function saveAllObs(obs: Obs[], person: string, abortController: Ab
   const toDay = new Date().toISOString();
   if (format) {
     const concepts: Obs[] = obs.map(o => {
-      if (typeof o.answers === 'string') {
-        return { question: o.question, answers: o.answers, uuid: o.uuid }
-      } else if (typeof o.answers === 'object') {
+      if (typeof o.answers === 'object') {
         return { question: o.question, answers: o.answers['uuid'], uuid: o.uuid }
+      } else if (typeof o.answers === 'string') {
+        return { question: o.question, answers: o.answers, uuid: o.uuid }
       }
     });
     obs = concepts;
@@ -74,7 +74,7 @@ export async function getEncountersByPatientAndEncounterTypeAndLimit(patient: st
 
 export async function getLastEncountersByPatientAndEncounterType(patient: string, encounterType: string) {
   const encounter = await openmrsFetch(`${BASE_WS_API_URL}encounter?patient=${patient}&encounterType=${encounterType}&v=full`, { method: 'GET' });
-  return encounter.data.results[encounter.data.results.length -1];
+  return encounter.data.results[encounter.data.results.length - 1];
 }
 
 

@@ -56,7 +56,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
 
     useEffect(() => {
         const initialValue = () => {
-            alert(0)
+            // alert(0)
             getSynchronizedCurrentUser({ includeAuthStatus: true }).subscribe(async user => {
                 await fetchConceptByUuid(getConceptById("mobility", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
                     setMobilities({ question: res.data.display, answers: res.data.answers });
@@ -210,9 +210,9 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                     {FieldVitalForm("trauma", traumas)}
                                 </Column>
                                 <Column className={styles.secondColStyle} sm={12} md={12} lg={9}>
-                                     <ChartVitalSigns data={dataFC} options={options} title={'FR/FC'} />
+                                    <ChartVitalSigns data={dataFC} options={options} title={'FR/FC'} />
                                     <ChartVitalSigns data={dataTA} options={options} title={'TA'} />
-                                    <ChartVitalSigns data={dataTemp} options={options} title={'Temp'} /> 
+                                    <ChartVitalSigns data={dataTemp} options={options} title={'Temp'} />
                                 </Column>
                             </Row>
 

@@ -6,7 +6,7 @@ import styles from './chart.scss';
 import { Button, Column, Row } from "carbon-components-react";
 
 
-export default function ChartVitalSigns({ title, data, options }) {
+export default function ChartVitalSigns({ title, data, options,value }) {
 	return <>
 		<div className={styles.margin_LineChart}>
 			<Row className={styles.p0}>
@@ -21,7 +21,7 @@ export default function ChartVitalSigns({ title, data, options }) {
 				</Column>
 				<Column className={styles.p0}>
 					<div className={styles.circleDiv}>
-						<div>{title}</div>
+						<div>{value}</div>
 					</div>
 				</Column>
 			</Row>

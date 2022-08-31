@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
 import styles from "./vital-signs.scss"
 import * as Yup from 'yup';
-import { Field, Formik } from "formik";
+import { Formik } from "formik";
 import { Grid, Row, Column, Button, Form } from "carbon-components-react";
 import { useTranslation } from "react-i18next";
 import { navigate, NavigateOptions, showToast, Visit } from "@openmrs/esm-framework";
 import ChartVitalSigns from "./form/chart/chart-field-component";
 import FieldVitalForm from "./form/field/vital-signs-field-component";
 import { formatPatientForCard, getSynchronizedCurrentUser } from "../resources/patient-resources";
+import form from "../resources/vital-sign.json";
+import { fetchConceptByUuid, getObsInEncounters, saveAllObs, saveEncounter, toDay } from "../resources/resources";
+import { encounterVitalSign, unknowLocation } from "../resources/constants";
+import PatientCard from "../search-patient/patient-card/patient-card";
+
 export interface VisitProps {
     visit?: Visit;
 }
-
-import form from "../resources/vital-sign.json";
-import { fetchConceptByUuid, getConceptAnswer, getObsInEncounters, saveAllObs, saveEncounter, toDay } from "../resources/resources";
-import { encounterVitalSign, unknowLocation } from "../resources/constants";
-import PatientCard from "../search-patient/patient-card/patient-card";
 
 export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     const [dataFC, setDataFC] = useState([]);
@@ -210,9 +210,9 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                     {FieldVitalForm("trauma", traumas)}
                                 </Column>
                                 <Column className={styles.secondColStyle} sm={12} md={12} lg={9}>
-                                    <ChartVitalSigns data={dataFC} options={options} title={'FR/FC'} />
-                                    <ChartVitalSigns data={dataTA} options={options} title={'TA'} />
-                                    <ChartVitalSigns data={dataTemp} options={options} title={'Temp'} />
+                                    <ChartVitalSigns data={dataFC} options={options} title={'FR/FC'} value={'0/0'} />
+                                    <ChartVitalSigns data={dataTA} options={options} title={'TA'} value={'0/0'}/>
+                                    <ChartVitalSigns data={dataTemp} options={options} title={'Temp'} value={0}/>
                                 </Column>
                             </Row>
 

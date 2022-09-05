@@ -172,6 +172,18 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
             showToast({ description: err.message })
         }
     }
+    function lastSignsVitaux(sign, value) {
+        let lastSignsVital = undefined;
+        value.map(element => {
+            if (element.group == sign) {
+                lastSignsVital = element.value;
+                if (lastSignsVital.date < element.date) {
+                    lastSignsVital = element.value;
+                }
+            }
+        });
+        return lastSignsVital;
+    }
 
     return (
         <Formik
@@ -210,9 +222,23 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                     {FieldVitalForm("trauma", traumas)}
                                 </Column>
                                 <Column className={styles.secondColStyle} sm={12} md={12} lg={9}>
-                                    <ChartVitalSigns data={dataFC} options={options} title={'FR/FC'} />
-                                    <ChartVitalSigns data={dataTA} options={options} title={'TA'} />
-                                    <ChartVitalSigns data={dataTemp} options={options} title={'Temp'} />
+                                    <ChartVitalSigns
+                                        data={dataFC} options={options}
+                                        title={t('FR/FC')}
+                                        value={lastSignsVitaux("F-respiratoire", dataFC) + "/" + lastSignsVitaux("F-cardiaque", dataFC)}
+                                    />
+                                    <ChartVitalSigns
+                                        data={dataTA}
+                                        options={options}
+                                        title={t('TaSystole')+'/'+t('TaDiastole')}
+                                        value={lastSignsVitaux("TA Systole", dataTA) + "/" + lastSignsVitaux("TA Diastole", dataTA)}
+                                    />
+                                    <ChartVitalSigns
+                                        data={dataTemp}
+                                        options={options}
+                                        title={t('temperature')}
+                                        value={lastSignsVitaux("Temp", dataTemp)}
+                                    />
                                 </Column>
                             </Row>
 

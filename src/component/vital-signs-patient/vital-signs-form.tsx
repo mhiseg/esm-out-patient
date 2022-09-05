@@ -12,28 +12,16 @@ import form from "../resources/vital-sign.json";
 import { fetchConceptByUuid, getObsInEncounters, saveAllObs, saveEncounter, toDay } from "../resources/resources";
 import { encounterVitalSign, unknowLocation } from "../resources/constants";
 import PatientCard from "../search-patient/patient-card/patient-card";
+import { getFieldById, options } from "../resources/form-resource";
 
 export interface VisitProps {
     visit?: Visit;
 }
-
 export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     const [dataFC, setDataFC] = useState([]);
     const [dataTemp, setDataTemp] = useState([]);
     const [dataTA, setDataTA] = useState([]);
     const [patient, setPatient] = useState(null);
-    const options = {
-        "light": false,
-        "color": { "scale": { "F-respiratoire": "#FB000F", "F-cardiaque": "#14FF00", "Temp": "#FEA903", "TA Systole": "#F700FC", "TA Diastole": "#07066F" } },
-        "axes": {
-            "bottom": { "mapsTo": "date", "scaleType": "time" },
-            "left": { "mapsTo": "value", "scaleType": "linear" }
-        },
-        "height": "200px",
-        "toolbar": { "enabled": false }
-    }
-
-
     const toSearch: NavigateOptions = { to: window.spaBase + "/out-patient/search" };
     const { t } = useTranslation();
     const [mobilities, setMobilities] = useState({ question: "", answers: [] });
@@ -52,26 +40,24 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
             trauma: "",
         }
     }
-    const getConceptById = (id: string, f) => f.fields.find(field => field.id === id)
 
     useEffect(() => {
-        const initialValue = () => {
-            // alert(0)
-            getSynchronizedCurrentUser({ includeAuthStatus: true }).subscribe(async user => {
-                await fetchConceptByUuid(getConceptById("mobility", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
-                    setMobilities({ question: res.data.display, answers: res.data.answers });
-                })
-                await fetchConceptByUuid(getConceptById("neuro", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
-                    setNeuros({ question: res.data.display, answers: res.data.answers });
-                })
-                await fetchConceptByUuid(getConceptById("trauma", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
-                    setTraumas({ question: res.data.display, answers: res.data.answers });
-                })
-
-
+        const getDefaultAnswersValues = () => {
+            alert(localStorage.getItem("i18nextLng"))
+        getSynchronizedCurrentUser({ includeAuthStatus: true }).subscribe(async user => {
+            alert(localStorage.getItem("i18nextLng"))
+            await fetchConceptByUuid(getFieldById("mobility", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
+                setMobilities({ question: res.data.display, answers: res.data.answers });
             })
+            await fetchConceptByUuid(getFieldById("neuro", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
+                setNeuros({ question: res.data.display, answers: res.data.answers });
+            })
+            await fetchConceptByUuid(getFieldById("trauma", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
+                setTraumas({ question: res.data.display, answers: res.data.answers });
+            })
+        })
         }
-        return initialValue();
+        return getDefaultAnswersValues();
     }, [])
 
     const [initialV, setInitialV] = useState(formatInialValue(visit));
@@ -88,40 +74,39 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
 
     useEffect(() => {
         formatPatientForCard(visit.patient).then((p) => setPatient(p));
-
         getObsInEncounters(visit.encounters).then(
             res => {
                 let valFC = [];
                 let valTemp = [];
                 let valTA = [];
                 res.map(val => {
-                    if (val.question == getConceptById("cardiacFrequency", form).question) {
+                    if (val.question == getFieldById("cardiacFrequency", form).question) {
                         valFC.push({
                             "group": "F-cardiaque",
                             "date": val.date,
                             "value": val.answers,
                         })
-                    } else if (val.question == getConceptById("respiratoryRate", form).question) {
+                    } else if (val.question == getFieldById("respiratoryRate", form).question) {
                         valFC.push({
                             "group": "F-respiratoire",
                             "date": val.date,
                             "value": val.answers,
                         })
-                    } else if (val.question == getConceptById("temp", form).question) {
+                    } else if (val.question == getFieldById("temp", form).question) {
                         valTemp.push({
                             "group": "Temp",
                             "date": val.date,
                             "value": val.answers,
                         })
                     }
-                    else if (val.question == getConceptById("taSystole", form).question) {
+                    else if (val.question == getFieldById("taSystole", form).question) {
                         valTA.push({
                             "group": "TA Systole",
                             "date": val.date,
                             "value": val.answers,
                         })
                     }
-                    else if (val.question == getConceptById("taDiastole", form).question) {
+                    else if (val.question == getFieldById("taDiastole", form).question) {
                         valTA.push({
                             "group": "TA Diastole",
                             "date": val.date,
@@ -211,8 +196,8 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                 </Column>
                                 <Column className={styles.secondColStyle} sm={12} md={12} lg={9}>
                                     <ChartVitalSigns data={dataFC} options={options} title={'FR/FC'} value={'0/0'} />
-                                    <ChartVitalSigns data={dataTA} options={options} title={'TA'} value={'0/0'}/>
-                                    <ChartVitalSigns data={dataTemp} options={options} title={'Temp'} value={0}/>
+                                    <ChartVitalSigns data={dataTA} options={options} title={'TA'} value={'0/0'} />
+                                    <ChartVitalSigns data={dataTemp} options={options} title={'Temp'} value={0} />
                                 </Column>
                             </Row>
 

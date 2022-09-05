@@ -3,10 +3,20 @@ import { async, Observable } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 const BASE_WS_API_URL = '/ws/rest/v1/';
 export const today = new Date().toISOString().split('T')[0];
-
+export const options = {
+  "light": false,
+  "color": { "scale": { "F-respiratoire": "#FB000F", "F-cardiaque": "#14FF00", "Temp": "#FEA903", "TA Systole": "#F700FC", "TA Diastole": "#07066F" } },
+  "axes": {
+      "bottom": { "mapsTo": "date", "scaleType": "time" },
+      "left": { "mapsTo": "value", "scaleType": "linear" }
+  },
+  "height": "200px",
+  "toolbar": { "enabled": false }
+}
 export const isCurrentVisit = (visit, today): boolean => {
   return ((visit?.startDatetime.split('T')[0] === today) && (visit?.stopDatime === undefined)) ? visit.uuid : undefined
 }
+export const getFieldById = (id: string, form) => form.fields.find(field => field.id === id)
 
 export function getVisitsByPatientBetweenVisiDate(patientUuid, visitDate) {
   return openmrsFetch(`${BASE_WS_API_URL}visit?patient=${patientUuid}&fromStartDate=${visitDate}&v=full&limit=1`)

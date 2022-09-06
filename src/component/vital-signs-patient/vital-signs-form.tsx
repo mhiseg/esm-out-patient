@@ -43,9 +43,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
 
     useEffect(() => {
         const getDefaultAnswersValues = () => {
-            alert(localStorage.getItem("i18nextLng"))
         getSynchronizedCurrentUser({ includeAuthStatus: true }).subscribe(async user => {
-            alert(localStorage.getItem("i18nextLng"))
             await fetchConceptByUuid(getFieldById("mobility", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
                 setMobilities({ question: res.data.display, answers: res.data.answers });
             })
@@ -149,13 +147,25 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                 showToast({
                     title: t('successfullyAdded', 'Successfully added'),
                     kind: 'success',
-                    description: 'Patient save succesfully',
+                    description: 'Vital signs  form save succesfully',
                 })
             })
 
         } catch (err) {
             showToast({ description: err.message })
         }
+    }
+    function lastSignsVitaux(sign, value) {
+        let lastSignsVital = undefined;
+        value.map(element => {
+            if (element.group == sign) {
+                lastSignsVital = element.value;
+                if (lastSignsVital.date < element.date) {
+                    lastSignsVital = element.value;
+                }
+            }
+        });
+        return lastSignsVital;
     }
 
     return (
@@ -195,9 +205,23 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                     {FieldVitalForm("trauma", traumas)}
                                 </Column>
                                 <Column className={styles.secondColStyle} sm={12} md={12} lg={9}>
-                                    <ChartVitalSigns data={dataFC} options={options} title={'FR/FC'} value={'0/0'} />
-                                    <ChartVitalSigns data={dataTA} options={options} title={'TA'} value={'0/0'} />
-                                    <ChartVitalSigns data={dataTemp} options={options} title={'Temp'} value={0} />
+                                    <ChartVitalSigns
+                                        data={dataFC} options={options}
+                                        title={t('FR/FC')}
+                                        value={lastSignsVitaux("F-respiratoire", dataFC) + "/" + lastSignsVitaux("F-cardiaque", dataFC)}
+                                    />
+                                    <ChartVitalSigns
+                                        data={dataTA}
+                                        options={options}
+                                        title={t('TaSystole')+'/'+t('TaDiastole')}
+                                        value={lastSignsVitaux("TA Systole", dataTA) + "/" + lastSignsVitaux("TA Diastole", dataTA)}
+                                    />
+                                    <ChartVitalSigns
+                                        data={dataTemp}
+                                        options={options}
+                                        title={t('temperature')}
+                                        value={lastSignsVitaux("Temp", dataTemp)}
+                                    />
                                 </Column>
                             </Row>
 

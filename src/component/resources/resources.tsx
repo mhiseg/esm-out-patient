@@ -141,7 +141,7 @@ export async function fetchAllLocation() {
 }
 
 export async function fetchConceptByUuid(conceptUuid: string, lang: string) {
-  console.log(`${BASE_WS_API_URL}concept/${conceptUuid}?v=full&lang=${lang}`,'==============');
+  console.log(`${BASE_WS_API_URL}concept/${conceptUuid}?v=full&lang=${lang}`);
   return openmrsFetch(`${BASE_WS_API_URL}concept/${conceptUuid}?v=full&lang=${lang}`, {
     method: "GET",
   });

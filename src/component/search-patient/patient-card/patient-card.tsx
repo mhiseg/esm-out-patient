@@ -37,7 +37,6 @@ const PatientCard = ({ patient, userRole }) => {
     })
       .catch(error => {
         showToast({ description: error.message })
-        console.error(error);
       });
   }
 

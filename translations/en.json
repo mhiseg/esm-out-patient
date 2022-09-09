@@ -26,6 +26,7 @@
   "editPatient": "Edit patient infos",
   "local": "en-EN",
   "visitLabel":"Visite",
-  "outPatient":"Out Patient"
+  "outPatient":"Out Patient",
+  "dashboardPatient": "Dashboard Patient"
 
 }

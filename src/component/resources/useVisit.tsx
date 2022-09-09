@@ -3,7 +3,7 @@ import { useState, useEffect, useReducer } from "react";
 import { dispatch } from "rxjs/internal/observable/pairs";
 import { encounterVitalSign } from "./constants";
 import { getDateWithMonthOlder, getVisitByUuid } from "./form-resource";
-import { getPatientByUuid } from "./patient-resources";
+import { formatPatientForCard, getPatientByUuid } from "./patient-resources";
 import { getEncounterByPatientAndEncounterType, getEncounterByPatientAndEncounterTypeAndStartDate, getEncountersByPatientAndEncounterTypeAndLimit, toDay, today } from "./resources";
 export type NullableVisit = Visit | null;
 // export type NullablePatient =  | null;
@@ -118,7 +118,7 @@ export function useVisit(visitUuid: string) {
           const patient = await getPatientByUuid(data.patient.uuid);
           active &&
             dispatch({
-              visit: {...data, encounters: encounters.data.results, patient: patient.data},
+              visit: {...data, encounters: encounters.data.results, patient:  await formatPatientForCard(patient?.data)},
               type: ActionTypes.newVisit,
             })
         },

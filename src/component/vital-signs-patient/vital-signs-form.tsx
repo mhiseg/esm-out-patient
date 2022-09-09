@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { navigate, NavigateOptions, showToast, Visit } from "@openmrs/esm-framework";
 import ChartVitalSigns from "./form/chart/chart-field-component";
 import FieldVitalForm from "./form/field/vital-signs-field-component";
-import { formatPatientForCard, getSynchronizedCurrentUser } from "../resources/patient-resources";
+import { getSynchronizedCurrentUser } from "../resources/patient-resources";
 import form from "../resources/vital-sign.json";
 import { fetchConceptByUuid, getObsInEncounters, saveAllObs, saveEncounter, toDay } from "../resources/resources";
 import { encounterVitalSign, unknowLocation } from "../resources/constants";
@@ -21,7 +21,6 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     const [dataFC, setDataFC] = useState([]);
     const [dataTemp, setDataTemp] = useState([]);
     const [dataTA, setDataTA] = useState([]);
-    const [patient, setPatient] = useState(null);
     const toSearch: NavigateOptions = { to: window.spaBase + "/out-patient/search" };
     const { t } = useTranslation();
     const [mobilities, setMobilities] = useState({ question: "", answers: [] });
@@ -40,20 +39,19 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
             trauma: "",
         }
     }
-
     useEffect(() => {
         const getDefaultAnswersValues = () => {
-        getSynchronizedCurrentUser({ includeAuthStatus: true }).subscribe(async user => {
-            await fetchConceptByUuid(getFieldById("mobility", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
-                setMobilities({ question: res.data.display, answers: res.data.answers });
+            getSynchronizedCurrentUser({ includeAuthStatus: true }).subscribe(async user => {
+                await fetchConceptByUuid(getFieldById("mobility", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
+                    setMobilities({ question: res.data.display, answers: res.data.answers });
+                })
+                await fetchConceptByUuid(getFieldById("neuro", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
+                    setNeuros({ question: res.data.display, answers: res.data.answers });
+                })
+                await fetchConceptByUuid(getFieldById("trauma", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
+                    setTraumas({ question: res.data.display, answers: res.data.answers });
+                })
             })
-            await fetchConceptByUuid(getFieldById("neuro", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
-                setNeuros({ question: res.data.display, answers: res.data.answers });
-            })
-            await fetchConceptByUuid(getFieldById("trauma", form)?.question, localStorage.getItem("i18nextLng")).then(res => {
-                setTraumas({ question: res.data.display, answers: res.data.answers });
-            })
-        })
         }
         return getDefaultAnswersValues();
     }, [])
@@ -71,7 +69,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     });
 
     useEffect(() => {
-        formatPatientForCard(visit.patient).then((p) => setPatient(p));
+        // formatPatientForCard(visit.patient).then((p) => setPatient(p));
         getObsInEncounters(visit.encounters).then(
             res => {
                 let valFC = [];
@@ -191,7 +189,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                     <Form name="form" className={styles.cardForm} onSubmit={handleSubmit}>
                         <Grid fullWidth={true} className={styles.p0}>
                             <Row className={styles.card}>
-                                {patient !== null && <PatientCard patient={patient} userRole={undefined} />}
+                                <PatientCard patient={visit.patient} userRole={undefined} />
                             </Row>
                             <Row className={styles.pr}>
                                 <Column sm={12} md={12} lg={3}>
@@ -213,7 +211,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                     <ChartVitalSigns
                                         data={dataTA}
                                         options={options}
-                                        title={t('TaSystole')+'/'+t('TaDiastole')}
+                                        title={t('TaSystole') + '/' + t('TaDiastole')}
                                         value={lastSignsVitaux("TA Systole", dataTA) + "/" + lastSignsVitaux("TA Diastole", dataTA)}
                                     />
                                     <ChartVitalSigns

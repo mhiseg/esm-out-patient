@@ -26,5 +26,6 @@
     "editPatient":"Editer les informations du patient",
     "local": "fr-FR",
     "visitLabel":"Visite",
-    "outPatient":"Patient Ambulatoire"
+    "outPatient":"Patient Ambulatoire",
+    "dashboardPatient": "Tableau de bord du patient"
 }

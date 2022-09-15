@@ -3,7 +3,9 @@ import React, {  } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { usePatientDashboard } from "../../resources/usePatientDashborad";
-import styles from "../../search-patient/searchPatient/searchPatient.scss";
+import DashboardContent from "./dashboard-content";
+import styles from "./dashboard.scss";
+
 
 const PatientDashboard = () => {
     const param: {
@@ -18,15 +20,15 @@ const PatientDashboard = () => {
             navigate(to);
     }
 
-    const getFormPatientDashboard = () => {
+    const getPatientDashboard = () => {
         toSearchPatient(isLoadingPatientSearch)
         return <>
-            <h4 className={`title-page`}>{t('dashboardPatient')}</h4>
+            <h4 className={styles.titlePage}>{t('dashboardPatient')}</h4>
             <div className={styles.main}>
-               
+               <DashboardContent patient={patientSearch}/>
             </div>
         </>
     }
-    return <> {isLoadingPatientSearch === false && getFormPatientDashboard()} </>
+    return <> {isLoadingPatientSearch === false && getPatientDashboard()} </>
 };
 export default PatientDashboard;

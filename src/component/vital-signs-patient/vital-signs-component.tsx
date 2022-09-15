@@ -20,12 +20,12 @@ const VitalSignsComponent: React.FC = () => {
       navigate(to);
   }
 
-  const getFormVisit = (vist) => {
+  const getFormVisit = (visit) => {
     toSearchPatient(visitData)
     return <>
       <h4 className={'title-page'}>{t("Vitalsigns")}</h4>
       <div className={styles.main}>
-        <VitalSignsForm visit={vist} />
+        <VitalSignsForm visit={visit} />
       </div>
     </>
   }

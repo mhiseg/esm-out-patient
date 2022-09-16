@@ -153,6 +153,10 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
             showToast({ description: err.message })
         }
     }
+    function checkValue(value) {
+        return ((value != undefined) ? value : 0);
+    }
+
     function lastSignsVitaux(sign, value) {
         let lastSignsVital = undefined;
         value.map(element => {
@@ -206,19 +210,19 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                     <ChartVitalSigns
                                         data={dataFC} options={options}
                                         title={t('FR/FC')}
-                                        value={lastSignsVitaux("F-respiratoire", dataFC) + "/" + lastSignsVitaux("F-cardiaque", dataFC)}
+                                        value={checkValue(lastSignsVitaux("F-respiratoire", dataFC)) + "/" + checkValue(lastSignsVitaux("F-cardiaque", dataFC))}
                                     />
                                     <ChartVitalSigns
                                         data={dataTA}
                                         options={options}
                                         title={t('TaSystole') + '/' + t('TaDiastole')}
-                                        value={lastSignsVitaux("TA Systole", dataTA) + "/" + lastSignsVitaux("TA Diastole", dataTA)}
+                                        value={checkValue(lastSignsVitaux("TA Systole", dataTA)) + "/" + checkValue(lastSignsVitaux("TA Diastole", dataTA))}
                                     />
                                     <ChartVitalSigns
                                         data={dataTemp}
                                         options={options}
                                         title={t('temperature')}
-                                        value={lastSignsVitaux("Temp", dataTemp)}
+                                        value={checkValue(lastSignsVitaux("Temp", dataTemp))}
                                     />
                                 </Column>
                             </Row>

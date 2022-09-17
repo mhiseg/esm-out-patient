@@ -166,8 +166,12 @@
     @include icon(17px, 19px, -2px, none, 2px, -3px, #575656);
 }
 
-.iconHeart {
+.iconHeartRed {
     @include icon(none, none, -2px, none, 2px, -2px, red);
+}
+
+.iconHeartGray {
+    @include icon(none, none, -2px, none, 2px, -2px, gray);
 }
 
 

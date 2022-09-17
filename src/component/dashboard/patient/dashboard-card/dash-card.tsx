@@ -15,6 +15,13 @@ import CardBody from "../../../search-patient/patient-card/patient-card-body";
 
 const DashCard = ({ patient }) => {
     const { t } = useTranslation();
+    const [activeVisit, setActiveVisit] = useState(patient?.currentVisit);
+    const labelClass = () => {
+        if (activeVisit)
+            return `${styles.cardBoxActiveVisit}`
+        else
+            return `${styles.cardBox}`
+    }
     //const toEditPatient: NavigateOptions = { to: window.spaBase + "/out-patient/patient/" + patient.id };
     //const editPatient = (e) => { navigate(toEditPatient) };
 
@@ -45,7 +52,7 @@ const DashCard = ({ patient }) => {
                                                 />
                                             ) : null}
                                             {patient.firstName + ","} {patient.lastName}
-                                            <label>Active</label>
+                                            <label className={labelClass()} >Active</label>
                                         </p>
                                         <p className={styles.dossier}><span>No dossier:</span>{patient.No_dossier} </p>
 
@@ -90,40 +97,36 @@ const DashCard = ({ patient }) => {
                             <Column className={styles} lg={12}>
                                 <Row className={styles}>
                                     <Column className={styles.pm0} lg={6}>
-                                        <p className={styles.vital}>
-                                            {patient.gender == "F" ? (
-                                                <Icon
-                                                    icon="bi:heart-pulse-fill"
-                                                    className={styles.iconHeart}
-                                                />
-                                            ) : null}
-                                            {patient.gender == "M" ? (
-                                                <Icon
-                                                    icon="bi:heart-pulse-fill"
-                                                    className={styles.iconHeart}
-                                                />
-                                            ) : null}
-                                            En vie
-                                        </p>
+                                            {patient.dead ? (
+                                                <p className={styles.vital}>
+                                                    <Icon icon="bi:heart-pulse-fill" className={styles.iconHeartGray} />
+                                                    {t("deathLabel","Mort")} 
+                                                </p>
+                                            ) : (
+                                                <p className={styles.vital}>
+                                                    <Icon icon="bi:heart-pulse-fill" className={styles.iconHeartRed} />
+                                                    {t("aliveLabel","En vie")} 
+                                                </p>
+                                            )}
                                     </Column>
                                     <Column className={styles.pm0}>
                                         <div className={styles.buttonGroup}>
-                                        <Button kind="tertiary" size="sm"  className={styles.buttonAction}>
-                                            <span>
-                                                <Icon icon="healthicons:inpatient-outline" className={styles.iconAction} />
-                                            </span>
-                                        </Button>
-                                        <Button kind="tertiary" size="sm" className={styles.buttonAction}>
-                                            <span>
-                                                <Icon icon="healthicons:death" className={styles.iconAction} />
-                                            </span>
-                                        </Button>
-                                        <Button kind="tertiary" size="sm" className={`${styles.buttonAction} ${styles.selected}`}>
-                                            <span>
-                                                <Icon icon="mdi:calendar-clock-outline" className ={styles.iconAction}/>
-                                            </span>
-                                        </Button>
-                                        </div>   
+                                            <Button kind="tertiary" size="sm" className={styles.buttonAction}>
+                                                <span>
+                                                    <Icon icon="healthicons:inpatient-outline" className={styles.iconAction} />
+                                                </span>
+                                            </Button>
+                                            <Button kind="tertiary" size="sm" className={styles.buttonAction}>
+                                                <span>
+                                                    <Icon icon="healthicons:death" className={styles.iconAction} />
+                                                </span>
+                                            </Button>
+                                            <Button kind="tertiary" size="sm" className={`${styles.buttonAction} ${styles.selected}`}>
+                                                <span>
+                                                    <Icon icon="mdi:calendar-clock-outline" className={styles.iconAction} />
+                                                </span>
+                                            </Button>
+                                        </div>
                                     </Column>
                                 </Row>
                             </Column>

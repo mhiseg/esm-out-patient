@@ -26,6 +26,7 @@
     "local": "kr-Kr",
     "visitLabel":"Vizit",
     "outPatient":"Pasyan Anbilatwa",
-    "dashboardPatient": "Tablo pasyan"
-
+    "dashboardPatient": "Tablo pasyan",
+    "aliveLabel": "Vivan",
+    "deathLabel": "Mouri"
 }

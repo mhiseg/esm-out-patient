@@ -27,6 +27,7 @@
   "local": "en-EN",
   "visitLabel":"Visite",
   "outPatient":"Out Patient",
-  "dashboardPatient": "Dashboard Patient"
-
+  "dashboardPatient": "Dashboard Patient",
+  "aliveLabel": "Alive",
+  "deathLabel": "Is dead"
 }

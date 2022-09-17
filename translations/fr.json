@@ -27,5 +27,7 @@
     "local": "fr-FR",
     "visitLabel":"Visite",
     "outPatient":"Patient Ambulatoire",
-    "dashboardPatient": "Tableau de bord du patient"
+    "dashboardPatient": "Tableau de bord du patient",
+    "aliveLabel": "En vie",
+    "deathLabel": "Mort"
 }

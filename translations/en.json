@@ -29,5 +29,7 @@
   "outPatient":"Out Patient",
   "dashboardPatient": "Dashboard Patient",
   "aliveLabel": "Alive",
-  "deathLabel": "Is dead"
+  "deathLabel": "Is dead",
+  "activeVisitLabel": "Active",
+  "inactiveVisitLabel": "Inactive"
 }

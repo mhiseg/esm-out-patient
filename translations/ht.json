@@ -28,5 +28,7 @@
     "outPatient":"Pasyan Anbilatwa",
     "dashboardPatient": "Tablo pasyan",
     "aliveLabel": "Vivan",
-    "deathLabel": "Mouri"
+    "deathLabel": "Mouri",
+    "activeVisitLabel": "Aktif",
+    "inactiveVisitLabel": "Inaktif"
 }

@@ -15,13 +15,13 @@ import CardBody from "../../../search-patient/patient-card/patient-card-body";
 
 const DashCard = ({ patient }) => {
     const { t } = useTranslation();
-    const [activeVisit, setActiveVisit] = useState(patient?.currentVisit);
-    const labelClass = () => {
-        if (activeVisit)
-            return `${styles.cardBoxActiveVisit}`
-        else
-            return `${styles.cardBox}`
-    }
+    // const [activeVisit, setActiveVisit] = useState(patient?.currentVisit);
+    // const labelClass = () => {
+    //     if (activeVisit)
+    //         return `${}`
+    //     else
+    //         return `${}`
+    // }
     //const toEditPatient: NavigateOptions = { to: window.spaBase + "/out-patient/patient/" + patient.id };
     //const editPatient = (e) => { navigate(toEditPatient) };
 
@@ -52,7 +52,7 @@ const DashCard = ({ patient }) => {
                                                 />
                                             ) : null}
                                             {patient.firstName + ","} {patient.lastName}
-                                            <label className={labelClass()} >Active</label>
+                                            {patient?.currentVisit ? <label className={styles.cardBoxActiveVisit} >{t("activeVisitLabel", "Active")}</label> : <label className={styles.cardBox} >{t("inactiveVisitLabel", "Inactive")}</label>}
                                         </p>
                                         <p className={styles.dossier}><span>No dossier:</span>{patient.No_dossier} </p>
 

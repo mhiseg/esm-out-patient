@@ -29,5 +29,7 @@
     "outPatient":"Patient Ambulatoire",
     "dashboardPatient": "Tableau de bord du patient",
     "aliveLabel": "En vie",
-    "deathLabel": "Mort"
+    "deathLabel": "Mort",
+    "activeVisitLabel": "Active",
+    "inactiveVisitLabel": "Inactive"
 }

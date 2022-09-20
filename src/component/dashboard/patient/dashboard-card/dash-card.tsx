@@ -13,11 +13,14 @@ import styles from "./dash-card.scss";
 import { useTranslation } from "react-i18next";
 import CardBody from "../../../search-patient/patient-card/patient-card-body";
 import { endVisit, newVisit, today } from "../../../resources/resources";
+import { ConfirmationModal } from "../confirmation-modal";
 
 const DashCard = ({ patient }) => {
     const { t } = useTranslation();
     const date = new Date().toISOString();
     const [activeVisit, setActiveVisit] = useState(patient?.currentVisit);
+    const [openModal, setOpenModal] = useState(false);
+
 
     return (
         <Tile className={styles.cardProps} light={true}>
@@ -45,7 +48,7 @@ const DashCard = ({ patient }) => {
                                                 />
                                             ) : null}
                                             {patient.firstName + ","} {patient.lastName}
-                                            {activeVisit? <label className={styles.cardBoxActiveVisit} >{t("activeVisitLabel", "Active")}</label> : <label className={styles.cardBox} >{t("inactiveVisitLabel", "Inactive")}</label>}
+                                            {activeVisit ? <label className={styles.cardBoxActiveVisit} >{t("activeVisitLabel", "Active")}</label> : <label className={styles.cardBox} >{t("inactiveVisitLabel", "Inactive")}</label>}
                                         </p>
                                         <p className={styles.dossier}><span>No dossier:</span>{patient.No_dossier} </p>
 
@@ -54,12 +57,13 @@ const DashCard = ({ patient }) => {
                                     <Column >
                                         {activeVisit
                                             ? <Button kind="tertiary" size="sm" isSelected={true} className={styles.endConsultationButton}
-                                                onClick={() => { endVisit(date, t, activeVisit, setActiveVisit)}}>
+                                                onClick={() => { setOpenModal(true) }}>
                                                 <span>
                                                     <Icon icon="ant-design:plus-circle-outlined" className={styles.iconPlus} />
                                                 </span>
                                                 Terminer une consultation
                                             </Button>
+
                                             : <Button kind="tertiary" size="sm" isSelected={true} className={styles.consultationButton}
                                                 onClick={() => { newVisit(t, patient.id, setActiveVisit) }}>
                                                 <span>
@@ -142,6 +146,15 @@ const DashCard = ({ patient }) => {
                     <CardBody patient={patient} />
                 </Column>
             </Grid>
+            <ConfirmationModal
+                confirmModal={() => { 
+                    endVisit(date, t, activeVisit, setActiveVisit);
+                    setOpenModal(false);
+                 }}
+                closeModal={setOpenModal}
+                modalState={openModal}
+                patientName={ patient.firstName + ", " + patient.lastName}
+            />
         </Tile>
     );
 };

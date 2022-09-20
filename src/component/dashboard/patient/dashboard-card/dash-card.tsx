@@ -61,7 +61,7 @@ const DashCard = ({ patient }) => {
                                                 <span>
                                                     <Icon icon="ant-design:plus-circle-outlined" className={styles.iconPlus} />
                                                 </span>
-                                                Terminer une consultation
+                                                {t("stopVisitButton", "Terminer une consultation")}
                                             </Button>
 
                                             : <Button kind="tertiary" size="sm" isSelected={true} className={styles.consultationButton}
@@ -72,7 +72,7 @@ const DashCard = ({ patient }) => {
                                                         className={styles.iconPlus}
                                                     />
                                                 </span>
-                                                Démarrer une consultation
+                                                {t("activeVisitButton", "Démarrer une consultation")}
                                             </Button>
                                         }
 

@@ -1,5 +1,38 @@
 @import '../../../index.scss';
 
+@mixin ConsultationButton ($color) {
+    padding: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 2px;
+    margin-right: 50px;
+    float: right;
+    justify-content: center;
+    background-color: #FAFAFA;
+    border-radius: 40px;
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 14px;
+    color: $color;
+    border: .5px solid #e3e3e3;
+
+    &:hover {
+        .iconPlus {
+            color: white;
+        }
+    }
+
+    &:focus {
+        .iconPlus {
+            color: white;
+        }
+    }
+
+    .iconPlus {
+        @include icon(17px, 19px, -2px, none, 5px, -3px, $color);
+    }
+}
+
 .cardProps {
     margin-top: .8rem;
     width: 100%;
@@ -57,37 +90,12 @@
 
 }
 
-.ConsultationButton {
-    padding: 0;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-top: 2px;
-    margin-right: 50px;
-    float: right;
-    justify-content: center;
-    background-color: #FAFAFA;
-    border-radius: 40px;
-    font-family: 'Roboto';
-    font-weight: 700;
-    font-size: 14px;
-    color: #66C1FC;
-    border: .5px solid #e3e3e3;
+.consultationButton {
+    @include ConsultationButton(#0196f9);
+}
 
-    &:hover {
-        .iconPlus {
-            color: white;
-        }
-    }
-
-    &:focus {
-        .iconPlus {
-            color: white;
-        }
-    }
-
-    .iconPlus {
-        @include icon(17px, 19px, -2px, none, 5px, -3px, #0196f9);
-    }
+.endConsultationButton {
+    @include ConsultationButton(#cbb301);
 }
 
 .buttonAction {

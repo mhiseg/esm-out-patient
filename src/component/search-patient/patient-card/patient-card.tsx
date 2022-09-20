@@ -20,6 +20,7 @@ import { facilityVisitType } from "../../resources/constants";
 import CardBody from "./patient-card-body";
 
 const PatientCard = ({ patient, userRole }) => {
+  console.log("***********",new Date().toISOString());
   const [activeVisit, setActiveVisit] = useState(patient?.currentVisit);
   const { t } = useTranslation();
   const toEditPatient: NavigateOptions = { to: window.spaBase + "/out-patient/patient/" + patient.id };

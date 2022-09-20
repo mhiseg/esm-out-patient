@@ -1,6 +1,7 @@
-import { openmrsFetch, getCurrentUser } from '@openmrs/esm-framework';
+import { openmrsFetch, getCurrentUser, showToast } from '@openmrs/esm-framework';
 import { mergeMap } from 'rxjs/operators';
-import { uuidPhoneNumber, encounterTypeCheckIn, unknowLocation, countryName, deathValidatedValue } from './constants';
+import { uuidPhoneNumber, encounterTypeCheckIn, unknowLocation, countryName, deathValidatedValue, facilityVisitType } from './constants';
+import { saveVisit } from './form-resource';
 import { Address, Concept, Encounter, Obs, Person } from './types';
 export const BASE_WS_API_URL = '/ws/rest/v1/';
 export const today = new Date().toISOString().split('T')[0];
@@ -222,4 +223,32 @@ export async function getObsInEncounters(encounters: any[]) {
     })
   })
   return values;
+}
+
+export const newVisit = (t, patientId, setActiveVisit) => {
+  saveVisit({ visitType: facilityVisitType, patient: patientId }, new AbortController()).then(async (v) => {
+    showToast({
+      title: t('successfullyAdded', 'Dossier déclasseé avec succes'),
+      kind: 'success',
+      description: 'Dossier déclassé avec success',
+    });
+    setActiveVisit(v.data.uuid);
+  })
+    .catch(error => {
+      showToast({ description: error.message })
+    });
+}
+
+export const endVisit = (date,t,visitId,setActiveVisit) => {
+  saveVisit({ stopDatetime: date}, new AbortController(), visitId).then(async (v) => {
+    showToast({
+      title: t('successfullyStopped', 'Visite fermée avec succès'),
+      kind: 'success',
+      description: 'La visite est terminée pour le patient',
+    });
+    setActiveVisit(undefined);
+  })
+    .catch(error => {
+      showToast({ description: error.message })
+    });
 }

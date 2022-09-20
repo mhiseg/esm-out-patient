@@ -31,5 +31,7 @@
   "aliveLabel": "Alive",
   "deathLabel": "Is dead",
   "activeVisitLabel": "Active",
-  "inactiveVisitLabel": "Inactive"
+  "inactiveVisitLabel": "Inactive",
+  "activeVisitButton" : "Start visit",
+  "stopVisitButton" : "End visit"
 }

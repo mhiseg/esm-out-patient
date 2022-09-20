@@ -31,5 +31,8 @@
     "aliveLabel": "En vie",
     "deathLabel": "Mort",
     "activeVisitLabel": "Active",
-    "inactiveVisitLabel": "Inactive"
+    "inactiveVisitLabel": "Inactive",
+    "activeVisitButton" : "Démarrer une consultation",
+    "stopVisitButton" : "Terminer une consultation"
+
 }

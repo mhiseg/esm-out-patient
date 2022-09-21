@@ -55,11 +55,11 @@ const DashCard = ({ patient }) => {
                                     </Column>
 
                                     <Column >
-                                        {activeVisit
+                                        {(activeVisit && !patient.dead)
                                             ? <Button kind="tertiary" size="sm" isSelected={true} className={styles.endConsultationButton}
                                                 onClick={() => { setOpenModal(true) }}>
                                                 <span>
-                                                    <Icon icon="ant-design:plus-circle-outlined" className={styles.iconPlus} />
+                                                    <Icon icon="jam:stop-sign" className={styles.iconPlus} />
                                                 </span>
                                                 {t("stopVisitButton", "Terminer une consultation")}
                                             </Button>

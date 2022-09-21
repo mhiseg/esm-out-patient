@@ -3,13 +3,14 @@ import React from "react";
 import styles from "./dashboard.scss";
 import { useTranslation } from "react-i18next";
 import DashCard from "./dashboard-card/dash-card";
-import { LineChart } from "@carbon/charts-react";
-import ChartVitalSigns from "../../vital-signs-patient/form/chart/chart-field-component";
+// import { LineChart } from "@carbon/charts-react";
+// import ChartVitalSigns from "../../vital-signs-patient/form/chart/chart-field-component";
 import { Icon } from "@iconify/react";
 
 
 
 const DashboardContent = ({ patient }) => {
+
     const { t } = useTranslation();
     const options = {
         "light": false,
@@ -154,7 +155,7 @@ const DashboardContent = ({ patient }) => {
                         <DashCard patient={patient} />
                     </Column>
                     <Column lg={2} className={styles.pm0}>
-                        calendar
+                     Calendrier
                     </Column>
                 </Row>
                 <Row>

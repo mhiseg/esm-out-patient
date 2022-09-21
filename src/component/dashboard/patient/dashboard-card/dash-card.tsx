@@ -12,12 +12,12 @@ import { Icon } from "@iconify/react";
 import styles from "./dash-card.scss";
 import { useTranslation } from "react-i18next";
 import CardBody from "../../../search-patient/patient-card/patient-card-body";
+import { endVisit, newVisit, today } from "../../../resources/resources";
 
 const DashCard = ({ patient }) => {
     const { t } = useTranslation();
-    //const toEditPatient: NavigateOptions = { to: window.spaBase + "/out-patient/patient/" + patient.id };
-    //const editPatient = (e) => { navigate(toEditPatient) };
-
+    const date = new Date().toISOString();
+    const [activeVisit, setActiveVisit] = useState(patient?.currentVisit);
 
     return (
         <Tile className={styles.cardProps} light={true}>
@@ -45,22 +45,33 @@ const DashCard = ({ patient }) => {
                                                 />
                                             ) : null}
                                             {patient.firstName + ","} {patient.lastName}
-                                            <label>Active</label>
+                                            {activeVisit? <label className={styles.cardBoxActiveVisit} >{t("activeVisitLabel", "Active")}</label> : <label className={styles.cardBox} >{t("inactiveVisitLabel", "Inactive")}</label>}
                                         </p>
                                         <p className={styles.dossier}><span>No dossier:</span>{patient.No_dossier} </p>
 
                                     </Column>
 
                                     <Column >
-                                        <Button kind="tertiary" size="sm" isSelected={true} className={styles.ConsultationButton}>
-                                            <span>
-                                                <Icon
-                                                    icon="ant-design:plus-circle-outlined"
-                                                    className={styles.iconPlus}
-                                                />
-                                            </span>
-                                            Démarrer une consultation
-                                        </Button>
+                                        {activeVisit
+                                            ? <Button kind="tertiary" size="sm" isSelected={true} className={styles.endConsultationButton}
+                                                onClick={() => { endVisit(date, t, activeVisit, setActiveVisit)}}>
+                                                <span>
+                                                    <Icon icon="ant-design:plus-circle-outlined" className={styles.iconPlus} />
+                                                </span>
+                                                Terminer une consultation
+                                            </Button>
+                                            : <Button kind="tertiary" size="sm" isSelected={true} className={styles.consultationButton}
+                                                onClick={() => { newVisit(t, patient.id, setActiveVisit) }}>
+                                                <span>
+                                                    <Icon
+                                                        icon="ant-design:plus-circle-outlined"
+                                                        className={styles.iconPlus}
+                                                    />
+                                                </span>
+                                                Démarrer une consultation
+                                            </Button>
+                                        }
+
                                         <OverflowMenu
                                             flipped
                                             className={styles.overFlowMenuStyle}
@@ -90,40 +101,36 @@ const DashCard = ({ patient }) => {
                             <Column className={styles} lg={12}>
                                 <Row className={styles}>
                                     <Column className={styles.pm0} lg={6}>
-                                        <p className={styles.vital}>
-                                            {patient.gender == "F" ? (
-                                                <Icon
-                                                    icon="bi:heart-pulse-fill"
-                                                    className={styles.iconHeart}
-                                                />
-                                            ) : null}
-                                            {patient.gender == "M" ? (
-                                                <Icon
-                                                    icon="bi:heart-pulse-fill"
-                                                    className={styles.iconHeart}
-                                                />
-                                            ) : null}
-                                            En vie
-                                        </p>
+                                        {patient.dead ? (
+                                            <p className={styles.vital}>
+                                                <Icon icon="bi:heart-pulse-fill" className={styles.iconHeartGray} />
+                                                {t("deathLabel", "Mort")}
+                                            </p>
+                                        ) : (
+                                            <p className={styles.vital}>
+                                                <Icon icon="bi:heart-pulse-fill" className={styles.iconHeartRed} />
+                                                {t("aliveLabel", "En vie")}
+                                            </p>
+                                        )}
                                     </Column>
                                     <Column className={styles.pm0}>
                                         <div className={styles.buttonGroup}>
-                                        <Button kind="tertiary" size="sm"  className={styles.buttonAction}>
-                                            <span>
-                                                <Icon icon="healthicons:inpatient-outline" className={styles.iconAction} />
-                                            </span>
-                                        </Button>
-                                        <Button kind="tertiary" size="sm" className={styles.buttonAction}>
-                                            <span>
-                                                <Icon icon="healthicons:death" className={styles.iconAction} />
-                                            </span>
-                                        </Button>
-                                        <Button kind="tertiary" size="sm" className={`${styles.buttonAction} ${styles.selected}`}>
-                                            <span>
-                                                <Icon icon="mdi:calendar-clock-outline" className ={styles.iconAction}/>
-                                            </span>
-                                        </Button>
-                                        </div>   
+                                            <Button kind="tertiary" size="sm" className={styles.buttonAction}>
+                                                <span>
+                                                    <Icon icon="healthicons:inpatient-outline" className={styles.iconAction} />
+                                                </span>
+                                            </Button>
+                                            <Button kind="tertiary" size="sm" className={styles.buttonAction}>
+                                                <span>
+                                                    <Icon icon="healthicons:death" className={styles.iconAction} />
+                                                </span>
+                                            </Button>
+                                            <Button kind="tertiary" size="sm" className={`${styles.buttonAction} ${styles.selected}`}>
+                                                <span>
+                                                    <Icon icon="mdi:calendar-clock-outline" className={styles.iconAction} />
+                                                </span>
+                                            </Button>
+                                        </div>
                                     </Column>
                                 </Row>
                             </Column>

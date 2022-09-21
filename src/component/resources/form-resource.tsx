@@ -14,7 +14,7 @@ export const options = {
   "toolbar": { "enabled": false }
 }
 export const isCurrentVisit = (visit, today): boolean => {
-  return ((visit?.startDatetime.split('T')[0] === today) && (visit?.stopDatime === undefined)) ? visit.uuid : undefined
+  return ((visit?.startDatetime.split('T')[0] === today) && (visit?.stopDatetime === null)) ? visit.uuid : undefined
 }
 export const getFieldById = (id: string, form) => form.fields.find(field => field.id === id)
 

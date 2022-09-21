@@ -22,7 +22,7 @@
   "trySearchWithPatientUniqueID": "Essayez de rechercher avec le numéro d'identification unique du patient",
   "editPatient": "Editer les informations du patient",
   "local": "fr-FR",
-  "visitLabel": "Visite",
+  "visitLabel": "Declaser dossier",
   "outPatient": "Patient Ambulatoire",
   "dashboardPatient": "Tableau de bord du patient",
   "messageErrorGivenName": "Le prénom ne peut pas être vide",
@@ -36,5 +36,10 @@
   "messageErrorNIF": "Format de NIF invalide",
   "messageErrorDOB": "La date d'anniversaire ne peut pas être vide",
   "messageErrorResidence": "Le champ résidence ne peut pas être null",
-  "messageErrorModalRelationShips": "Attention! Vous etes sur le point de supprimer une relation pour ce patient. Cette action est irreversible, voulez vous continuer?"
+  "messageErrorModalRelationShips": "Attention! Vous etes sur le point de supprimer une relation pour ce patient. Cette action est irreversible, voulez vous continuer?",
+  "aliveLabel": "En vie",
+  "deathLabel": "Mort",
+  "activeVisitLabel": "Active",
+  "inactiveVisitLabel": "Inactive",
+  "addSignsVital":"Ajouter les signes vitaux"
 }

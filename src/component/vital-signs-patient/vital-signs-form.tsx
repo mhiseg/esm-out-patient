@@ -69,7 +69,6 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     });
 
     useEffect(() => {
-        // formatPatientForCard(visit.patient).then((p) => setPatient(p));
         getObsInEncounters(visit.encounters).then(
             res => {
                 let valFC = [];
@@ -140,8 +139,8 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     const save = async (values) => {
         const obs = Object.keys(values).map(value => getField(value, form, values))
         try {
-            saveEncounter({ patient: visit.patient.uuid, encounterDatetime: toDay(), encounterType: encounterVitalSign, location: unknowLocation }, abortController).then(async (encounter) => {
-                await saveAllObs(obs, visit.patient.uuid, abortController, encounter.data.uuid);
+            saveEncounter({ patient: visit.patient.id, encounterDatetime: toDay(), encounterType: encounterVitalSign, location: unknowLocation }, abortController).then(async (encounter) => {
+               await saveAllObs(obs, visit.patient.id, abortController, encounter.data.uuid);
                 showToast({
                     title: t('successfullyAdded', 'Successfully added'),
                     kind: 'success',

@@ -14,7 +14,7 @@ import form from "../../resources/vital-sign.json";
 
 const DashboardContent = ({ patient }) => {
     const { t } = useTranslation();
-    const [data, setData] = useState([]);
+    const [values, setValues] = useState([]);
 
 
     let state = {
@@ -107,45 +107,47 @@ const DashboardContent = ({ patient }) => {
     };
 
     useEffect(() => {
-        getEncounterByPatientAndEncounterTypeAndStartDate(patient.uuid, encounterVitalSign, getDateWithMonthOlder(new Date(), 20)).then((encounters) => {
+        getEncounterByPatientAndEncounterTypeAndStartDate(patient.id, encounterVitalSign, getDateWithMonthOlder(new Date(), 4)).then((encounters) => {
+
             getObsInEncounters(encounters?.data?.results).then(
                 res => {
-                    console.log(res);
+                    let data = [];
                     res.map(val => {
-                        if (val.question == getFieldById("cardiacFrequency", form).question) {
-                            setData([...data, {
+                        if (val.question == getFieldById("cardiacFrequency", form).question) {                            
+                            data.push({
                                 "group": "F-cardiaque",
                                 "date": val.date,
                                 "value": val.answers,
-                            }])
-                        } else if (val.question == getFieldById("respiratoryRate", form).question) {
-                            setData([...data, {
+                            })
+                        } else if (val.question == getFieldById("respiratoryRate", form).question) {                           
+                            data.push({
                                 "group": "F-respiratoire",
                                 "date": val.date,
                                 "value": val.answers,
-                            }])
-                        } else if (val.question == getFieldById("temp", form).question) {
-                            setData([...data, {
+                            })
+                        } else if (val.question == getFieldById("temp", form).question) {                           
+                            data.push({
                                 "group": "Temp",
                                 "date": val.date,
                                 "value": val.answers,
-                            }])
+                            })
                         }
-                        else if (val.question == getFieldById("taSystole", form).question) {
-                            setData([...data, {
+                        else if (val.question == getFieldById("taSystole", form).question) {                           
+                            data.push({
                                 "group": "TA Systole",
                                 "date": val.date,
                                 "value": val.answers,
-                            }])
+                            })
                         }
                         else if (val.question == getFieldById("taDiastole", form).question) {
-                            setData([...data, {
+                            data.push({
                                 "group": "TA Diastole",
                                 "date": val.date,
                                 "value": val.answers,
-                            }])
+                            })
                         }
                     })
+                    setValues(data);
                 }
             )
         })
@@ -204,7 +206,7 @@ const DashboardContent = ({ patient }) => {
                                         <p><span>Systole : </span>80</p>
                                     </Column>
                                 </Row>
-                                <ChartVitalSigns data={data} options={state.options} />
+                                <ChartVitalSigns data={values} options={state.options} />
                             </div>
                         </Column>
                         {/* <Column className={styles.pm0}>

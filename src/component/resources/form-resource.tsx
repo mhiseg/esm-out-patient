@@ -25,13 +25,11 @@ export function getVisitsByPatientBetweenVisiDate(patientUuid, visitDate) {
 export function lastSignsVitaux(sign, value) {
   let lastSignsVital = undefined;
   value.map(element => {
-    console.log(sign,'-------------',element.group);
       if (element.group == sign) {
-
           lastSignsVital = element.value;
-          // if (lastSignsVital.date < element.date) {
-          //     lastSignsVital = element.value;
-          // }
+          if (lastSignsVital.date < element.date) {
+              lastSignsVital = element.value;
+          }
       }
   });
   return lastSignsVital;

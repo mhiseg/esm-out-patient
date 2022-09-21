@@ -57,7 +57,6 @@ const DashboardContent = ({ patient }) => {
                     setValues(data);
                 }
             )
-            console.log(encounters?.data?.results[encounters?.data?.results.length - 1],'========================')
         })
     }, [])
 

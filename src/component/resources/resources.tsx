@@ -51,7 +51,7 @@ export function generateIdentifier(source: string, abortController: AbortControl
 }
 
 export async function saveEncounter(encounter: Encounter | any, abortController: AbortController, uuid?: string) {
-  return openmrsFetch(`${BASE_WS_API_URL}encounter${uuid ? uuid : ""}`, {
+  return openmrsFetch(`${BASE_WS_API_URL}encounter/${uuid ? uuid : ""}`, {
     headers: {
       'Content-Type': 'application/json',
     },

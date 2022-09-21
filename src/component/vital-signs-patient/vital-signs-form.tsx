@@ -12,7 +12,7 @@ import form from "../resources/vital-sign.json";
 import { fetchConceptByUuid, getObsInEncounters, saveAllObs, saveEncounter, toDay } from "../resources/resources";
 import { encounterVitalSign, unknowLocation } from "../resources/constants";
 import PatientCard from "../search-patient/patient-card/patient-card";
-import { getFieldById, options } from "../resources/form-resource";
+import { getFieldById, lastSignsVitaux, options } from "../resources/form-resource";
 
 export interface VisitProps {
     visit?: Visit;
@@ -154,19 +154,6 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     }
     function checkValue(value) {
         return ((value != undefined) ? value : 0);
-    }
-
-    function lastSignsVitaux(sign, value) {
-        let lastSignsVital = undefined;
-        value.map(element => {
-            if (element.group == sign) {
-                lastSignsVital = element.value;
-                if (lastSignsVital.date < element.date) {
-                    lastSignsVital = element.value;
-                }
-            }
-        });
-        return lastSignsVital;
     }
 
     return (

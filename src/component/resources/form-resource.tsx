@@ -22,6 +22,21 @@ export function getVisitsByPatientBetweenVisiDate(patientUuid, visitDate) {
   return openmrsFetch(`${BASE_WS_API_URL}visit?patient=${patientUuid}&fromStartDate=${visitDate}&v=full&limit=1`)
 }
 
+export function lastSignsVitaux(sign, value) {
+  let lastSignsVital = undefined;
+  value.map(element => {
+    console.log(sign,'-------------',element.group);
+      if (element.group == sign) {
+
+          lastSignsVital = element.value;
+          // if (lastSignsVital.date < element.date) {
+          //     lastSignsVital = element.value;
+          // }
+      }
+  });
+  return lastSignsVital;
+}
+
 export async function saveVisit(visit, abortController: AbortController, uuid?: string) {
   return openmrsFetch(`${BASE_WS_API_URL}visit/${uuid ? uuid : ""}`,
     {

@@ -21,6 +21,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     const [dataFC, setDataFC] = useState([]);
     const [dataTemp, setDataTemp] = useState([]);
     const [dataTA, setDataTA] = useState([]);
+    const [reload, setReload] = useState(false);
     const toSearch: NavigateOptions = { to: window.spaBase + "/out-patient/search" };
     const { t } = useTranslation();
     const [mobilities, setMobilities] = useState({ question: "", answers: [] });
@@ -38,7 +39,18 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
             neuro: "",
             trauma: "",
         }
-    }
+    };
+    const [initialV, setInitialV] = useState(formatInialValue(visit));
+    const vitalSchema = Yup.object().shape({
+        mobility: Yup.object().required("Ce champ ne peu pas etre vide"),
+        respiratoryRate: Yup.number().required("Ce champ ne peu pas etre vide"),
+        cardiacFrequency: Yup.number().required("Ce champ ne peu pas etre vide"),
+        taSystole: Yup.number().required("Ce champ ne peu pas etre vide"),
+        taDiastole: Yup.number().required("Ce champ ne peu pas etre vide"),
+        temp: Yup.number().required("Ce champ ne peu pas etre vide"),
+        neuro: Yup.object().required("Ce champ ne peu pas etre vide"),
+        trauma: Yup.object().required("Ce champ ne peu pas etre vide"),
+    });
     useEffect(() => {
         const getDefaultAnswersValues = () => {
             getSynchronizedCurrentUser({ includeAuthStatus: true }).subscribe(async user => {
@@ -54,19 +66,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
             })
         }
         return getDefaultAnswersValues();
-    }, [])
-
-    const [initialV, setInitialV] = useState(formatInialValue(visit));
-    const vitalSchema = Yup.object().shape({
-        mobility: Yup.object().required("Ce champ ne peu pas etre vide"),
-        respiratoryRate: Yup.number().required("Ce champ ne peu pas etre vide"),
-        cardiacFrequency: Yup.number().required("Ce champ ne peu pas etre vide"),
-        taSystole: Yup.number().required("Ce champ ne peu pas etre vide"),
-        taDiastole: Yup.number().required("Ce champ ne peu pas etre vide"),
-        temp: Yup.number().required("Ce champ ne peu pas etre vide"),
-        neuro: Yup.object().required("Ce champ ne peu pas etre vide"),
-        trauma: Yup.object().required("Ce champ ne peu pas etre vide"),
-    });
+    }, []);
 
     useEffect(() => {
         getObsInEncounters(visit.encounters).then(
@@ -113,8 +113,9 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                 setDataTemp([...dataTemp, ...valTemp]);
                 setDataTA([...dataTA, ...valTA]);
             }
-        )
-    }, [])
+        );
+    }, [reload]);
+
     const getField = (id, form, values) => {
         switch (id) {
             case "mobility":
@@ -139,14 +140,16 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     const save = async (values) => {
         const obs = Object.keys(values).map(value => getField(value, form, values))
         try {
-            saveEncounter({ patient: visit.patient.id, encounterDatetime: toDay(), encounterType: encounterVitalSign, location: unknowLocation }, abortController).then(async (encounter) => {
-               await saveAllObs(obs, visit.patient.id, abortController, encounter.data.uuid);
+            saveEncounter({ patient: visit.patient.id, encounterDatetime: toDay(), encounterType: encounterVitalSign, location: unknowLocation }, abortController)
+                .then(async (encounter) => {
+                    await saveAllObs(obs, visit.patient.id, abortController, encounter.data.uuid);
                 showToast({
-                    title: t('successfullyAdded', 'Successfully added'),
-                    kind: 'success',
-                    description: 'Vital signs  form save succesfully',
+                        title: t('successfullyAdded', 'Successfully added'),
+                        kind: 'success',
+                        description: 'Vital signs  form save succesfully',
+                    });
+                    window.setInterval(() => {window.location.reload(); }, 1000);
                 })
-            })
 
         } catch (err) {
             showToast({ description: err.message })

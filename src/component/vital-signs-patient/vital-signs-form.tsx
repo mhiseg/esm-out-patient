@@ -12,7 +12,7 @@ import form from "../resources/vital-sign.json";
 import { fetchConceptByUuid, getObsInEncounters, saveAllObs, saveEncounter, toDay } from "../resources/resources";
 import { encounterVitalSign, unknowLocation } from "../resources/constants";
 import PatientCard from "../search-patient/patient-card/patient-card";
-import { getFieldById, options } from "../resources/form-resource";
+import { getFieldById, lastSignsVitaux, options } from "../resources/form-resource";
 
 export interface VisitProps {
     visit?: Visit;
@@ -69,7 +69,6 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     });
 
     useEffect(() => {
-        // formatPatientForCard(visit.patient).then((p) => setPatient(p));
         getObsInEncounters(visit.encounters).then(
             res => {
                 let valFC = [];
@@ -140,8 +139,8 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     const save = async (values) => {
         const obs = Object.keys(values).map(value => getField(value, form, values))
         try {
-            saveEncounter({ patient: visit.patient.uuid, encounterDatetime: toDay(), encounterType: encounterVitalSign, location: unknowLocation }, abortController).then(async (encounter) => {
-                await saveAllObs(obs, visit.patient.uuid, abortController, encounter.data.uuid);
+            saveEncounter({ patient: visit.patient.id, encounterDatetime: toDay(), encounterType: encounterVitalSign, location: unknowLocation }, abortController).then(async (encounter) => {
+               await saveAllObs(obs, visit.patient.id, abortController, encounter.data.uuid);
                 showToast({
                     title: t('successfullyAdded', 'Successfully added'),
                     kind: 'success',
@@ -155,19 +154,6 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     }
     function checkValue(value) {
         return ((value != undefined) ? value : 0);
-    }
-
-    function lastSignsVitaux(sign, value) {
-        let lastSignsVital = undefined;
-        value.map(element => {
-            if (element.group == sign) {
-                lastSignsVital = element.value;
-                if (lastSignsVital.date < element.date) {
-                    lastSignsVital = element.value;
-                }
-            }
-        });
-        return lastSignsVital;
     }
 
     return (

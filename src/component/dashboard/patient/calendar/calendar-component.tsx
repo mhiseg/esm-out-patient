@@ -4,7 +4,6 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
@@ -44,7 +43,7 @@ export class Calendar extends React.Component {
   render() {
     return (
       <div className={styles.container}>
-        <FullCalendar
+        {/* <FullCalendar
           schedulerLicenseKey="GPL-My-Project-Is-Open-Source"
           ref={this.calendarComponentRef}
           defaultView="dayGridMonth"
@@ -68,7 +67,7 @@ export class Calendar extends React.Component {
           events={this.state.events}
           select={this.handleSelectedDates}
           eventLimit={3}
-        />  
+        />   */}
       </div>
     );
   }

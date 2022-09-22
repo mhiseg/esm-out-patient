@@ -11,7 +11,7 @@ import { TraumaField } from './trauma/trauma-field-component';
 const VitalForm = (name: string, value?) => {
   switch (name) {
     case 'mobility':
-      return <MobilityField value={value}/>;
+      return <MobilityField value={value} />;
     case 'respiratoryRate':
       return <FrequencyRateField required={true}/>
     case 'cardiacFrequency':

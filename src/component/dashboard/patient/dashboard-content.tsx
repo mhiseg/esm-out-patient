@@ -1,106 +1,64 @@
 import { Column, Grid, Row } from "carbon-components-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./dashboard.scss";
 import { useTranslation } from "react-i18next";
 import DashCard from "./dashboard-card/dash-card";
 import { Icon } from "@iconify/react";
 import ChartVitalSigns from "./chart-field-component";
-import { Calendar } from "./calendar/calendar-component";
-
-
+import { encounterVitalSign } from "../../resources/constants";
+import { getDateWithMonthOlder, getFieldById, lastSignsVitaux, options } from "../../resources/form-resource";
+import { getEncounterByPatientAndEncounterTypeAndStartDate, getObsInEncounters } from "../../resources/resources";
+import form from "../../resources/vital-sign.json";
 
 const DashboardContent = ({ patient }) => {
     const { t } = useTranslation();
-    
+    const [values, setValues] = useState([]);
 
-    let state = {
-        data: [
-            {
-                "group": "F-respiratoire",
-                "date": "2019-01-02T05:00:00.000Z",
-                "value": 0,
-                "surplus": 16190.372031971767
-            },
-            {
-                "group": "F-respiratoire",
-                "date": "2019-01-06T05:00:00.000Z",
-                "value": 57312,
-                "surplus": 785490321.4260587
-            },
-            {
-                "group": "F-respiratoire",
-                "date": "2019-01-08T05:00:00.000Z",
-                "value": 27432,
-                "surplus": 487195957.0095622
-            },
-            {
-                "group": "mobilite",
-                "date": "2019-01-15T05:00:00.000Z",
-                "value": 70323,
-                "surplus": 750147611.159392
-            },
-            {
-                "group": "mobilite",
-                "date": "2019-01-19T05:00:00.000Z",
-                "value": 21300,
-                "surplus": 366680575.34008896
-            },
-            {
-                "group": "mobilite",
-                "date": "2019-01-02T05:00:00.000Z",
-                "value": 20000,
-                "surplus": 449083596.2270672
-            },
-            {
-                "group": "F-cardiaque",
-                "date": "2019-01-06T05:00:00.000Z",
-                "value": 37312,
-                "surplus": 385442604.63402385
-            },
-            {
-                "group": "F-cardiaque",
-                "date": "2019-01-08T05:00:00.000Z",
-                "value": 51432,
-                "surplus": 648998378.2324682
-            },
-            {
-                "group": "F-cardiaque",
-                "date": "2019-01-15T05:00:00.000Z",
-                "value": 25332,
-                "surplus": 601955968.6356899
-            },
-            {
-                "group": "F-cardiaque",
-                "date": "2019-01-19T05:00:00.000Z",
-                "value": null,
-                "surplus": 1889.9243467256133
-            }
-        ],
-        options: {
-            "light": false,
-            "color": {
-                "scale": {
-                    "F-respiratoire": "#FB000F",
-                    "F-cardiaque": "#07066F",
-                    "Dataset 3": "#FEA903",
-                    "Dataset 4": "#FEA903"
+    useEffect(() => {
+        getEncounterByPatientAndEncounterTypeAndStartDate(patient.id, encounterVitalSign, getDateWithMonthOlder(new Date(), 4)).then((encounters) => {
+            getObsInEncounters(encounters?.data?.results).then(
+                res => {
+                    let data = [];
+                    res.map((val,i) => {
+                        if (val.question == getFieldById("cardiacFrequency", form).question) {                            
+                            data.push({
+                                "group": "F-cardiaque",
+                                "date": val.date,
+                                "value": val.answers,
+                            })
+                        } else if (val.question == getFieldById("respiratoryRate", form).question) {                           
+                            data.push({
+                                "group": "F-respiratoire",
+                                "date": val.date,
+                                "value": val.answers,
+                            })
+                        } else if (val.question == getFieldById("temp", form).question) {                           
+                            data.push({
+                                "group": "Temp",
+                                "date": val.date,
+                                "value": val.answers,
+                            })
+                        }
+                        else if (val.question == getFieldById("taSystole", form).question) {                           
+                            data.push({
+                                "group": "TA Systole",
+                                "date": val.date,
+                                "value": val.answers,
+                            })
+                        }
+                        else if (val.question == getFieldById("taDiastole", form).question) {
+                            data.push({
+                                "group": "TA Diastole",
+                                "date": val.date,
+                                "value": val.answers,
+                            })
+                        }                
+                    })
+                    setValues(data);
                 }
-            },
-            "axes": {
-                "bottom": {
-                    "mapsTo": "date",
-                    "scaleType": "time"
-                },
-                "left": {
-                    "mapsTo": "value",
-                    "scaleType": "linear"
-                }
-            },
-            "curve": "curveMonotoneX",
-            "width": "96%",
-            "height": "330px",
-        }
-    };
+            )
+        })
+    }, [])
 
     return (
         <>
@@ -110,7 +68,7 @@ const DashboardContent = ({ patient }) => {
                         <DashCard patient={patient} />
                     </Column>
                     <Column lg={2} className={styles.pm0}>
-                        <Calendar/>
+                        calendrier
                     </Column>
                 </Row>
                 <Row>
@@ -146,16 +104,16 @@ const DashboardContent = ({ patient }) => {
                                 <p className={styles.recentSigns}>Récent :</p>
                                 <Row className={styles.hr}>
                                     <Column lg={6}>
-                                        <p><span>Pouls : </span>80</p>
-                                        <p><span>Frequence respiratoire : </span>70</p>
-                                        <p><span>Temperature : </span>32</p>
+                                        <p><span>{t('frequenceC')} : </span>{lastSignsVitaux("F-cardiaque", values)}</p>
+                                        <p><span>{t('frequenceR')} : </span>{lastSignsVitaux("F-respiratoire", values)}</p>
+                                        <p><span>{t('temperature')} : </span>{lastSignsVitaux("Temp", values)}</p>
                                     </Column>
                                     <Column lg={6}>
-                                        <p><span>Dysatole : </span>120</p>
-                                        <p><span>Systole : </span>80</p>
+                                        <p><span>{t('TaDiastole')} : </span>{lastSignsVitaux("TA Diastole", values)}</p>
+                                        <p><span>{t('TaSystole')} : </span>{lastSignsVitaux("TA Systole", values)}</p>
                                     </Column>
                                 </Row>
-                                <ChartVitalSigns data={state.data} options={state.options}/>
+                                <ChartVitalSigns data={values} options={options} />
                             </div>
                         </Column>
                         {/* <Column className={styles.pm0}>

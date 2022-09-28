@@ -1,7 +1,5 @@
-import { Icon } from "@iconify/react";
-import { Column, Grid, OverflowMenu, OverflowMenuItem, Row } from "carbon-components-react";
+import { Column, Row } from "carbon-components-react";
 import React from "react";
-import styles from "./dashboard.scss";
 import { useTranslation } from "react-i18next";
 import FormatCardCell from "./patient-cardCell";
 import RelationShipCard from "../relationShipCard/relationShiphCard";

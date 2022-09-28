@@ -9,9 +9,9 @@ import { GivenNameField } from "../name/givenname-field.component";
 import { RelationTypeList } from "./relationshipList";
 import { useTranslation } from 'react-i18next';
 import { showToast } from "@openmrs/esm-framework";
-import { ConfirmationModal } from "../../widget/confirmation-modal";
 import { deleteRelationship } from "../../../../resources/patient-resources";
 import { relationshipType } from "../../../../resources/types";
+import { ConfirmationModal } from "../../confirmation-modal";
 
 
 

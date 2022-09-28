@@ -20,12 +20,12 @@ import { facilityVisitType } from "../../resources/constants";
 import CardBody from "./patient-card-body";
 
 const PatientCard = ({ patient, userRole }) => {
-  console.log("***********",new Date().toISOString());
   const [activeVisit, setActiveVisit] = useState(patient?.currentVisit);
   const { t } = useTranslation();
   const toEditPatient: NavigateOptions = { to: window.spaBase + "/out-patient/patient/" + patient.id };
   const toAddSignVital: NavigateOptions = { to: window.spaBase + "/out-patient/vital-signs/" + activeVisit };
   const editPatient = (e) => { navigate(toEditPatient) };
+  console.log(activeVisit,"------------------",patient.currentVisit);
 
   
   const newVisit = () => {
@@ -93,7 +93,7 @@ const PatientCard = ({ patient, userRole }) => {
                             itemText={t("editPatient")}
                             onClick={editPatient}
                           />
-                          {(userRole === Profiles.ARCHIVIST || userRole === Profiles.ADMIN) && patient.currentVisit === undefined && (
+                          {(userRole === Profiles.ARCHIVIST || userRole === Profiles.ADMIN) && patient.currentVisit === undefined && !patient.dead && (
                             <OverflowMenuItem
                               itemText={t("visitLabel", "Declasser dossier")}
                               onClick={() => {

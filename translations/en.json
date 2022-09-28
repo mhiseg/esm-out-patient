@@ -32,6 +32,10 @@
   "activeVisitButton" : "Start visit",
   "stopVisitButton" : "End visit",
   "addSignsVital":"Add vital signs",
-  "allergyMessaErrorr" : "No allergies registered"
+  "allergyMessaErrorr" : "No allergies registered",
+  "antecedantsTitle" : "Antecedants",
+  "allergyTitle" : "Allergies",
+  "vitalSigneTitle" : "Vitals signs",
+  "diagnosticTitle" : "Diagnostics"
 
 }

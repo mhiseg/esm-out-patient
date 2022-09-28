@@ -99,7 +99,7 @@ const DashboardContent = ({ patient }) => {
                         <Row className={styles.pm0}>
                             <Column lg={6} className={styles.pm0}>
                                 <div className={styles.card1}>
-                                    <h6>Antecedant <Icon className={styles.iconTitle} icon="healthicons:clinical-f-outline" /></h6>
+                                    <h6>{t('antecedantsTitle', "Antecedant")} <Icon className={styles.iconTitle} icon="healthicons:clinical-f-outline" /></h6>
                                     <div className={styles.antecedent}> Difficulté à respirer
                                         <Icon className={styles.icon} icon="iconoir:delete-circled-outline" />
                                     </div>
@@ -107,8 +107,8 @@ const DashboardContent = ({ patient }) => {
                             </Column>
                             <Column lg={6} className={styles.pm0}>
                                 <div className={styles.card1}>
-                                    <h6>Allergie <Icon className={styles.iconTitle} icon="healthicons:allergies-outline" /></h6>
-                                    <p>{patient.allergy?.length == 0 ? t('allergyMessaErrorr',"Aucune allergie enregistrée") : ""}</p>
+                                    <h6>{t('allergyTitle', "Allergie")} <Icon className={styles.iconTitle} icon="healthicons:allergies-outline" /></h6>
+                                    <p>{patient.allergy?.length == 0 ? t('allergyMessaErrorr', "Aucune allergie enregistrée") : ""}</p>
                                     {patient.allergy?.map(values => {
                                         console.log(values?.length);
                                         return (
@@ -127,14 +127,14 @@ const DashboardContent = ({ patient }) => {
                         </Row>
                         <Column className={styles.pm0}>
                             <div className={styles.card3}>
-                                <h6>Diagnostique <Icon className={styles.iconTitle} icon="healthicons:biochemistry-laboratory-outline" /></h6>
+                                <h6>{t('diagnosticTitle', "Diagnostique")} <Icon className={styles.iconTitle} icon="healthicons:biochemistry-laboratory-outline" /></h6>
                             </div>
                         </Column>
                     </Column>
                     <Column lg={6} className={styles.pm0}>
                         <Column className={styles.pm0}>
                             <div className={styles.card2}>
-                                <h6>Signes vitaux <Icon className={styles.iconTitle} icon="fluent:heart-pulse-20-regular" /></h6>
+                                <h6>{t('vitalSigneTitle',"Signe vitaux")}<Icon className={styles.iconTitle} icon="fluent:heart-pulse-20-regular" /></h6>
                                 <p className={styles.recentSigns}>Récent :</p>
                                 <Row className={styles.hr}>
                                     <Column lg={6}>

@@ -64,5 +64,9 @@
   "addSignsVital":"Ajoute siy vito yo",
   "activeVisitButton" : "Komanse on konsiltasyon",
   "stopVisitButton" : "Fini konsiltasyon an",
-  "allergyMessaErrorr" : "Pa gen aleji pou pasyan sa"
+  "allergyMessaErrorr" : "Pa gen aleji pou pasyan sa",
+  "antecedantsTitle" : "Antesedan",
+  "allergyTitle" : "Alèji",
+  "vitalSigneTitle" : "Siy vital",
+  "diagnosticTitle" : "Diagnostik yo"
 }

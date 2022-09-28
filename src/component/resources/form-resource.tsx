@@ -1,6 +1,8 @@
 import { FetchResponse, openmrsFetch, openmrsObservableFetch, Visit } from '@openmrs/esm-framework';
 import { async, Observable } from 'rxjs';
 import { take, map } from 'rxjs/operators';
+
+
 const BASE_WS_API_URL = '/ws/rest/v1/';
 export const today = new Date().toISOString().split('T')[0];
 export const options = {
@@ -14,7 +16,6 @@ export const options = {
   "toolbar": { "enabled": false }
 }
 export const isCurrentVisit = (visit, today): boolean => {
- // console.log(visit.startDatetime);
   return ((visit?.startDatetime.split('T')[0] === today) && (visit?.stopDatetime === null)) ? visit.uuid : undefined
 }
 export const getFieldById = (id: string, form) => form.fields.find(field => field.id === id)

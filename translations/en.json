@@ -31,5 +31,7 @@
   "inactiveVisitLabel": "Inactive",
   "activeVisitButton" : "Start visit",
   "stopVisitButton" : "End visit",
-  "addSignsVital":"Add vital signs"
+  "addSignsVital":"Add vital signs",
+  "allergyMessaErrorr" : "No allergies registered"
+
 }

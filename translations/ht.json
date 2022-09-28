@@ -63,5 +63,6 @@
   "inactiveVisitLabel": "Inaktif",
   "addSignsVital":"Ajoute siy vito yo",
   "activeVisitButton" : "Komanse on konsiltasyon",
-  "stopVisitButton" : "Fini konsiltasyon an"
+  "stopVisitButton" : "Fini konsiltasyon an",
+  "allergyMessaErrorr" : "Pa gen aleji pou pasyan sa"
 }

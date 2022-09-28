@@ -1,7 +1,7 @@
 import { getCurrentUser, openmrsFetch } from "@openmrs/esm-framework";
 import { mergeMap } from "rxjs/operators";
 import { uuidPhoneNumber, encounterTypeCheckIn, unknowLocation, countryName, deathValidatedValue, occupationConcept, maritalStatusConcept, habitatConcept } from "./constants";
-import { BASE_WS_API_URL, getEncounterByPatientAndEncounterType, getObs, toDay } from "./resources";
+import { BASE_WS_API_URL, getEncounterByPatientAndEncounterType, getObs, getPatientAllergyByUuid, toDay } from "./resources";
 import { getVisitsByPatientBetweenVisiDate, isCurrentVisit, today } from "./form-resource";
 import { Address, Encounter, Obs, Patient, PatientIdentifier, Relationships, relationshipType, Person } from "./types";
 
@@ -447,6 +447,7 @@ export async function formatPatientForCard(patient) {
   const personAttributes = formatAttribute(patient?.person?.attributes);
   const identifiers = formatAttribute(patient?.identifiers);
   const visit = patient?.uuid ? await getVisitsByPatientBetweenVisiDate(patient?.uuid, today) : undefined;
+  
   return {
     id: patient?.uuid,
 
@@ -489,6 +490,8 @@ export async function formatPatientForCard(patient) {
     deathDate: patient?.person?.deathDate,
 
     currentVisit: isCurrentVisit(visit?.data?.results[0], today),
+
+    allergy: getPatientAllergyByUuid(patient?.uuid),
 
     valided: formatValided(
       identifiers?.find(

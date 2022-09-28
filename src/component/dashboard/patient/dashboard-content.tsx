@@ -9,37 +9,40 @@ import { encounterVitalSign } from "../../resources/constants";
 import { getDateWithMonthOlder, getFieldById, lastSignsVitaux, options } from "../../resources/form-resource";
 import { getEncounterByPatientAndEncounterTypeAndStartDate, getObsInEncounters } from "../../resources/resources";
 import form from "../../resources/vital-sign.json";
+import { Calendar } from "./calendar/calendar-component";
+//import Calendar from 'react-calendar';
 
 const DashboardContent = ({ patient }) => {
     const { t } = useTranslation();
     const [values, setValues] = useState([]);
+
 
     useEffect(() => {
         getEncounterByPatientAndEncounterTypeAndStartDate(patient.id, encounterVitalSign, getDateWithMonthOlder(new Date(), 4)).then((encounters) => {
             getObsInEncounters(encounters?.data?.results).then(
                 res => {
                     let data = [];
-                    res.map((val,i) => {
-                        if (val.question == getFieldById("cardiacFrequency", form).question) {                            
+                    res.map((val, i) => {
+                        if (val.question == getFieldById("cardiacFrequency", form).question) {
                             data.push({
                                 "group": "F-cardiaque",
                                 "date": val.date,
                                 "value": val.answers,
                             })
-                        } else if (val.question == getFieldById("respiratoryRate", form).question) {                           
+                        } else if (val.question == getFieldById("respiratoryRate", form).question) {
                             data.push({
                                 "group": "F-respiratoire",
                                 "date": val.date,
                                 "value": val.answers,
                             })
-                        } else if (val.question == getFieldById("temp", form).question) {                           
+                        } else if (val.question == getFieldById("temp", form).question) {
                             data.push({
                                 "group": "Temp",
                                 "date": val.date,
                                 "value": val.answers,
                             })
                         }
-                        else if (val.question == getFieldById("taSystole", form).question) {                           
+                        else if (val.question == getFieldById("taSystole", form).question) {
                             data.push({
                                 "group": "TA Systole",
                                 "date": val.date,
@@ -52,13 +55,33 @@ const DashboardContent = ({ patient }) => {
                                 "date": val.date,
                                 "value": val.answers,
                             })
-                        }                
+                        }
                     })
                     setValues(data);
                 }
             )
         })
     }, [])
+
+    const options = {
+        "light": false,
+        "color": {
+            "scale": { "F-respiratoire": "#75B1A5", "F-cardiaque": "#AA138D", "Temp": "#3DFDD0", "TA Systole": "#BD95FD", "TA Diastole": "#8A3FF5" }
+        },
+        "axes": {
+            "bottom": {
+                "mapsTo": "date",
+                "scaleType": "time"
+            },
+            "left": {
+                "mapsTo": "value",
+                "scaleType": "linear"
+            }
+        },
+        "curve": "curveMonotoneX",
+        "width": "96%",
+        "height": "330px",
+    }
 
     return (
         <>
@@ -68,7 +91,7 @@ const DashboardContent = ({ patient }) => {
                         <DashCard patient={patient} />
                     </Column>
                     <Column lg={2} className={styles.pm0}>
-                        calendrier
+                        <Calendar />
                     </Column>
                 </Row>
                 <Row>
@@ -85,9 +108,20 @@ const DashboardContent = ({ patient }) => {
                             <Column lg={6} className={styles.pm0}>
                                 <div className={styles.card1}>
                                     <h6>Allergie <Icon className={styles.iconTitle} icon="healthicons:allergies-outline" /></h6>
-                                    <p><span>Blé ---- </span>Anémie</p>
-                                    <p><span>Morphine ---- </span>Anémie, toux</p>
-                                    <p><span>Pollen ---- </span>Irritation gastro-intestinal</p>
+                                    <p>{patient.allergy?.length == 0 ? t('allergyMessaErrorr',"Aucune allergie enregistrée") : ""}</p>
+                                    {patient.allergy?.map(values => {
+                                        console.log(values?.length);
+                                        return (
+                                                <p>
+                                                    <span>{values?.allergy}---- </span>
+                                                    {
+                                                    values?.reactions.length >= 2
+                                                        ? values.reactions[0]?.reaction.display + "," + values.reactions[1]?.reaction.display + " " + "(" + values?.reactions?.length + ")"
+                                                        : values.reactions[0]?.reaction.display
+                                                    }
+                                                </p>
+                                        );
+                                    })}
                                 </div>
                             </Column>
                         </Row>
@@ -116,11 +150,6 @@ const DashboardContent = ({ patient }) => {
                                 <ChartVitalSigns data={values} options={options} />
                             </div>
                         </Column>
-                        {/* <Column className={styles.pm0}>
-                            <div className={styles.card4}>
-                                <h6>Rendez-vous</h6>
-                            </div>
-                        </Column> */}
                     </Column>
                 </Row>
             </Grid>

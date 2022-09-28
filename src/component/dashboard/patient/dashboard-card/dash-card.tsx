@@ -21,7 +21,6 @@ const DashCard = ({ patient }) => {
     const [activeVisit, setActiveVisit] = useState(patient?.currentVisit);
     const [openModal, setOpenModal] = useState(false);
 
-
     return (
         <Tile className={styles.cardProps} light={true}>
             <Grid className={styles.pm0} fullWidth={true}>

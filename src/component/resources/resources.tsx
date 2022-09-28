@@ -1,5 +1,5 @@
 import { openmrsFetch, getCurrentUser, showToast } from '@openmrs/esm-framework';
-import { mergeMap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { uuidPhoneNumber, encounterTypeCheckIn, unknowLocation, countryName, deathValidatedValue, facilityVisitType } from './constants';
 import { saveVisit } from './form-resource';
 import { Address, Concept, Encounter, Obs, Person } from './types';
@@ -251,4 +251,16 @@ export const endVisit = (date,t,visitId,setActiveVisit) => {
     .catch(error => {
       showToast({ description: error.message })
     });
+}
+
+export function getPatientAllergyByUuid(patientUuid){
+  let result = [];
+  openmrsFetch(`${BASE_WS_API_URL}patient/${patientUuid}/allergy/`).then((res)=>{
+    res.data.results.map(allergy=>{
+      result.push({allergy: allergy.display, reactions: allergy.reactions});
+    })
+  }).catch(error => {
+    result = null;
+  });
+  return result;
 }

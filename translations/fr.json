@@ -43,6 +43,7 @@
   "inactiveVisitLabel": "Inactive",
   "addSignsVital":"Ajouter les signes vitaux",
   "activeVisitButton" : "Démarrer une consultation",
-  "stopVisitButton" : "Terminer une consultation"
+  "stopVisitButton" : "Terminer une consultation",
+  "allergyMessaErrorr" : "Aucunes allergies enregistrées"
 }
 

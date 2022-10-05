@@ -110,7 +110,6 @@ const DashboardContent = ({ patient }) => {
                                     <h6>{t('allergyTitle', "Allergie")} <Icon className={styles.iconTitle} icon="healthicons:allergies-outline" /></h6>
                                     <p>{patient.allergy?.length == 0 ? t('allergyMessaErrorr', "Aucune allergie enregistrée") : ""}</p>
                                     {patient.allergy?.map(values => {
-                                        console.log(values?.length);
                                         return (
                                                 <p>
                                                     <span>{values?.allergy}---- </span>

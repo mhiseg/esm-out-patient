@@ -27,7 +27,7 @@ const DashCard = ({ patient }) => {
                 <Column className={styles.pm0}>
                     <Row className={styles.pm0}>
                         <Column sm={1} md={1} lg={1} className={styles.photo}>
-                            <Icon className={styles.photoIcon} icon="tabler:photo-off" width={30} height={30} />
+                        <img src= {require("../../../widget/imageNotFound.png")} />
                         </Column>
                         <Column sm={11} md={11} lg={11} className={styles.pm0}>
                             <Column className={styles.paddingHr} lg={12}>

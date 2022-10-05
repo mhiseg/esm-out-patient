@@ -9,8 +9,8 @@ import { encounterVitalSign } from "../../resources/constants";
 import { getDateWithMonthOlder, getFieldById, lastSignsVitaux, options } from "../../resources/form-resource";
 import { getEncounterByPatientAndEncounterTypeAndStartDate, getObsInEncounters } from "../../resources/resources";
 import form from "../../resources/vital-sign.json";
-import { Calendar } from "./calendar/calendar-component";
-//import Calendar from 'react-calendar';
+//import { Calendar } from "./calendar/calendar-component";
+import Calendar from 'react-calendar';
 
 const DashboardContent = ({ patient }) => {
     const { t } = useTranslation();
@@ -85,16 +85,17 @@ const DashboardContent = ({ patient }) => {
 
     return (
         <>
-            <Grid fullWidth={true} className={styles.bodyPage}>
-                <Row>
+            <Grid fullWidth={true} className={styles.pm0}>
+                <Row className={styles.pm0}>
                     <Column lg={10} className={styles.pm0}>
                         <DashCard patient={patient} />
                     </Column>
                     <Column lg={2} className={styles.pm0}>
                         <Calendar />
                     </Column>
+                    
                 </Row>
-                <Row>
+                <Row className={styles.pm0}>
                     <Column lg={6} className={styles.pm0}>
                         <Row className={styles.pm0}>
                             <Column lg={6} className={styles.pm0}>
@@ -150,7 +151,7 @@ const DashboardContent = ({ patient }) => {
                             </div>
                         </Column>
                     </Column>
-                </Row>
+                </Row> 
             </Grid>
         </>
     );

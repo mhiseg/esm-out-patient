@@ -1,7 +1,8 @@
 {
   "patientList": "Patient list",
   "Vitalsigns":"Vital signs",
-  "frequenceR": "Heart rate",
+  "frequenceC": "Heart rate",
+  "frequenceR": "Respiratory rate",
   "Select": "Select",
   "TaSystole": "TA Systole",
   "TaDiastole": "TA Diastole",

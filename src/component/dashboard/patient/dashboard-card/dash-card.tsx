@@ -23,6 +23,8 @@ const DashCard = ({ patient }) => {
     const [openModal, setOpenModal] = useState(false);
     const toEditPatient: NavigateOptions = { to: window.spaBase + "/out-patient/patient/" + patient.id };
     const editPatient = (e) => { navigate(toEditPatient) };
+    const toDeclareDeath: NavigateOptions = { to: window.spaBase + " /death/declare/patient/" + patient.id };
+    const killPatient = (e) => { navigate(toDeclareDeath) };
 
 
 
@@ -117,7 +119,7 @@ const DashCard = ({ patient }) => {
                                             </Button>
                                             <Button kind="tertiary" size="sm" className={styles.buttonAction}>
                                                 <span>
-                                                    <Icon icon="healthicons:death" className={styles.iconAction} />
+                                                    <Icon icon="healthicons:death" className={styles.iconAction} onClick={killPatient}/>
                                                 </span>
                                             </Button>
                                             <Button kind="tertiary" size="sm" className={`${styles.buttonAction} ${styles.selected}`}>

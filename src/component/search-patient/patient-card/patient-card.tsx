@@ -21,6 +21,8 @@ const PatientCard = ({ patient, userRole }) => {
   const { t } = useTranslation();
   const toEditPatient: NavigateOptions = { to: window.spaBase + "/out-patient/patient/" + patient.id };
   const toAddSignVital: NavigateOptions = { to: window.spaBase + "/out-patient/vital-signs/" + activeVisit };
+  const toPatientDashboard: NavigateOptions = { to: window.spaBase + "/out-patient/dashboard/patient/" + patient.id };
+
   const editPatient = (e) => { navigate(toEditPatient) };
 
   
@@ -45,7 +47,10 @@ const PatientCard = ({ patient, userRole }) => {
       return `${styles.cardBox}`
   }
   return (userRole !== undefined ?
-    <Tile className={containerClass()} light={true} onClick={(e) => { userRole !== Profiles.ARCHIVIST && activeVisit ? navigate(toAddSignVital) : "" }} >
+    <Tile className={containerClass()} light={true} onClick={(e) => { 
+      userRole !== (Profiles.ARCHIVIST && Profiles.DOCTOR) && activeVisit ? navigate(toAddSignVital)
+      : userRole === Profiles.DOCTOR ? navigate(toPatientDashboard): "" 
+    }} >
       <Grid className={styles.pm0} fullWidth={true}>
         <Row className={styles.pm0}>
           <Column className={styles.pm0}>

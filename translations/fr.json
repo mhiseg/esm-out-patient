@@ -49,6 +49,12 @@
   "allergyTitle" : "Allergies",
   "vitalSigneTitle" : "Signes vitaux",
   "diagnosticTitle" : "Diagnostiques",
-  "recentVitalSignes" : "Recent :"
+  "recentVitalSignes" : "Recent :",
+  "validationVisitModal": "Terminer consultation",
+  "messageModaVisit" : "Vous êtes sur le point de stopper la consultation de ",
+  "messageModaVisitEnd" :". Voulez-vous continuer?",
+  "confirmModalButtonEndVisit" :"Terminer",
+  "cancelButtonVisitCancelVisit" : "Annuler"
+
 }
 

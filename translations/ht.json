@@ -69,5 +69,10 @@
   "allergyTitle" : "Alèji",
   "vitalSigneTitle" : "Siy vital",
   "diagnosticTitle" : "Diagnostik yo",
-  "recentVitalSignesLabel" : "Resan :"
+  "recentVitalSignesLabel" : "Resan :",
+  "validationVisitModal": "Fini ak konsiltasyon an",
+  "messageModaVisit" : "Wap fini a konsiltasyon pou ",
+  "messageModaVisitEnd" :". Eskew vle kontinye?",
+  "confirmModalButtonEndVisit" :"Fini'l",
+  "cancelButtonVisitCancelVisit" : "Kanpe'l"
 }

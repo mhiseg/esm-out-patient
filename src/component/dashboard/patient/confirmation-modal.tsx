@@ -19,10 +19,10 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ confirmMod
                 onConfirmModal={confirmModal}
                 state={modalState}
                 onClose={closeModal}
-                title={t("validationModal", "Terminer Consultation")}
-                body={t("messageModalValidation", "Vous êtes sur le point de stopper la consultation de " + patientName + ". Voulez-vous continuer?")}
-                primaryButtonName={t("confirmModalButton", "Terminer")}
-                secondaryButtonName={t("cancelButton", "Annuler")}
+                title={t("validationVisitModal", "Terminer Consultation")}
+                body={t("messageModaVisit")+ patientName + t("messageModaVisitEnd",". Voulez-vous continuer?")}
+                primaryButtonName={t("confirmModalButtonEndVisit", "Terminer")}
+                secondaryButtonName={t("cancelButtonVisitCancelVisit", "Annuler")}
                 modalType="confirmation"
             />
         </>

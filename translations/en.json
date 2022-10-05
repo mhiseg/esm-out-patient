@@ -38,5 +38,10 @@
   "allergyTitle" : "Allergies",
   "vitalSigneTitle" : "Vitals signs",
   "diagnosticTitle" : "Diagnostics",
-  "recentVitalSignes" : "Recent :"
+  "recentVitalSignes" : "Recent :",
+  "validationVisitModal": "End Visit",
+  "messageModaVisit" : "You are about to end this visit for ",
+  "messageModaVisitEnd" :". Would you want to proceed?",
+  "confirmModalButtonEndVisit" :"End",
+  "cancelButtonVisitCancelVisit" : "Cancel"
 }

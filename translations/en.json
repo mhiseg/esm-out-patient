@@ -43,5 +43,6 @@
   "messageModaVisit" : "You are about to end this visit for ",
   "messageModaVisitEnd" :". Would you want to proceed?",
   "confirmModalButtonEndVisit" :"End",
-  "cancelButtonVisitCancelVisit" : "Cancel"
+  "cancelButtonVisitCancelVisit" : "Cancel",
+  "addVitalSigns" : "Add"
 }

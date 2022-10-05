@@ -54,7 +54,8 @@
   "messageModaVisit" : "Vous êtes sur le point de stopper la consultation de ",
   "messageModaVisitEnd" :". Voulez-vous continuer?",
   "confirmModalButtonEndVisit" :"Terminer",
-  "cancelButtonVisitCancelVisit" : "Annuler"
+  "cancelButtonVisitCancelVisit" : "Annuler",
+  "addVitalSigns" : "Ajouter"
 
 }
 

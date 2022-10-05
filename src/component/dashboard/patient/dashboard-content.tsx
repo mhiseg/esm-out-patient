@@ -11,10 +11,16 @@ import { getEncounterByPatientAndEncounterTypeAndStartDate, getObsInEncounters }
 import form from "../../resources/vital-sign.json";
 //import { Calendar } from "./calendar/calendar-component";
 import Calendar from 'react-calendar';
+import { navigate, NavigateOptions } from "@openmrs/esm-framework";
+
+
 
 const DashboardContent = ({ patient }) => {
+    const [activeVisit, setActiveVisit] = useState(patient?.currentVisit);
     const { t } = useTranslation();
     const [values, setValues] = useState([]);
+    const toAddSignVital: NavigateOptions = { to: window.spaBase + "/out-patient/vital-signs/" + activeVisit };
+    const addVitalSign = (e) => { navigate(toAddSignVital) };
 
 
     useEffect(() => {
@@ -93,7 +99,7 @@ const DashboardContent = ({ patient }) => {
                     <Column lg={2} className={styles.pm0}>
                         <Calendar />
                     </Column>
-                    
+
                 </Row>
                 <Row className={styles.pm0}>
                     <Column lg={6} className={styles.pm0}>
@@ -112,14 +118,14 @@ const DashboardContent = ({ patient }) => {
                                     <p>{patient.allergy?.length == 0 ? t('allergyMessaErrorr', "Aucune allergie enregistrée") : ""}</p>
                                     {patient.allergy?.map(values => {
                                         return (
-                                                <p>
-                                                    <span>{values?.allergy}---- </span>
-                                                    {
+                                            <p>
+                                                <span>{values?.allergy}---- </span>
+                                                {
                                                     values?.reactions.length >= 2
                                                         ? values.reactions[0]?.reaction.display + "," + values.reactions[1]?.reaction.display + " " + "(" + values?.reactions?.length + ")"
                                                         : values.reactions[0]?.reaction.display
-                                                    }
-                                                </p>
+                                                }
+                                            </p>
                                         );
                                     })}
                                 </div>
@@ -134,8 +140,15 @@ const DashboardContent = ({ patient }) => {
                     <Column lg={6} className={styles.pm0}>
                         <Column className={styles.pm0}>
                             <div className={styles.card2}>
-                                <h6>{t('vitalSigneTitle',"Signe vitaux")}<Icon className={styles.iconTitle}  icon="fluent:heart-pulse-20-regular" /></h6>
-                                <p className={styles.recentSigns}>{t('recentVitalSignesLabel',"Récent :")}</p>
+                                <Row className={styles.pm0}>
+                                    <Column sm={10} md={10} lg={10} className={styles.pm0}>
+                                        <h6>{t('vitalSigneTitle', "Signe vitaux")}<Icon className={styles.iconTitle} icon="fluent:heart-pulse-20-regular" /></h6>
+                                    </Column>
+                                    <Column sm={2} md={2} lg={2} className={styles.add}>
+                                        <p onClick={addVitalSign}><Icon className={styles.iconTitle} icon="carbone:plus" />{t('addVitalSigns','Ajouter')}</p>
+                                    </Column>
+                                </Row>
+                                <p className={styles.recentSigns}>{t('recentVitalSignesLabel', "Récent :")}</p>
                                 <Row className={styles.hr}>
                                     <Column lg={6}>
                                         <p><span>{t('frequenceC')} : </span>{lastSignsVitaux("F-cardiaque", values)}</p>
@@ -151,7 +164,7 @@ const DashboardContent = ({ patient }) => {
                             </div>
                         </Column>
                     </Column>
-                </Row> 
+                </Row>
             </Grid>
         </>
     );

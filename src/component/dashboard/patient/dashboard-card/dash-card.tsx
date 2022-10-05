@@ -84,19 +84,6 @@ const DashCard = ({ patient }) => {
                                                 itemText={t("editPatient")}
                                             //onClick={editPatient}
                                             />
-                                            <OverflowMenuItem
-                                                itemText={t("visitLabel", "Declasser dossier")}
-                                                onClick={() => {
-                                                    ""
-                                                }}
-                                            />
-                                            <OverflowMenuItem
-                                                itemText={t("addSignsVital", "addSignsVital")}
-                                                onClick={() => {
-                                                    //navigate(toAddSignVital);
-                                                    ""
-                                                }}
-                                            />
                                         </OverflowMenu>
                                     </Column>
                                 </Row>

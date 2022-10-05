@@ -48,6 +48,7 @@
   "antecedantsTitle" : "Antécédants",
   "allergyTitle" : "Allergies",
   "vitalSigneTitle" : "Signes vitaux",
-  "diagnosticTitle" : "Diagnostiques"
+  "diagnosticTitle" : "Diagnostiques",
+  "recentVitalSignes" : "Recent :"
 }
 

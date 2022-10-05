@@ -36,6 +36,6 @@
   "antecedantsTitle" : "Antecedants",
   "allergyTitle" : "Allergies",
   "vitalSigneTitle" : "Vitals signs",
-  "diagnosticTitle" : "Diagnostics"
-
+  "diagnosticTitle" : "Diagnostics",
+  "recentVitalSignes" : "Recent :"
 }

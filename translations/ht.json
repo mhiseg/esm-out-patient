@@ -68,5 +68,6 @@
   "antecedantsTitle" : "Antesedan",
   "allergyTitle" : "Alèji",
   "vitalSigneTitle" : "Siy vital",
-  "diagnosticTitle" : "Diagnostik yo"
+  "diagnosticTitle" : "Diagnostik yo",
+  "recentVitalSignesLabel" : "Resan :"
 }

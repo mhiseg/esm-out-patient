@@ -134,7 +134,7 @@ const DashboardContent = ({ patient }) => {
                         <Column className={styles.pm0}>
                             <div className={styles.card2}>
                                 <h6>{t('vitalSigneTitle',"Signe vitaux")}<Icon className={styles.iconTitle}  icon="fluent:heart-pulse-20-regular" /></h6>
-                                <p className={styles.recentSigns}>Récent :</p>
+                                <p className={styles.recentSigns}>{t('recentVitalSignesLabel',"Récent :")}</p>
                                 <Row className={styles.hr}>
                                     <Column lg={6}>
                                         <p><span>{t('frequenceC')} : </span>{lastSignsVitaux("F-cardiaque", values)}</p>

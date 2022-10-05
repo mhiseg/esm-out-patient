@@ -1,6 +1,5 @@
-import React, { Profiler, useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  Button,
   Column,
   Grid,
   OverflowMenu,
@@ -10,8 +9,6 @@ import {
 } from "carbon-components-react";
 import { Icon } from "@iconify/react";
 import styles from "./patient-card.scss";
-import FormatCardCell from "./patient-cardCell";
-import RelationShipCard from "../relationShipCard/relationShiphCard";
 import { navigate, NavigateOptions, showToast } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
 import { Profiles } from "../../resources/types";
@@ -25,7 +22,6 @@ const PatientCard = ({ patient, userRole }) => {
   const toEditPatient: NavigateOptions = { to: window.spaBase + "/out-patient/patient/" + patient.id };
   const toAddSignVital: NavigateOptions = { to: window.spaBase + "/out-patient/vital-signs/" + activeVisit };
   const editPatient = (e) => { navigate(toEditPatient) };
-  console.log(activeVisit,"------------------",patient.currentVisit);
 
   
   const newVisit = () => {

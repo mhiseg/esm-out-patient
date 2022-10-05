@@ -14,12 +14,17 @@ import { useTranslation } from "react-i18next";
 import CardBody from "../../../search-patient/patient-card/patient-card-body";
 import { endVisit, newVisit, today } from "../../../resources/resources";
 import { ConfirmationModal } from "../confirmation-modal";
+import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 
 const DashCard = ({ patient }) => {
     const { t } = useTranslation();
     const date = new Date().toISOString();
     const [activeVisit, setActiveVisit] = useState(patient?.currentVisit);
     const [openModal, setOpenModal] = useState(false);
+    const toEditPatient: NavigateOptions = { to: window.spaBase + "/out-patient/patient/" + patient.id };
+    const editPatient = (e) => { navigate(toEditPatient) };
+
+
 
     return (
         <Tile className={styles.cardProps} light={true}>
@@ -81,8 +86,8 @@ const DashCard = ({ patient }) => {
                                             size="lg"
                                         >
                                             <OverflowMenuItem
-                                                itemText={t("editPatient")}
-                                            //onClick={editPatient}
+                                                itemText={t("editPatient","Modifier les infos de base")}
+                                            onClick={editPatient}
                                             />
                                         </OverflowMenu>
                                     </Column>

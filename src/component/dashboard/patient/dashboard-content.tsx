@@ -85,7 +85,7 @@ const DashboardContent = ({ patient }) => {
 
     return (
         <>
-            <Grid fullWidth={true}>
+            <Grid fullWidth={true} className={styles.bodyPage}>
                 <Row>
                     <Column lg={10} className={styles.pm0}>
                         <DashCard patient={patient} />
@@ -134,7 +134,7 @@ const DashboardContent = ({ patient }) => {
                     <Column lg={6} className={styles.pm0}>
                         <Column className={styles.pm0}>
                             <div className={styles.card2}>
-                                <h6>{t('vitalSigneTitle',"Signe vitaux")}<Icon className={styles.iconTitle} icon="fluent:heart-pulse-20-regular" /></h6>
+                                <h6>{t('vitalSigneTitle',"Signe vitaux")}<Icon className={styles.iconTitle}  icon="fluent:heart-pulse-20-regular" /></h6>
                                 <p className={styles.recentSigns}>Récent :</p>
                                 <Row className={styles.hr}>
                                     <Column lg={6}>

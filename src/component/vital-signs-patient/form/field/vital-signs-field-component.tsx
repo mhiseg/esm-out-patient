@@ -7,6 +7,7 @@ import { NeuroField } from './neuro/neuro-field-component';
 import { SystoleField } from './systole/systole-field-component';
 import { TemperatureField } from './temperature/temperature-field-component';
 import { TraumaField } from './trauma/trauma-field-component';
+import style from "./field.scss";
 
 const VitalForm = (name: string, value?) => {
   switch (name) {
@@ -23,7 +24,7 @@ const VitalForm = (name: string, value?) => {
     case 'neuro':
       return <NeuroField value={value} />
     case 'temperature':
-      return <TemperatureField required={true}/>
+      return <TemperatureField required={true} className={style.margin_field}/>
     case 'trauma':
       return <TraumaField  value={value}/>
     default:

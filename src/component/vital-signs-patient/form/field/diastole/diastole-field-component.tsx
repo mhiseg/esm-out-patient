@@ -1,27 +1,31 @@
 import React, { } from 'react';
 import styles from './../field.scss';
 import { useTranslation } from 'react-i18next';
-import { InputObs } from '../../../../registration-patient/patient-form/input/custom-input/custom-input/input.component-obs';
+import { Input } from '../../../../registration-patient/patient-form/input/basic-input/input/input.component';
 
 
 interface InputProps {
-    required?: boolean
+    required?: boolean,
+    className?: string
 }
-export const DiastoleField: React.FC<InputProps> = ({ required }) => {
+export const DiastoleField: React.FC<InputProps> = ({ required,className }) => {
     const { t } = useTranslation();
     let star = "";
     required == true ? star = " *" : star = "";
-    
+
     return (
         <div className={styles.margin_field}>
-            <InputObs
-                className={styles.font}
+       
+
+            <Input
+                className={className}
                 type="number"
                 id="TaDiastole"
                 name="taDiastole"
                 labelText={""}
                 light={true}
                 placeholder={t('TaDiastole') + star}
+                hideLabel={true}
             />
         </div>
     );

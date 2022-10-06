@@ -137,18 +137,43 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
         }
     }
 
-    const save = async (values) => {
+    const save = async (values, resetForm) => {
         const obs = Object.keys(values).map(value => getField(value, form, values))
         try {
             saveEncounter({ patient: visit.patient.id, encounterDatetime: toDay(), encounterType: encounterVitalSign, location: unknowLocation }, abortController)
                 .then(async (encounter) => {
                     await saveAllObs(obs, visit.patient.id, abortController, encounter.data.uuid);
-                showToast({
+                    showToast({
                         title: t('successfullyAdded', 'Successfully added'),
                         kind: 'success',
                         description: 'Vital signs  form save succesfully',
                     });
-                    window.setInterval(() => {window.location.reload(); }, 1000);
+                    setDataFC([...dataFC, {
+                        "group": "F-respiratoire",
+                        "date": toDay(),
+                        "value": getField("respiratoryRate", form, values).answers,
+                    },
+                    {
+                        "group": "F-cardiaque",
+                        "date": toDay(),
+                        "value": getField("cardiacFrequency", form, values).answers,
+                    }
+                    ])
+                    setDataTemp([...dataTemp, {
+                        "group": "Temp",
+                        "date": toDay(),
+                        "value": getField("temp", form, values).answers
+                    }]);
+                    setDataTA([...dataTA, {
+                        "group": "TA Systole",
+                        "date": toDay(),
+                        "value": getField("taSystole", form, values).answers,
+                    }, {
+                        "group": "TA Diastole",
+                        "date": toDay(),
+                        "value": getField("taDiastole", form, values).answers,
+                    }]);
+                    resetForm();
                 })
 
         } catch (err) {
@@ -165,9 +190,9 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
             initialValues={initialV}
             validationSchema={vitalSchema}
             onSubmit={
-                (values, { setSubmitting }) => {
+                (values, { setSubmitting, resetForm }) => {
                     setSubmitting(true)
-                    save(values)
+                    save(values,resetForm)
                 }
             }
         >
@@ -215,7 +240,6 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                     />
                                 </Column>
                             </Row>
-
                             <Row>
                                 <Column>
                                     <Row>
@@ -236,6 +260,8 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                                     type="reset"
                                                     size="sm"
                                                     isSelected={true}
+                                                    onClick={() => resetForm()}
+
                                                 >
                                                     {t("resetButton", "Réinitialiser")}
                                                 </Button>

@@ -1,7 +1,6 @@
 import React, { } from 'react';
-import styles from './../field.scss';
 import { useTranslation } from 'react-i18next';
-import { TemperatureCelcField } from './temperature-celcius-field-component';
+import { Input } from '../../../../registration-patient/patient-form/input/basic-input/input/input.component';
 
 
 interface InputProps {
@@ -10,22 +9,23 @@ interface InputProps {
     required?: boolean;
 }
 
-export const TemperatureField: React.FC<InputProps> = ({ required }) => {
+export const TemperatureField: React.FC<InputProps> = ({ required, className }) => {
+    const { t } = useTranslation();
+    let star = "";
+    required == true ? star = " *" : star = "";
+    
     return (
         <>
-            {/* <Row> */}
-            {/* <Column> */}
-            <TemperatureCelcField
-                required={true}
+            <Input
+                className={className}
+                id={"temp"}
+                name={"temp"}
+                type="number"
+                labelText={t("temperature") + star}
+                light={true}
+                placeholder={t('temperature') + ' °C' + star}
+                hideLabel={true}
             />
-            {/* </Column> */}
-            {/* <Column>
-                    <TemperatureFahField
-                        required={true}
-                        value={10}
-                    />
-                </Column> */}
-            {/* </Row> */}
         </>
     );
 };

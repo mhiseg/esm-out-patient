@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import styles from "./vital-signs.scss"
 import * as Yup from 'yup';
 import { Formik } from "formik";
-import { Grid, Row, Column, Button, Form } from "carbon-components-react";
+import { Grid, Row, Column, Button, Form, Accordion, AccordionItem, Link } from "carbon-components-react";
 import { useTranslation } from "react-i18next";
-import { navigate, NavigateOptions, showToast, Visit } from "@openmrs/esm-framework";
+import { ConfigurableLink, navigate, NavigateOptions, showToast, Visit } from "@openmrs/esm-framework";
 import ChartVitalSigns from "./form/chart/chart-field-component";
 import FieldVitalForm from "./form/field/vital-signs-field-component";
 import { getSynchronizedCurrentUser } from "../resources/patient-resources";
@@ -13,6 +13,7 @@ import { fetchConceptByUuid, getObsInEncounters, saveAllObs, saveEncounter, toDa
 import { encounterVitalSign, unknowLocation } from "../resources/constants";
 import PatientCard from "../search-patient/patient-card/patient-card";
 import { getFieldById, lastSignsVitaux, options } from "../resources/form-resource";
+import { Icon } from "@iconify/react";
 
 export interface VisitProps {
     visit?: Visit;
@@ -143,12 +144,12 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
             saveEncounter({ patient: visit.patient.id, encounterDatetime: toDay(), encounterType: encounterVitalSign, location: unknowLocation }, abortController)
                 .then(async (encounter) => {
                     await saveAllObs(obs, visit.patient.id, abortController, encounter.data.uuid);
-                showToast({
+                    showToast({
                         title: t('successfullyAdded', 'Successfully added'),
                         kind: 'success',
                         description: 'Vital signs  form save succesfully',
                     });
-                    window.setInterval(() => {window.location.reload(); }, 1000);
+                    window.setInterval(() => { window.location.reload(); }, 1000);
                 })
 
         } catch (err) {
@@ -179,13 +180,19 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                     dirty
                 } = formik;
                 return (
-                    <Form name="form" className={styles.cardForm} onSubmit={handleSubmit}>
+                    <Form name="form" onSubmit={handleSubmit}>
                         <Grid fullWidth={true} className={styles.p0}>
-                            <Row className={styles.card}>
-                                <PatientCard patient={visit.patient} userRole={undefined} />
+                            <Row className={styles.card} >
+                                <ConfigurableLink to="#">
+                                    <h5>{visit.patient.firstName + ","} {visit.patient.lastName}</h5>
+                                </ConfigurableLink>
+                                {/* <PatientCard patient={visit.patient} userRole={undefined} /> */}
                             </Row>
-                            <Row className={styles.pr}>
-                                <Column sm={12} md={12} lg={3}>
+
+                            <Row className={styles.pm0}>
+                                <Column sm={12} md={12} lg={3} className={styles.cardForm}>
+                                    <h6>Formulaire des signes vitaux</h6>
+
                                     {FieldVitalForm("mobility", mobilities)}
                                     {FieldVitalForm("respiratoryRate")}
                                     {FieldVitalForm("cardiacFrequency")}
@@ -194,64 +201,68 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                     {FieldVitalForm("temperature")}
                                     {FieldVitalForm("neuro", neuros)}
                                     {FieldVitalForm("trauma", traumas)}
-                                </Column>
-                                <Column className={styles.secondColStyle} sm={12} md={12} lg={9}>
-                                    <ChartVitalSigns
-                                        data={dataFC} options={options}
-                                        title={t('FR/FC')}
-                                        value={checkValue(lastSignsVitaux("F-respiratoire", dataFC)) + "/" + checkValue(lastSignsVitaux("F-cardiaque", dataFC))}
-                                    />
-                                    <ChartVitalSigns
-                                        data={dataTA}
-                                        options={options}
-                                        title={t('TaSystole') + '/' + t('TaDiastole')}
-                                        value={checkValue(lastSignsVitaux("TA Systole", dataTA)) + "/" + checkValue(lastSignsVitaux("TA Diastole", dataTA))}
-                                    />
-                                    <ChartVitalSigns
-                                        data={dataTemp}
-                                        options={options}
-                                        title={t('temperature')}
-                                        value={checkValue(lastSignsVitaux("Temp", dataTemp))}
-                                    />
-                                </Column>
-                            </Row>
 
-                            <Row>
-                                <Column>
-                                    <Row>
-                                        <Column className={styles.marginTop} lg={12} >
-                                            <div className={styles.flexEnd}>
-                                                <Button
-                                                    className={styles.buttonStyle}
-                                                    kind="danger--tertiary"
-                                                    size="sm"
-                                                    isSelected={true}
-                                                    onClick={() => navigate(toSearch)}
-                                                >
-                                                    {t("cancelButton", "Annuler")}
-                                                </Button>
-                                                <Button
-                                                    className={styles.buttonStyle2}
-                                                    kind="tertiary"
-                                                    type="reset"
-                                                    size="sm"
-                                                    isSelected={true}
-                                                >
-                                                    {t("resetButton", "Réinitialiser")}
-                                                </Button>
-                                                <Button
-                                                    className={styles.buttonStyle3}
-                                                    kind="tertiary"
-                                                    type="submit"
-                                                    size="sm"
-                                                    isSelected={true}
-                                                    disabled={!(dirty && isValid)}
-                                                >
-                                                    {t("confirmButton", "Enregistrer")}
-                                                </Button>
-                                            </div>
-                                        </Column>
-                                    </Row>
+                                    <Column className={styles.pm0}>
+                                        <div className={styles.flexEnd}>
+                                            <Button
+                                                className={styles.buttonStyle}
+                                                kind="danger--tertiary"
+                                                size="sm"
+                                                isSelected={true}
+                                                onClick={() => navigate(toSearch)}
+                                            >
+                                                {t("cancelButton", "Annuler")}
+                                            </Button>
+                                            <Button
+                                                className={styles.buttonStyle2}
+                                                kind="tertiary"
+                                                type="reset"
+                                                size="sm"
+                                                isSelected={true}
+                                            >
+                                                {t("resetButton", "Réinitialiser")}
+                                            </Button>
+                                            <Button
+                                                className={styles.buttonStyle3}
+                                                kind="tertiary"
+                                                type="submit"
+                                                size="sm"
+                                                isSelected={true}
+                                                disabled={!(dirty && isValid)}
+                                            >
+                                                {t("confirmButton", "Enregistrer")}
+                                            </Button>
+                                        </div>
+                                    </Column>
+                                </Column>
+
+                                <Column sm={12} md={12} lg={9} className={styles.secondColStyle}>
+                                    <Column className={styles.chartCard}>
+                                        <ChartVitalSigns
+                                            data={dataFC} options={options}
+                                            title={t('FR/FC')}
+                                            value={checkValue(lastSignsVitaux("F-respiratoire", dataFC)) + "/" + checkValue(lastSignsVitaux("F-cardiaque", dataFC))}
+                                        />
+                                    </Column>
+
+                                    <Column className={styles.chartCard}>
+                                        <ChartVitalSigns
+                                            data={dataTA}
+                                            options={options}
+                                            title={t('TaSystole') + '/' + t('TaDiastole')}
+                                            value={checkValue(lastSignsVitaux("TA Systole", dataTA)) + "/" + checkValue(lastSignsVitaux("TA Diastole", dataTA))}
+                                        />
+                                    </Column>
+
+                                    <Column className={`${styles.chartCard} ${styles.chartCard3}`}>
+                                        <ChartVitalSigns
+                                            data={dataTemp}
+                                            options={options}
+                                            title={t('temperature')}
+                                            value={checkValue(lastSignsVitaux("Temp", dataTemp))}
+                                        />
+                                    </Column>
+
                                 </Column>
                             </Row>
                         </Grid>

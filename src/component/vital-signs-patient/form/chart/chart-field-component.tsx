@@ -38,18 +38,16 @@ export default function ChartVitalSigns({ title, data, options, value }) {
 		};
 	}
 	return <>
-		<div className={styles.margin_LineChart}>
-			<Row className={styles.p0}>
-				<Column className={styles.p0}>
-					<div className={styles.shartTitle}>{title}</div>
-				</Column>
-				<Column className={styles.p0} lg={10} sm={10} md={10}>
+		<div>
+			<h6 className={styles.title}>{title}</h6>
+			<Row className={styles.pm0}>
+				<Column className={styles.pr0}>
 					<LineChart
-						data={data}
+						data ={data}
 						options={options}
 					/>
 				</Column>
-				<Column className={styles.p0}>
+				<Column className={styles.pm0} lg={1} sm={1} md={1}>
 					<div className={styles.circleDiv}>
 						<div>{filtreChartType(title)}</div>
 					</div>

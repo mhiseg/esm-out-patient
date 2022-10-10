@@ -1,31 +1,56 @@
 @import "../../../node_modules/carbon-components/scss/globals/scss/_spacing.scss";
+@import '../index.scss';
 
+
+.titlePage {
+    @include title-page;
+}
 
 .main {
-    max-height: calc(85.5vh - 1.5rem);
+    background: #f4f4f4;
+    height: 88vh;
     overflow: auto;
+    padding: .8rem;
     margin-left: 2rem;
     margin-right: 2rem;
-    padding: 1rem;
-    border-radius: 10px;
-    background: white;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-  }
+    border-radius: 5px;
+}
 
 .cardForm {
+    padding: 0;
+    margin: 0;
     background: #FFFFFF;
-    border-radius: 10px;
+    border-radius: 5px;
+    padding: .8rem;
+
+    h6{
+        margin-bottom: 2rem;
+    }
 }
 .card{
     width: auto;
     margin: auto;
+    margin-bottom: .8rem;
 }
+
 .secondColStyle {
-    padding: 1rem;
-    border: 1px solid #5050504d;
-    border-radius: 1%;
-    max-height: 45em;
+    margin: 0;
+    padding: 0;
+    padding-left: .8rem;
 }
+
+.chartCard{
+    background-color: white;
+    margin-bottom: .8rem;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.chartCard3{
+    margin-bottom: 0;
+
+}
+
 
 .buttonStyle {
     margin-right: 5px;
@@ -71,6 +96,7 @@
 }
 
 .flexEnd {
+    margin-top: 2.8rem;
     float: right;
 }
 
@@ -113,3 +139,6 @@
     max-height: 150px;
 }
 
+.marginTop{
+    margin-top: 5rem;
+}

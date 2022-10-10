@@ -23,7 +23,7 @@ const VitalSignsComponent: React.FC = () => {
   const getFormVisit = (visit) => {
     toSearchPatient(visitData)
     return <>
-      <h4 className={'title-page'}>{t("Vitalsigns")}</h4>
+      <h4 className={styles.titlePage}>{t("Vitalsigns")}</h4>
       <div className={styles.main}>
         <VitalSignsForm visit={visit} />
       </div>

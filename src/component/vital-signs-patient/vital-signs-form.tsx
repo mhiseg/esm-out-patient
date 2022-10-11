@@ -173,7 +173,6 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
     }
 
     const goToDasboard = (userFunction) => {
-        alert(userFunction);
         if(userFunction == Profiles.ADMIN || userFunction == Profiles.DOCTOR)
            navigate(toPatientDashboard);
     }

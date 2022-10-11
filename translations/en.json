@@ -44,5 +44,8 @@
   "messageModaVisitEnd" :". Would you want to proceed?",
   "confirmModalButtonEndVisit" :"End",
   "cancelButtonVisitCancelVisit" : "Cancel",
-  "addVitalSigns" : "Add"
+  "addVitalSigns" : "Add",
+  "cancelButton":"Cancel",
+  "resetButton" : "Reset",
+  "confirmButton" : "Confirm"
 }

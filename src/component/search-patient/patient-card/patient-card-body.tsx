@@ -3,6 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import FormatCardCell from "./patient-cardCell";
 import RelationShipCard from "../relationShipCard/relationShiphCard";
+import styles from "./patient-card.scss";
 
 
 
@@ -13,7 +14,7 @@ const CardBody =({patient}) => {
 
     return (
         <>
-           <Row>
+           <Row className={styles.pm0}>
                 <Column lg={4}>
                   <FormatCardCell
                     icon="cil:calendar"

@@ -55,7 +55,9 @@
   "messageModaVisitEnd" :". Voulez-vous continuer?",
   "confirmModalButtonEndVisit" :"Terminer",
   "cancelButtonVisitCancelVisit" : "Annuler",
-  "addVitalSigns" : "Ajouter"
-
+  "addVitalSigns" : "Ajouter",
+  "cancelButton":"Annuler",
+  "resetButton" : "Réinitialiser", 
+  "confirmButton" : "Confirmer"
 }
 

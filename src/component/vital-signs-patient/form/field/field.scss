@@ -1,16 +1,17 @@
-.margin_field {
-  //margin-top: 45px;
-  margin-top: 2.3rem;
-  font-family: 'Poppins', 'Helvetica Neue', Helvetica, Arial !important;
+@mixin font{
+  font-family: 'Roboto' !important;
+  font-size: normal;
+
+  &::placeholder {
+    color: rgb(31, 31, 31);
+  }
 }
 
+.margin_field {
+  margin-top: 2.3rem;
+  @include font;
+}
 
-
-// .mobility{
-//   margin-top: 25px;
-// }
-
-.font{
-    font-family: 'Poppins', 'Helvetica Neue', Helvetica, Arial !important;
-
+.font {
+  @include font;
 }

@@ -149,7 +149,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
         }
     }
 
-    const save = async (values) => {
+    const save = async (values, resetForm) => {
         const obs = Object.keys(values).map(value => getField(value, form, values))
         try {
             saveEncounter({ patient: visit.patient.id, encounterDatetime: toDay(), encounterType: encounterVitalSign, location: unknowLocation }, abortController)
@@ -183,9 +183,9 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
             initialValues={initialV}
             validationSchema={vitalSchema}
             onSubmit={
-                (values, { setSubmitting }) => {
+                (values, { setSubmitting, resetForm }) => {
                     setSubmitting(true)
-                    save(values)
+                    save(values,resetForm)
                 }
             }
         >

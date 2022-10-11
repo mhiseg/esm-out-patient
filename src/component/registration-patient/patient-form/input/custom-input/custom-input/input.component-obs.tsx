@@ -33,7 +33,7 @@ export const InputObs: React.FC<InputProps> = props => {
         {...field}
         invalid={!!(meta.error && meta.touched)}
         invalidText={t(meta.error)}
-       value={meta.value || props.value}
+        value={meta.value || props.value}
         size="lg"
       />
     </div>

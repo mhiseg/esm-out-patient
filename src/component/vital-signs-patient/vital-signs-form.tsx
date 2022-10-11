@@ -283,7 +283,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                     </Column>
 
                                 </Column>
-                            </Row> */}
+                            </Row> 
                         </Grid>
                     </Form>
                 );

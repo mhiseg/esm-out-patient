@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import styles from "./vital-signs.scss"
 import * as Yup from 'yup';
 import { Formik } from "formik";
-import { Grid, Row, Column, Button, Form, Accordion, AccordionItem, Link } from "carbon-components-react";
+import { Grid, Row, Column, Button, Form, Link } from "carbon-components-react";
 import { useTranslation } from "react-i18next";
-import { ConfigurableLink, navigate, NavigateOptions, showToast, Visit } from "@openmrs/esm-framework";
+import { navigate, NavigateOptions, showToast, Visit } from "@openmrs/esm-framework";
 import ChartVitalSigns from "./form/chart/chart-field-component";
 import FieldVitalForm from "./form/field/vital-signs-field-component";
 import { getSynchronizedCurrentUser } from "../resources/patient-resources";
@@ -12,13 +12,18 @@ import form from "../resources/vital-sign.json";
 import { fetchConceptByUuid, getObsInEncounters, saveAllObs, saveEncounter, toDay } from "../resources/resources";
 import { encounterVitalSign, unknowLocation } from "../resources/constants";
 import PatientCard from "../search-patient/patient-card/patient-card";
-import { getFieldById, lastSignsVitaux, options } from "../resources/form-resource";
+import { getCurrentUserRoleSession, getFieldById, lastSignsVitaux, options } from "../resources/form-resource";
 import { Icon } from "@iconify/react";
+import { Profiles } from "../resources/types";
 
 export interface VisitProps {
     visit?: Visit;
 }
+
 export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
+    const toPatientDashboard: NavigateOptions = { to: window.spaBase + "/out-patient/dashboard/patient/" + visit.patient.id };
+    const [userFunc, setUserFunc] = useState([]);
+    const [size, setSize] = useState(0);
     const [dataFC, setDataFC] = useState([]);
     const [dataTemp, setDataTemp] = useState([]);
     const [dataTA, setDataTA] = useState([]);
@@ -117,6 +122,12 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
         );
     }, [reload]);
 
+    useEffect(() => {
+        getCurrentUserRoleSession().then((UserRole) => {
+          setUserFunc(UserRole);
+        });
+      }, []);
+
     const getField = (id, form, values) => {
         switch (id) {
             case "mobility":
@@ -156,8 +167,15 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
             showToast({ description: err.message })
         }
     }
+
     function checkValue(value) {
         return ((value != undefined) ? value : 0);
+    }
+
+    const goToDasboard = (userFunction) => {
+        alert(userFunction);
+        if(userFunction == Profiles.ADMIN || userFunction == Profiles.DOCTOR)
+           navigate(toPatientDashboard);
     }
 
     return (
@@ -183,14 +201,15 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                     <Form name="form" onSubmit={handleSubmit}>
                         <Grid fullWidth={true} className={styles.p0}>
                             <Row className={styles.card} >
-                                <ConfigurableLink to="#">
-                                    <h5>{visit.patient.firstName + ","} {visit.patient.lastName}</h5>
-                                </ConfigurableLink>
-                                {/* <PatientCard patient={visit.patient} userRole={undefined} /> */}
+                                    <h5 onClick={()=>{goToDasboard(userFunc); }}>{visit.patient.firstName + ","} {visit.patient.lastName + " : "} {visit.patient.No_dossier}</h5>
+                                    <Icon icon="clarity:info-line" className={styles.infoTooltip} onClick={()=>{size == 0 ? setSize(12) : setSize(0)}}/>
                             </Row>
 
-                            <Row className={styles.pm0}>
-                                <Column sm={12} md={12} lg={3} className={styles.cardForm}>
+                             <Row className={styles.pm0}>
+                                <Column sm={size} md={size} lg={size} className={styles.pm0}>
+                                    <PatientCard patient={visit.patient} userRole={undefined} />
+                                </Column>
+                                <Column sm={12} md={12} lg={4} className={styles.cardForm}>
                                     <h6>Formulaire des signes vitaux</h6>
 
                                     {FieldVitalForm("mobility", mobilities)}
@@ -236,7 +255,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                     </Column>
                                 </Column>
 
-                                <Column sm={12} md={12} lg={9} className={styles.secondColStyle}>
+                                <Column sm={12} md={12} lg={8} className={styles.secondColStyle}>
                                     <Column className={styles.chartCard}>
                                         <ChartVitalSigns
                                             data={dataFC} options={options}
@@ -264,7 +283,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                     </Column>
 
                                 </Column>
-                            </Row>
+                            </Row> */}
                         </Grid>
                     </Form>
                 );

@@ -7,11 +7,14 @@ const BASE_WS_API_URL = '/ws/rest/v1/';
 export const today = new Date().toISOString().split('T')[0];
 export const options = {
   "light": false,
-  "color": { "scale": { "F-respiratoire": "#FB000F", "F-cardiaque": "#14FF00", "Temp": "#FEA903", "TA Systole": "#F700FC", "TA Diastole": "#07066F" } },
+  "color": { 
+    "scale": { "F-respiratoire": "#75B1A5", "F-cardiaque": "#14FF00", "Temp": "#0196f9", "TA Systole": "#F700FC", "TA Diastole": "#07066F" } 
+  },
   "axes": {
       "bottom": { "mapsTo": "date", "scaleType": "time" },
       "left": { "mapsTo": "value", "scaleType": "linear" }
   },
+  "curve": "curveMonotoneX",
   "height": "200px",
   "toolbar": { "enabled": false }
 }

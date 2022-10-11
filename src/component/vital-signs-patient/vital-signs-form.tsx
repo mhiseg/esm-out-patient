@@ -260,7 +260,7 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                         <ChartVitalSigns
                                             data={dataFC} options={options}
                                             title={t('FR/FC')}
-                                            value={checkValue(lastSignsVitaux("F-respiratoire", dataFC)) + "/" + checkValue(lastSignsVitaux("F-cardiaque", dataFC))}
+                                            value={[checkValue(lastSignsVitaux("F-respiratoire", dataFC)), checkValue(lastSignsVitaux("F-cardiaque", dataFC))]}
                                         />
                                     </Column>
 
@@ -281,7 +281,6 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                                             value={checkValue(lastSignsVitaux("Temp", dataTemp))}
                                         />
                                     </Column>
-
                                 </Column>
                             </Row> 
                         </Grid>

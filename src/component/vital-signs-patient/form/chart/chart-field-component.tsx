@@ -18,41 +18,39 @@ export default function ChartVitalSigns({ title, data, options, value }) {
 	function filtreChartType(ChartType) {
 		switch (ChartType) {
 			case t('temperature'):
-				return <>
-					{value} <span className={styles.mesure}> {"°C"}</span>
-					/
-					{convertToF(value)}<span className={styles.mesure}>{"°F"}</span>
-				</>;
+				return <div className={styles.sign}>
+					<Column className={styles.colSign}>{value} <span className={styles.mesure}>°C</span></Column>
+					<Column className={styles.colSign}>{convertToF(value)} <span className={styles.mesure}>°F</span></Column>
+				</div>;
 				break;
 			case t('FR/FC'):
-				return value;
+				return <div className={styles.sign}>
+					<Column className={styles.colSign}>{value[1]}<span className={styles.mesure}>bpm</span></Column>
+					<Column className={styles.colSign}>{value[0]}<span className={styles.mesure}>cpm</span></Column>
+				</div>
 				break;
 			case t('TaSystole') + '/' + t('TaDiastole'):
-				return <>
-					{value}
-					<span className={styles.mesure}> {"mmHg"}</span>
-				</>;
+				return <div className={styles.sign}>
+					<Column className={styles.colSign}>{value}</Column>
+					<Column className={styles.colSign}><span className={styles.mesure}>mmHg</span></Column>
+				</div>;
 				break;
 			default:
 				break;
 		};
 	}
 	return <>
-		<div>
-			<h6 className={styles.title}>{title}</h6>
-			<Row className={styles.pm0}>
-				<Column className={styles.pr0}>
-					<LineChart
-						data ={data}
-						options={options}
-					/>
-				</Column>
-				<Column className={styles.pm0} lg={1} sm={1} md={1}>
-					<div className={styles.circleDiv}>
-						<div>{filtreChartType(title)}</div>
-					</div>
-				</Column>
-			</Row>
-		</div>
+		<h6 className={styles.title}>{title}</h6>
+		<Row className={styles.pm0}>
+			<Column className={styles.pr0}>
+				<LineChart
+					data={data}
+					options={options}
+				/>
+			</Column>
+			<Column className={styles.pm0} lg={1} sm={2} md={2}>
+				{filtreChartType(title)}
+			</Column>
+		</Row>
 	</>
 }

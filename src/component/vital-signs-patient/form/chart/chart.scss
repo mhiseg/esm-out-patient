@@ -12,28 +12,31 @@
     margin-top: 60px;
 }
 
-.mesure {
-    color: #a52a2a;
-    font-size: x-small;
-}
-
-.circleDiv {
-    border: 1px solid black;
-    border-radius: 50%;
-    height: 5rem;
-    width: 5rem;
-    font-size: medium;
+.sign {
     text-align: center;
-    margin: auto;
-    margin-top: 2.5rem;
-}
-
-.circleDiv div {
+    background-color: whitesmoke;
+    border-radius: 5px;
     margin-top: 1.5rem;
-}
-
-.pr0{
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    padding-left: 0;
     padding-right: 0;
+    color: rgb(78, 77, 77);
+
+    .mesure {
+        color: #a52a2a;
+        font-size: normal;
+        font-weight: lighter;
+        margin-left: 2px;margin-bottom: 10px;
+    }
+
+    .colSign{
+        font-size: large;
+        margin: auto;
+        padding: 0;
+        font-weight: bolder;
+    }
+
 }
 
 .pm0 {

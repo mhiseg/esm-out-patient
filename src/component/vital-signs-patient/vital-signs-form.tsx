@@ -160,7 +160,32 @@ export const VitalSignsForm: React.FC<VisitProps> = ({ visit }) => {
                         kind: 'success',
                         description: 'Vital signs  form save succesfully',
                     });
-                    window.setInterval(() => { window.location.reload(); }, 1000);
+                    setDataFC([...dataFC, {
+                        "group": "F-respiratoire",
+                        "date": toDay(),
+                        "value": getField("respiratoryRate", form, values).answers,
+                    },
+                    {
+                        "group": "F-cardiaque",
+                        "date": toDay(),
+                        "value": getField("cardiacFrequency", form, values).answers,
+                    }
+                    ])
+                    setDataTemp([...dataTemp, {
+                        "group": "Temp",
+                        "date": toDay(),
+                        "value": getField("temp", form, values).answers
+                    }]);
+                    setDataTA([...dataTA, {
+                        "group": "TA Systole",
+                        "date": toDay(),
+                        "value": getField("taSystole", form, values).answers,
+                    }, {
+                        "group": "TA Diastole",
+                        "date": toDay(),
+                        "value": getField("taDiastole", form, values).answers,
+                    }]);
+                    resetForm();
                 })
 
         } catch (err) {

@@ -23,10 +23,8 @@ const DashCard = ({ patient }) => {
     const [openModal, setOpenModal] = useState(false);
     const toEditPatient: NavigateOptions = { to: window.spaBase + "/out-patient/patient/" + patient.id };
     const editPatient = (e) => { navigate(toEditPatient) };
-    const toDeclareDeath: NavigateOptions = { to: window.spaBase + " /death/declare/patient/" + patient.id };
+    const toDeclareDeath: NavigateOptions = { to: window.spaBase + "/death/declare/patient/" + patient.id };
     const killPatient = (e) => { navigate(toDeclareDeath) };
-
-
 
     return (
         <Tile className={styles.cardProps} light={true}>
